@@ -1,0 +1,65 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+
+body {
+    background-image: url("/img/textures/bricks.jpg");
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+}
+
+#main-navbar {
+    position: fixed;
+    min-height: 50px;
+    width: 100%;
+    z-index: 100;
+    background: #1b1e21;
+    color: #FFFFFF;
+}
+
+#main-container {
+    padding-top: 50px;
+}
+
+.pills-column {
+    background: none;
+    justify-content: stretch;
+}
+
+.pills-column .nav-pills {
+    background: #FFFFFF;
+    flex-grow: 1;
+}
+
+.widgets {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#v-pills-red-tab {
+    color: red;
+}
+
+#v-pills-red-tab.active {
+    background: red;
+    color: #FFFFFF;
+}
+
+.accomplishments .card-body {
+    padding-bottom: 5px;
+}
+
+.accomplishments-items p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.accomplishments-items p input {
+    margin-left: 10px;
+}
