@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\File;
+use App\Idea;
 use App\Task;
 use Illuminate\Http\Request;
 
@@ -26,6 +28,8 @@ class HomeController extends Controller
     {
         return view('home', [
             'tasks' => Task::all(),
+            'files' => File::all(),
+            'ideas' => Idea::all(),
         ]);
     }
 }

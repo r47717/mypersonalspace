@@ -27,11 +27,11 @@ Route::get('locale/{locale}', function ($locale) {
 Route::get('/js/lang.js', function () {
     $strings = Cache::rememberForever('lang.js', function () {
         $lang = config('app.locale');
-        $files   = glob(resource_path('lang/' . $lang . '/*.php'));
+        $files = glob(resource_path('lang/' . $lang . '/*.php'));
         $strings = [];
 
         foreach ($files as $file) {
-            $name           = basename($file, '.php');
+            $name = basename($file, '.php');
             $strings[$name] = require $file;
         }
 
@@ -51,3 +51,6 @@ Route::post('/notes', 'NotesController@add')->name('add-note');
 
 Route::get('/files', 'FilesController@index')->name('files');
 Route::post('/files', 'FilesController@add')->name('add-file');
+
+Route::get('/today', 'TodayController@index')->name('fetch-today');
+Route::post('/today', 'TodayController@save')->name('save-today');
