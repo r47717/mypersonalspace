@@ -1856,17 +1856,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Mood",
+  props: ['index'],
+  mounted: function mounted() {
+    this.currIndex = this.index;
+  },
   data: function data() {
     return {
-      index: 0,
+      currIndex: 0,
       images: ['m1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'm10', 'm11', 'm12', 'm13', 'm14', 'm15', 'm16', 'm17', 'm18', 'm19', 'm20', 'm21', 'm22', 'm23', 'm24']
     };
   },
   methods: {
     onClick: function onClick() {
-      if (++this.index >= this.images.length) {
-        this.index = 0;
+      if (++this.currIndex >= this.images.length) {
+        this.currIndex = 0;
       }
+
+      this.$emit('mood-changed', this.currIndex);
     }
   }
 });
@@ -2145,6 +2151,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Mood__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Mood */ "./resources/js/components/Mood.vue");
+/* harmony import */ var _Quote__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Quote */ "./resources/js/components/Quote.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2226,8 +2234,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Today",
+  components: {
+    'mood': _Mood__WEBPACK_IMPORTED_MODULE_2__["default"],
+    'quote': _Quote__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
   mounted: function () {
     var _mounted = _asyncToGenerator(
     /*#__PURE__*/
@@ -2273,7 +2287,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       data: null,
       updateNeeded: false,
-      mood: 0,
+      moodIndex: 0,
       idea: '',
       acc: [],
       thanks: [],
@@ -2328,7 +2342,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }(),
     parseRetrievedData: function parseRetrievedData(response) {
       var data = response.data.data;
-      this.mood = data.mood || 0;
+      this.moodIndex = data.mood || 0;
       this.idea = data.idea || "";
       this.acc = data.accomplishments ? data.accomplishments.split("\n") : [];
       this.thanks = data.thanks ? data.thanks.split("\n") : [];
@@ -2336,12 +2350,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     save: function save() {
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/today', {
-        mood: this.mood,
+        mood: this.moodIndex,
         idea: this.idea,
         accomplishments: this.accomplishments,
         thanks: this.thanks_aggregated,
         nothanks: this.nothanks_aggregated
       });
+    },
+    onMoodChanged: function onMoodChanged(index) {
+      this.moodIndex = index;
+      console.log(this.moodIndex);
+      this.updateNeeded = true;
     }
   }
 });
@@ -39429,7 +39448,12 @@ var render = function() {
           _c(
             "div",
             { staticClass: "card-body d-flex justify-content-center" },
-            [_c("mood")],
+            [
+              _c("mood", {
+                attrs: { index: _vm.moodIndex },
+                on: { "mood-changed": _vm.onMoodChanged }
+              })
+            ],
             1
           )
         ])
@@ -39457,7 +39481,7 @@ var render = function() {
                   expression: "idea"
                 }
               ],
-              staticClass: "w-100 h-100",
+              staticClass: "form-control w-100 h-100",
               attrs: { name: "brilliant-idea" },
               domProps: { value: _vm.idea },
               on: {
@@ -39676,7 +39700,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row mt-4" }, [
-      _c("div", { staticClass: "col-lg-4 mb-2 mb-lg-0 offset-2" }, [
+      _c("div", { staticClass: "col-lg-5 mb-2 mb-lg-0 offset-1" }, [
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-header" }, [
             _vm._v("Сегодня награждаются за примерное поведение")
@@ -39767,7 +39791,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-lg-4 mb-2 mb-lg-0" }, [
+      _c("div", { staticClass: "col-lg-5 mb-2 mb-lg-0" }, [
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-header" }, [
             _vm._v("Сегодня наказываются за пакости")
@@ -52019,8 +52043,6 @@ Vue.prototype.trans = function (string) {
 };
 
 Vue.component('today', __webpack_require__(/*! ./components/Today.vue */ "./resources/js/components/Today.vue")["default"]);
-Vue.component('mood', __webpack_require__(/*! ./components/Mood.vue */ "./resources/js/components/Mood.vue")["default"]);
-Vue.component('quote', __webpack_require__(/*! ./components/Quote.vue */ "./resources/js/components/Quote.vue")["default"]);
 Vue.component('new-note', __webpack_require__(/*! ./components/NewNote.vue */ "./resources/js/components/NewNote.vue")["default"]);
 Vue.component('new-file', __webpack_require__(/*! ./components/NewFile.vue */ "./resources/js/components/NewFile.vue")["default"]);
 Vue.component('tasks', __webpack_require__(/*! ./components/Tasks.vue */ "./resources/js/components/Tasks.vue")["default"]);

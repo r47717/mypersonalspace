@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-header">Настроение</div>
                     <div class="card-body d-flex justify-content-center">
-                        <mood></mood>
+                        <mood :index="moodIndex" @mood-changed="onMoodChanged"></mood>
                     </div>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                 <div class="card h-100">
                     <div class="card-header">Сверх-идея</div>
                     <div class="card-body">
-                        <textarea name="brilliant-idea" class="w-100 h-100" v-model="idea" @input="updateNeeded = true"></textarea>
+                        <textarea name="brilliant-idea" class="form-control w-100 h-100" v-model="idea" @input="updateNeeded = true"></textarea>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col-lg-4 mb-2 mb-lg-0 offset-2">
+            <div class="col-lg-5 mb-2 mb-lg-0 offset-1">
                 <div class="card">
                     <div class="card-header">Сегодня награждаются за примерное поведение</div>
                     <div class="card-body">
@@ -58,7 +58,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 mb-2 mb-lg-0">
+            <div class="col-lg-5 mb-2 mb-lg-0">
                 <div class="card">
                     <div class="card-header">Сегодня наказываются за пакости</div>
                     <div class="card-body">
@@ -74,9 +74,16 @@
 
 <script>
     import axios from 'axios';
+    import Mood from "./Mood";
+    import Quote from "./Quote";
 
     export default {
         name: "Today",
+
+        components: {
+            'mood': Mood,
+            'quote': Quote
+        },
 
         async mounted() {
             this.parseRetrievedData(await this.fetch());
@@ -92,7 +99,7 @@
             return {
                 data: null,
                 updateNeeded: false,
-                mood: 0,
+                moodIndex: 0,
                 idea: '',
                 acc: [],
                 thanks: [],
@@ -124,7 +131,7 @@
             },
             parseRetrievedData(response) {
                 const data = response.data.data;
-                this.mood = data.mood || 0;
+                this.moodIndex = data.mood || 0;
                 this.idea = data.idea || "";
                 this.acc = data.accomplishments ? data.accomplishments.split("\n") : [];
                 this.thanks = data.thanks ? data.thanks.split("\n") : [];
@@ -132,12 +139,17 @@
             },
             save() {
                 axios.post('/today', {
-                    mood: this.mood,
+                    mood: this.moodIndex,
                     idea: this.idea,
                     accomplishments: this.accomplishments,
                     thanks: this.thanks_aggregated,
                     nothanks: this.nothanks_aggregated,
                 })
+            },
+            onMoodChanged(index) {
+                this.moodIndex = index;
+                console.log(this.moodIndex)
+                this.updateNeeded = true;
             }
         }
     }

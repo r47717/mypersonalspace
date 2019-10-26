@@ -5,9 +5,15 @@
 <script>
     export default {
         name: "Mood",
+        props: [
+            'index'
+        ],
+        mounted() {
+            this.currIndex = this.index;
+        },
         data() {
             return {
-                index: 0,
+                currIndex: 0,
                 images: [
                     'm1', 'm2', 'm3', 'm4', 'm5', 'm6',
                     'm7', 'm8', 'm9', 'm10', 'm11', 'm12',
@@ -18,9 +24,10 @@
         },
         methods: {
             onClick() {
-                if (++this.index >= this.images.length) {
-                    this.index = 0;
+                if (++this.currIndex >= this.images.length) {
+                    this.currIndex = 0;
                 }
+                this.$emit('mood-changed', this.currIndex);
             }
         }
     }
