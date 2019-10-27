@@ -36,4 +36,21 @@ class ThoughtsController extends Controller
             'message' => 'new thought has been added',
         ];
     }
+
+    public function delete($id)
+    {
+        $thought = Thought::find($id);
+        if ($thought) {
+            $thought->delete();
+            return [
+                'success' => true,
+                'message' => "Thought with id $id has been deleted",
+            ];
+        }
+
+        return [
+            'success' => false,
+            'message' => "Thought with id $id is not found",
+        ];
+    }
 }

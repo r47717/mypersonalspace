@@ -49,6 +49,7 @@ Route::post('/today', 'TodayController@save')->name('save-today');
 
 Route::get('/thoughts', 'ThoughtsController@index')->name('fetch-thoughts');
 Route::post('/thoughts', 'ThoughtsController@add')->name('add-thought');
+Route::delete('/thoughts/{id}', 'ThoughtsController@delete')->name('delete-thought');
 
 Route::get('/notes', 'NotesController@index')->name('fetch-notes');
 Route::post('/notes', 'NotesController@add')->name('add-note');
