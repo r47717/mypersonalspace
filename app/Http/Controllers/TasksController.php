@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\File;
+use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,25 +17,23 @@ class FilesController extends Controller
     public function index()
     {
         return [
-            'files' => File::where('user_id', Auth::user()->id)->get(),
+            'tasks' => Task::where('user_id', Auth::user()->id)->get(),
         ];
     }
 
     public function add(Request $request)
     {
-        $path = $request->file->store('files');
-        $comment = $request->comment;
-
-        $file = new File;
-        $file->path = $path;
-        $file->comment = $comment;
-        $file->user_id = Auth::user()->id;
-        $file->save();
+        $task = new Task;
+        $task->user_id = Auth::user()->id;
+        $task->title = $request->title;
+        $task->description = $request->description;
+        $task->status = $request->status;
+        $task->deadline = $request->deadline;
+        $task->save();
 
         return [
             'success' => true,
-            'file path' => $path,
-            'comment' => $comment,
+            'comment' => 'New task has been added',
         ];
     }
 }

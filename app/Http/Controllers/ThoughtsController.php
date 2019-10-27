@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Thought;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ThoughtsController extends Controller
 {
@@ -19,7 +20,7 @@ class ThoughtsController extends Controller
     public function index()
     {
         return [
-            'thoughts' => Thought::all(),
+            'thoughts' => Thought::where('user_id', Auth::user()->id)->get(),
         ];
     }
 
@@ -27,6 +28,7 @@ class ThoughtsController extends Controller
     {
         $thought = new Thought;
         $thought->text = $request->text;
+        $thought->user_id = Auth::user()->id;
         $thought->save();
 
         return [

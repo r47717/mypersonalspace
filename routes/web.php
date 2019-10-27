@@ -44,10 +44,14 @@ Route::get('/js/lang.js', function () {
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/thoughts', 'HomeController@index')->name('fetch-thoughts');
-Route::post('/thoughts', 'HomeController@add')->name('add-thought');
-
-Route::post('/notes', 'NotesController@add')->name('add-note');
-Route::post('/files', 'FilesController@add')->name('add-file');
 Route::get('/today', 'TodayController@index')->name('fetch-today');
 Route::post('/today', 'TodayController@save')->name('save-today');
+
+Route::get('/thoughts', 'ThoughtsController@index')->name('fetch-thoughts');
+Route::post('/thoughts', 'ThoughtsController@add')->name('add-thought');
+
+Route::get('/notes', 'NotesController@index')->name('fetch-notes');
+Route::post('/notes', 'NotesController@add')->name('add-note');
+
+Route::get('/files', 'FilesController@index')->name('fetch-files');
+Route::post('/files', 'FilesController@add')->name('add-file');

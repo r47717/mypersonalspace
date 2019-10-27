@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Note;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotesController extends Controller
 {
@@ -15,10 +16,18 @@ class NotesController extends Controller
         $this->middleware('auth');
     }
 
+    public function index()
+    {
+        return [
+            'notes' => Note::where('user_id', Auth::user()->id)->get(),
+        ];
+    }
+
     public function add(Request $request)
     {
         $note = new Note;
         $note->text = $request->text;
+        $note->user_id = Auth::user()->id;
         $note->save();
 
         return [
