@@ -29,7 +29,10 @@
         <div class="row mt-4">
             <div class="col-lg-12">
                 <div class="card accomplishments">
-                    <div class="card-header">Достижения</div>
+                    <div class="card-header acc-header">
+                        <div>Достижения</div>
+                        <button class="btn btn-sm btn-success" @click="onAccClear">Очистить</button>
+                    </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6 accomplishments-items">
@@ -149,11 +152,20 @@
             onMoodChanged(index) {
                 this.moodIndex = index;
                 this.updateNeeded = true;
+            },
+            onAccClear() {
+                this.acc = [];
+                this.updateNeeded = true;
             }
         }
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .acc-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
 </style>

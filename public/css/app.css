@@ -10644,6 +10644,14 @@ a.text-dark:focus {
   }
 }
 
+html,
+body,
+#app,
+#main-container,
+.row.widgets {
+  height: 100%;
+}
+
 body {
   background-image: url("/img/textures/bricks.jpg");
   font-family: Roboto, Arial, Helvetica, sans-serif;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\TodayService;
 use App\Today;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TodayController extends Controller
 {
@@ -15,6 +16,7 @@ class TodayController extends Controller
 
     /**
      * TodayController constructor.
+     * @param TodayService $todayService
      */
     public function __construct(TodayService $todayService)
     {
@@ -27,18 +29,19 @@ class TodayController extends Controller
     {
         return [
             'success' => true,
-            'data' => $this->todayService->getTodaysToday(),
+            'data' => $this->todayService->getTodaysToday(Auth::user()),
         ];
     }
 
     public function save(Request $request)
     {
-        $today = $this->todayService->getTodaysToday() ?? new Today;
+        $today = $this->todayService->getTodaysToday(Auth::user()) ?? new Today;
         $today->mood = $request->mood;
         $today->idea = $request->idea;
         $today->accomplishments = $request->accomplishments;
         $today->thanks = $request->thanks;
         $today->nothanks = $request->nothanks;
+        $today->user_id = Auth::user()->id;
         $today->save();
 
         return [

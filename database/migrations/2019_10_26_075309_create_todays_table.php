@@ -21,6 +21,8 @@ class CreateTodaysTable extends Migration
             $table->text('accomplishments')->nullable();
             $table->text('thanks')->nullable();
             $table->text('nothanks')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

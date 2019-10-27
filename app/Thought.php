@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class File extends Model
+class Thought extends Model
 {
     public function user()
     {

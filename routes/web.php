@@ -43,7 +43,9 @@ Route::get('/js/lang.js', function () {
 
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/thoughts', 'HomeController@thoughts')->name('thoughts');
+
+Route::get('/thoughts', 'HomeController@index')->name('fetch-thoughts');
+Route::post('/thoughts', 'HomeController@add')->name('add-thought');
 
 Route::post('/notes', 'NotesController@add')->name('add-note');
 Route::post('/files', 'FilesController@add')->name('add-file');
