@@ -15,15 +15,6 @@ class NotesController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
-        $notes = Note::all();
-
-        return view('notes', [
-            'notes' => $notes,
-        ]);
-    }
-
     public function add(Request $request)
     {
         $note = new Note;

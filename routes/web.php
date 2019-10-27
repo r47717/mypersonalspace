@@ -22,8 +22,6 @@ Route::get('locale/{locale}', function ($locale) {
     App::setLocale($locale);
 });
 
-
-
 Route::get('/js/lang.js', function () {
     $strings = Cache::rememberForever('lang.js', function () {
         $lang = config('app.locale');
@@ -45,12 +43,9 @@ Route::get('/js/lang.js', function () {
 
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/thoughts', 'HomeController@thoughts')->name('thoughts');
 
-Route::get('/notes', 'NotesController@index')->name('notes');
 Route::post('/notes', 'NotesController@add')->name('add-note');
-
-Route::get('/files', 'FilesController@index')->name('files');
 Route::post('/files', 'FilesController@add')->name('add-file');
-
 Route::get('/today', 'TodayController@index')->name('fetch-today');
 Route::post('/today', 'TodayController@save')->name('save-today');

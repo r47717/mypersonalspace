@@ -12,15 +12,6 @@ class FilesController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
-        $files = File::all();
-
-        return view('files', [
-            'files' => $files,
-        ]);
-    }
-
     public function add(Request $request)
     {
         $path = $request->file->store('files');

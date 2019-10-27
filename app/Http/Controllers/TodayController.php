@@ -18,6 +18,7 @@ class TodayController extends Controller
      */
     public function __construct(TodayService $todayService)
     {
+        $this->middleware('auth');
         $this->todayService = $todayService;
     }
 

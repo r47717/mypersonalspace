@@ -19,7 +19,7 @@
             </div>
             <div class="col-xl-5 col-lg-5">
                 <div class="card h-100">
-                    <div class="card-header">Сверх-идея</div>
+                    <div class="card-header">Идея дня</div>
                     <div class="card-body">
                         <textarea name="brilliant-idea" class="form-control w-100 h-100" v-model="idea" @input="updateNeeded = true"></textarea>
                     </div>
@@ -130,7 +130,7 @@
                 return await axios.get('/today');
             },
             parseRetrievedData(response) {
-                const data = response.data.data;
+                const data = response.data && response.data.data  || {};
                 this.moodIndex = data.mood || 0;
                 this.idea = data.idea || "";
                 this.acc = data.accomplishments ? data.accomplishments.split("\n") : [];
@@ -148,7 +148,6 @@
             },
             onMoodChanged(index) {
                 this.moodIndex = index;
-                console.log(this.moodIndex)
                 this.updateNeeded = true;
             }
         }

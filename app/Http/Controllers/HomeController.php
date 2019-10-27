@@ -2,34 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\File;
-use App\Idea;
-use App\Task;
-use Illuminate\Http\Request;
+use App\Services\TodayService;
 
 class HomeController extends Controller
 {
+    /**
+     * @var TodayService
+     */
+    private $todayService;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(TodayService $todayService)
     {
         $this->middleware('auth');
+        $this->todayService = $todayService;
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
+    protected function renderHome($page)
     {
         return view('home', [
-            'tasks' => Task::all(),
-            'files' => File::all(),
-            'ideas' => Idea::all(),
+            'page' => $page,
         ]);
+    }
+
+    public function index()
+    {
+        return $this->renderHome('today');
     }
 }
