@@ -55,11 +55,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade <?= $page == 'books' ? 'show active' : '' ?>" id="v-pills-books" role="tabpanel" aria-labelledby="v-pills-books-tab">
-                        <div class="row">
-                            <div class="col-6">
-                                <new-file></new-file>
-                            </div>
-                        </div>
+                        <books></books>
                     </div>
                     <div class="tab-pane fade <?= $page == 'links' ? 'show active' : '' ?>" id="v-pills-links" role="tabpanel" aria-labelledby="v-pills-links-tab">
 
