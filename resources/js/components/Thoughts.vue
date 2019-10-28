@@ -52,6 +52,7 @@
             },
             onThoughtRemove(e) {
                 const id = e.target.getAttribute('data-id');
+                this.thoughts.splice(this.thoughts.findIndex(item => item.id === id), 1);
                 axios.delete(`/thoughts/${id}`);
             }
         }

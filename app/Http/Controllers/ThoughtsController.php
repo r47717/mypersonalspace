@@ -39,7 +39,7 @@ class ThoughtsController extends Controller
 
     public function delete($id)
     {
-        $thought = Thought::find($id);
+        $thought = Thought::where(['user_id' => Auth::user()->id, 'id' => $id])->first();
         if ($thought) {
             $thought->delete();
             return [
