@@ -2,17 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\File;
 use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class FilesController extends Controller
+class TasksController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
+
+    public function show()
+    {
+        return view('pages.tasks.index', [
+            'page' => 'tasks',
+        ]);
+    }
+
 
     public function index()
     {
@@ -34,6 +41,23 @@ class FilesController extends Controller
         return [
             'success' => true,
             'comment' => 'New task has been added',
+        ];
+    }
+
+    public function delete($id)
+    {
+        $task = Task::where(['user_id' => Auth::user()->id, 'id' => $id])->first();
+        if ($task) {
+            $task->delete();
+            return [
+                'success' => true,
+                'message' => "Task with id $id has been deleted",
+            ];
+        }
+
+        return [
+            'success' => false,
+            'message' => "Task with id $id is not found",
         ];
     }
 }

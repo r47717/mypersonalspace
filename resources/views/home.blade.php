@@ -58,7 +58,7 @@
                         <books></books>
                     </div>
                     <div class="tab-pane fade <?= $page == 'links' ? 'show active' : '' ?>" id="v-pills-links" role="tabpanel" aria-labelledby="v-pills-links-tab">
-
+                        @include('pages.links.index')
                     </div>
                     <div class="tab-pane fade <?= $page == 'wishlist' ? 'show active' : '' ?>" id="v-pills-wishlist" role="tabpanel" aria-labelledby="v-pills-wishlist-tab">
 

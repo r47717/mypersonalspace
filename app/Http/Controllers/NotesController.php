@@ -18,21 +18,42 @@ class NotesController extends Controller
 
     public function index()
     {
-        return [
+        return view('pages.notes.index', [
+            'page' => 'notes',
             'notes' => Note::where('user_id', Auth::user()->id)->get(),
-        ];
+        ]);
     }
 
     public function add(Request $request)
     {
         $note = new Note;
-        $note->text = $request->text;
+        $note->text = $request->newNote;
         $note->user_id = Auth::user()->id;
         $note->save();
 
-        return [
-            'success' => true,
-            'message' => 'New note with id ' . $note->id . ' has been added',
-        ];
+        return redirect('/notes');
     }
+
+    public function update(Request $request)
+    {
+        $id = $request->id;
+        $note = Note::where(['user_id' => Auth::user()->id, 'id' => $id])->first();
+        if ($note) {
+            $note->text = $request->newText;
+            $note->save();
+        }
+
+        return redirect('/notes');
+    }
+
+    public function delete(Request $request)
+    {
+        $id = $request->id;
+        $note = Note::where(['user_id' => Auth::user()->id, 'id' => $id])->first();
+        if ($note) {
+            $note->delete();
+            return redirect('/notes');
+        }
+    }
+
 }

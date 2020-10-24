@@ -14,6 +14,13 @@ class BooksController extends Controller
         $this->middleware('auth');
     }
 
+    public function show()
+    {
+        return view('pages.books.index', [
+            'page' => 'books',
+        ]);
+    }
+
     public function index()
     {
         return [

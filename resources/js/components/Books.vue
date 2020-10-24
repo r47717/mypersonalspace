@@ -2,10 +2,16 @@
     <div class="row">
         <div class="col">
             <div class="books-container">
-                <div v-for="book in books" class="item-container">
-                    {{ book.title }}
-                    <button class="btn btn-sm btn-outline-info text-field">T</button>
-                    <input type="checkbox" class="form-control is-read-checkbox">
+                <div v-if="books.length > 0">
+                    <div v-for="book in books" class="item-container">
+                        {{ book.title }}
+                        <button class="btn btn-sm btn-outline-info text-field">T</button>
+                        <input type="checkbox" class="form-control is-read-checkbox">
+                    </div>
+                </div>
+                <div v-else><i>Пока у вас нет книг</i></div>
+                <div>
+
                 </div>
             </div>
         </div>
@@ -18,8 +24,7 @@
     export default {
         name: "Books",
         async mounted() {
-            //await this.fetchBooks();
-            this.mockBooks();
+            await this.fetchBooks();
         },
         data() {
             return {
@@ -31,52 +36,6 @@
                 const response = await axios.get('/books');
                 this.books = response.data && response.data.books || [];
             },
-            mockBooks() {
-                this.books = [
-                    {
-                        id: 1,
-                        title: 'Основы JavaScript',
-                        category: "",
-                        is_read: false,
-                        rating: 0,
-                    },
-                    {
-                        id: 2,
-                        title: 'React для чайников',
-                        category: "",
-                        is_read: true,
-                        rating: 2,
-                    },
-                    {
-                        id: 3,
-                        title: 'Pro NodeJS',
-                        category: "",
-                        is_read: false,
-                        rating: 3,
-                    },
-                    {
-                        id: 4,
-                        title: 'Основы JavaScript',
-                        category: "",
-                        is_read: false,
-                        rating: 0,
-                    },
-                    {
-                        id: 5,
-                        title: 'React для чайников',
-                        category: "",
-                        is_read: true,
-                        rating: 2,
-                    },
-                    {
-                        id: 6,
-                        title: 'Pro NodeJS',
-                        category: "",
-                        is_read: false,
-                        rating: 3,
-                    },
-                ];
-            }
         }
     }
 </script>

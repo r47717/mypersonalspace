@@ -17,6 +17,13 @@ class ThoughtsController extends Controller
         $this->middleware('auth');
     }
 
+    public function show()
+    {
+        return view('pages.thoughts.index', [
+            'page' => 'thoughts',
+        ]);
+    }
+
     public function index()
     {
         return [
