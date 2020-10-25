@@ -70,8 +70,9 @@ class NotesController extends Controller
     {
         $id = $request->id;
         $note = Note::where(['user_id' => Auth::user()->id, 'id' => $id])->first();
-        if ($note) {
+        if ($note && !empty(trim($request->newNote)) && NotesController::typeIsValid($request->type)) {
             $note->text = $request->newText;
+            $note->type = $request->type;
             $note->save();
         }
 

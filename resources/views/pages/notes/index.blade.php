@@ -30,12 +30,12 @@
     </div>
     <form action="/notes" method="post">
         @csrf
-        <textarea class="form-control mb-1" placeholder="Новая заметка" name="newNote"></textarea>
+        <textarea class="form-control mb-1" placeholder="Новая заметка" name="newNote" id="new-note-text"></textarea>
         <select name="type" class="form-control">
             @foreach($types as $type => $data)
                 <option value="{{ $type }}">{{ $data[0] }}</option>
             @endforeach
         </select>
-        <button class="btn btn-info mt-1" type="submit">Добавить</button>
+        <button class="btn btn-info mt-1" id="new-note-button" type="submit" disabled="true">Добавить</button>
     </form>
 @endsection

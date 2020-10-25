@@ -14,3 +14,17 @@ Vue.component('tasks', require('./components/Tasks.vue').default);
 const app = new Vue({
     el: '#app',
 });
+
+
+// misc JS code for server rendered things
+
+$(() => {
+    $("#new-note-text").on('input', (el) => {
+        const { value } = el.target;
+        if (!value || value.trim().length === 0) {
+            $("#new-note-button").prop('disabled', true);
+        } else {
+            $("#new-note-button").prop('disabled', false);
+        }
+    })
+});
