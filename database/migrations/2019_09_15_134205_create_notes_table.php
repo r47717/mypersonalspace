@@ -17,7 +17,7 @@ class CreateNotesTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->text('text');
-            $table->text('type')->default('generic');
+            $table->string('type')->default('generic');
             $table->boolean('archive')->default(false);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
