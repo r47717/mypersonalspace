@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCitTable extends Migration
+class CreateAchievementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateCitTable extends Migration
      */
     public function up()
     {
-        Schema::create('cit', function (Blueprint $table) {
+        Schema::create('achievements', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('cit');
-            $table->text('author')->nullable();
+            $table->string('achievement');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
@@ -30,6 +29,6 @@ class CreateCitTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cit');
+        Schema::dropIfExists('achievements');
     }
 }

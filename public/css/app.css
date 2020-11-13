@@ -11221,3 +11221,7 @@ body {
   margin: 0 5px 3px 0;
 }
 
+.note-filter-btn {
+  border-radius: 50%;
+}
+

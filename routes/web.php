@@ -52,9 +52,15 @@ Route::get('/fetch-thoughts', 'ThoughtsController@index')->name('fetch-thoughts'
 Route::post('/thoughts', 'ThoughtsController@add')->name('add-thought');
 Route::delete('/thoughts/{id}', 'ThoughtsController@delete')->name('delete-thought');
 
-Route::get('/cit', 'CitController@index')->name('fetch-cit');
-Route::post('/cit/new', 'CitController@new')->name('new-cit');
-Route::post('/cit/delete/{id}', 'CitController@delete')->name('delete-cit');
+Route::get('/quotes', 'QuoteController@show')->name('show-quotes');
+Route::get('/fetch-quotes', 'QuoteController@index')->name('fetch-quotes');
+Route::post('/quotes', 'QuoteController@new')->name('new-quote');
+Route::delete('/quotes/{id}', 'QuoteController@delete')->name('delete-quote');
+
+Route::get('/achievements', 'AchievementsController@show')->name('show-achievements');
+Route::get('/fetch-achievements', 'AchievementsController@index')->name('fetch-achievements');
+Route::post('/achievements', 'AchievementsController@add')->name('add-achievement');
+Route::delete('/achievements/{id}', 'AchievementsController@delete')->name('delete-achievement');
 
 Route::get('/tasks', 'TasksController@show')->name('show-tasks');
 Route::get('/fetch-tasks', 'TasksController@index')->name('fetch-tasks');
@@ -70,9 +76,6 @@ Route::get('/notes', 'NotesController@index')->name('notes');
 Route::post('/notes', 'NotesController@add')->name('add-note');
 Route::post('/notes/update', 'NotesController@update')->name('update-note');
 Route::post('/notes/delete', 'NotesController@delete')->name('delete-note');
-
-Route::get('/files', 'FilesController@index')->name('fetch-files');
-Route::post('/files', 'FilesController@add')->name('add-file');
 
 Route::get('/links', 'LinksController@index')->name('fetch-links');
 Route::post('/links/new', 'LinksController@new')->name('new-link');

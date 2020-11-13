@@ -1,13 +1,11 @@
 @extends('layouts.home')
 
 @section('page-content')
-    <div class="card mb-3">
-        <div class="car-body p-3">
-            <a class="btn btn-small {{ $filter === 'all' ? 'btn-success' : 'btn-info' }}" href="/notes">все</a>
-            @foreach($types as $type => $data)
-                <a class="btn btn-small {{ $type === $filter ? 'btn-success' : 'btn-info' }}" href="/notes?type={{ $type }}">{{ $data[1] }}</a>
-            @endforeach
-        </div>
+    <div class="mb-3">
+        <a class="btn btn-small {{ $filter === 'all' ? 'btn-success' : 'btn-info' }} note-filter-btn" href="/notes">все</a>
+        @foreach($types as $type => $data)
+            <a class="btn btn-small {{ $type === $filter ? 'btn-success' : 'btn-info' }} note-filter-btn" href="/notes?type={{ $type }}">{{ $data[1] }}</a>
+        @endforeach
     </div>
     <div class="mb-5">
         @foreach($notes as $item)
@@ -38,4 +36,5 @@
         </select>
         <button class="btn btn-info mt-1" id="new-note-button" type="submit" disabled="true">Добавить</button>
     </form>
+    <new-note></new-note>
 @endsection
