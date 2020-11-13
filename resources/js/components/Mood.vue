@@ -1,16 +1,10 @@
 <template>
-    <div :class="this.images[this.index]" @click="onClick"></div>
+    <div :class="this.images[this.currIndex]" @click="onClick"></div>
 </template>
 
 <script>
     export default {
         name: "Mood",
-        props: [
-            'index'
-        ],
-        mounted() {
-            this.currIndex = this.index;
-        },
         data() {
             return {
                 currIndex: 0,
@@ -27,7 +21,6 @@
                 if (++this.currIndex >= this.images.length) {
                     this.currIndex = 0;
                 }
-                this.$emit('mood-changed', this.currIndex);
             }
         }
     }

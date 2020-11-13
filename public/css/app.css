@@ -11225,3 +11225,12 @@ body {
   border-radius: 50%;
 }
 
+.acc-header {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+          align-items: center;
+}
+
