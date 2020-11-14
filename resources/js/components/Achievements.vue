@@ -5,6 +5,7 @@
             <div class="mb-5" v-if="achievements.length > 0">
                 <div class="" v-for="item in achievements" :data-id="item.id">
                     {{ item.achievement }}
+                    (<span v-for="tag in item.tags">{{ tag.tag }}&nbsp;</span>)
                     <button type="button" class="close" @click="onAchievementRemove(item.id)">
                         <span>&times;</span>
                     </button>
@@ -13,7 +14,11 @@
             <div v-else>
                 <div class="mb-5 no-achievements">Достижений нет? Даже не верится...</div>
             </div>
-            <input class="form-control" type="text" name="add-achievement" v-model="newAchievement" @keyup.enter="onEnter">
+            <input class="form-control mb-3" type="text" name="add-achievement" v-model="newAchievement" @keyup.enter="onEnter">
+            <div>
+                <div v-for="tag in newTags">{{ tag }}</div>
+            </div>
+            <tag-box @tag-clicked="onTagClicked"></tag-box>
         </div>
     </div>
 </template>
@@ -28,7 +33,8 @@
         data() {
             return {
                 achievements: [],
-                newAchievement: ''
+                newAchievement: '',
+                newTags: [],
             }
         },
         methods: {
@@ -40,15 +46,22 @@
             async onEnter() {
                 if(this.newAchievement.trim().length) {
                     await axios.post('/achievements', {
-                        achievement: this.newAchievement
+                        achievement: this.newAchievement,
+                        tags: this.newTags.length ? this.newTags.join(" ") : null,
                     });
                     this.newAchievement = '';
+                    this.newTags = [];
                     await this.fetchAchievements();
                 }
             },
             async onAchievementRemove(id) {
                 await axios.delete(`/achievements/${id}`);
                 await this.fetchAchievements();
+            },
+            async onTagClicked(id) {
+                if (!this.newTags.includes(id)) {
+                    this.newTags.push(id);
+                }
             }
         }
     }

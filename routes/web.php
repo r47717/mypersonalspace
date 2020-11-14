@@ -78,5 +78,9 @@ Route::post('/notes/update', 'NotesController@update')->name('update-note');
 Route::post('/notes/delete', 'NotesController@delete')->name('delete-note');
 
 Route::get('/links', 'LinksController@index')->name('fetch-links');
-Route::post('/links/new', 'LinksController@new')->name('new-link');
+Route::post('/links', 'LinksController@new')->name('new-link');
 Route::post('/links/delete/{id}', 'LinksController@delete')->name('delete-link');
+
+Route::get('/tags', 'TagsController@index')->name('fetch-tags');
+Route::post('/tags', 'TagsController@new')->name('new-tag');
+Route::post('/tags/delete/{id}', 'TagsController@delete')->name('delete-tag');

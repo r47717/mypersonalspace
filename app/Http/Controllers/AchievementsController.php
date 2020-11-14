@@ -27,7 +27,7 @@ class AchievementsController extends Controller
     public function index()
     {
         return [
-            'achievements' => Achievement::where('user_id', Auth::user()->id)->get(),
+            'achievements' => Achievement::with('tags')->where('user_id', Auth::user()->id)->get(),
         ];
     }
 
@@ -37,6 +37,13 @@ class AchievementsController extends Controller
         $achievement->achievement = $request->achievement;
         $achievement->user_id = Auth::user()->id;
         $achievement->save();
+
+        if (!empty(trim($request->tags))) {
+            $tags = explode(" ", $request->tags);
+            foreach ($tags as $tag) {
+                $achievement->tags()->attach($tag);
+            }
+        }
 
         return [
             'success' => true,

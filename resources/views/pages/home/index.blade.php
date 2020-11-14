@@ -58,8 +58,8 @@
                     <div class="card-header">Сегодня награждаются за примерное поведение</div>
                     <div class="card-body">
                         <input type="text" class="form-control">
-                        <input type="text" class="form-control">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control mt-1">
+                        <input type="text" class="form-control mt-1">
                     </div>
                 </div>
             </div>
