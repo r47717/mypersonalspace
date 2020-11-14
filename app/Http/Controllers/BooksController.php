@@ -38,6 +38,13 @@ class BooksController extends Controller
         $book->user_id = Auth::user()->id;
         $book->save();
 
+        if (!empty(trim($request->tags))) {
+            $tags = explode(" ", $request->tags);
+            foreach ($tags as $tag) {
+                $book->tags()->attach($tag);
+            }
+        }
+
         return [
             'success' => true,
             'message' => 'new book has been added',

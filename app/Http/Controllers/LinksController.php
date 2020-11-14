@@ -29,7 +29,14 @@ class LinksController extends Controller
         $link->comment = $request->comment;
         $link->save();
 
-        return redirect('/links');
+        if (!empty(trim($request->tags))) {
+            $tags = explode(" ", $request->tags);
+            foreach ($tags as $tag) {
+                $link->tags()->attach($tag);
+            }
+        }
+
+        return [];
     }
 
     public function delete(Request $request)
@@ -39,6 +46,6 @@ class LinksController extends Controller
             $link->delete();
         }
 
-        return redirect('/links');
+        return [];
     }
 }

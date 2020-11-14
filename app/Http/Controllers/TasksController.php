@@ -38,6 +38,13 @@ class TasksController extends Controller
         $task->deadline = $request->deadline;
         $task->save();
 
+        if (!empty(trim($request->tags))) {
+            $tags = explode(" ", $request->tags);
+            foreach ($tags as $tag) {
+                $task->tags()->attach($tag);
+            }
+        }
+
         return [
             'success' => true,
             'comment' => 'New task has been added',

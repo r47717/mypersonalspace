@@ -35,6 +35,13 @@ class QuoteController extends Controller
         $quote->author = $request->author;
         $quote->save();
 
+        if (!empty(trim($request->tags))) {
+            $tags = explode(" ", $request->tags);
+            foreach ($tags as $tag) {
+                $quote->tags()->attach($tag);
+            }
+        }
+
         return [];
     }
 

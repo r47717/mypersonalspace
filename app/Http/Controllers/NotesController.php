@@ -22,10 +22,10 @@ class NotesController extends Controller
                 return true;
             }
         }
-    
+
         return false;
     }
-   
+
 
     /**
      * NotesController constructor.
@@ -61,7 +61,15 @@ class NotesController extends Controller
             $note->type = $request->type;
             $note->user_id = Auth::user()->id;
             $note->save();
+
+            if (!empty(trim($request->tags))) {
+                $tags = explode(" ", $request->tags);
+                foreach ($tags as $tag) {
+                    $note->tags()->attach($tag);
+                }
+            }
         }
+
 
         return redirect('/notes');
     }

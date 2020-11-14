@@ -38,6 +38,13 @@ class ThoughtsController extends Controller
         $thought->user_id = Auth::user()->id;
         $thought->save();
 
+        if (!empty(trim($request->tags))) {
+            $tags = explode(" ", $request->tags);
+            foreach ($tags as $tag) {
+                $thought->tags()->attach($tag);
+            }
+        }
+
         return [
             'success' => true,
             'message' => 'new thought has been added',
