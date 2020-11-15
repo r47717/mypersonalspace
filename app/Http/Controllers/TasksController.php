@@ -24,11 +24,11 @@ class TasksController extends Controller
     public function index()
     {
         return [
-            'tasks' => Task::where('user_id', Auth::user()->id)->get(),
+            'tasks' => Task::with('tags')->where('user_id', Auth::user()->id)->get(),
         ];
     }
 
-    public function add(Request $request)
+    public function new(Request $request)
     {
         $task = new Task;
         $task->user_id = Auth::user()->id;

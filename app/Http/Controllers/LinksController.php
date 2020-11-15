@@ -13,19 +13,25 @@ class LinksController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function show()
     {
         return view('pages.links.index', [
             'page' => 'links',
-            'links' => Link::where('user_id', Auth::user()->id)->get(),
         ]);
+    }
+
+    public function index()
+    {
+        return [
+            'links' => Link::with('tags')->where('user_id', Auth::user()->id)->get(),
+        ];
     }
 
     public function new(Request $request)
     {
         $link = new Link;
         $link->user_id = Auth::user()->id;
-        $link->link = $request->newLink;
+        $link->link = $request->link;
         $link->comment = $request->comment;
         $link->save();
 
@@ -36,16 +42,26 @@ class LinksController extends Controller
             }
         }
 
-        return [];
+        return [
+            'success' => true,
+            'message' => 'new link has been added',
+        ];
     }
 
-    public function delete(Request $request)
+    public function delete($id)
     {
-        $link = Link::find($request->id);
-        if (!empty($link)) {
+        $link = Link::where(['user_id' => Auth::user()->id, 'id' => $id])->first();
+        if ($link) {
             $link->delete();
+            return [
+                'success' => true,
+                'message' => "Link with id $id has been deleted",
+            ];
         }
 
-        return [];
+        return [
+            'success' => false,
+            'message' => "Link with id $id is not found",
+        ];
     }
 }

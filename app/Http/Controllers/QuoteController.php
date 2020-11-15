@@ -23,7 +23,7 @@ class QuoteController extends Controller
     public function index()
     {
         return [
-            'quotes' => Quote::where('user_id', Auth::user()->id)->get(),
+            'quotes' => Quote::with('tags')->where('user_id', Auth::user()->id)->get(),
         ];
     }
 

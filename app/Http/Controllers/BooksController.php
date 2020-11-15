@@ -24,11 +24,11 @@ class BooksController extends Controller
     public function index()
     {
         return [
-            'books' => Book::where('user_id', Auth::user()->id)->get(),
+            'books' => Book::with('tags')->where('user_id', Auth::user()->id)->get(),
         ];
     }
 
-    public function add(Request $request)
+    public function new(Request $request)
     {
         $book = new Book;
         $book->title = $request->title;

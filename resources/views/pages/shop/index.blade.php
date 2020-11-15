@@ -1,5 +1,5 @@
 @extends('layouts.home')
 
 @section('page-content')
-    <links></links>
+    <shop></shop>
 @endsection

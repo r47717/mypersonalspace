@@ -33,7 +33,7 @@ class Tag extends Model
 
     public function thoughts()
     {
-        return $this->belongsToMany(Thought::class);
+        return $this->belongsToMany(Thought::class, 'thought_tag');
     }
 
     public function links()

@@ -27,7 +27,7 @@ class ThoughtsController extends Controller
     public function index()
     {
         return [
-            'thoughts' => Thought::where('user_id', Auth::user()->id)->get(),
+            'thoughts' => Thought::with('tags')->where('user_id', Auth::user()->id)->get(),
         ];
     }
 

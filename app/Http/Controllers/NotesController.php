@@ -38,10 +38,10 @@ class NotesController extends Controller
     public function index(Request $request)
     {
         if (empty($request->type) || $request->type === 'all' || !NotesController::typeIsValid($request->type)) {
-            $notes = Note::where('user_id', Auth::user()->id)->get();
+            $notes = Note::with('tags')->where('user_id', Auth::user()->id)->get();
             $filter = 'all';
         } else {
-            $notes = Note::where('user_id', Auth::user()->id)->where('type', $request->type)->get();
+            $notes = Note::with('tags')->where('user_id', Auth::user()->id)->where('type', $request->type)->get();
             $filter = $request->type;
         }
 

@@ -31,7 +31,7 @@ class AchievementsController extends Controller
         ];
     }
 
-    public function add(Request $request)
+    public function new(Request $request)
     {
         $achievement = new Achievement;
         $achievement->achievement = $request->achievement;

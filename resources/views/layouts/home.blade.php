@@ -13,7 +13,7 @@
                     <a class="nav-link <?= $page == 'books' ? 'active' : '' ?>" href="/books" >Мои книги</a>
                     <a class="nav-link <?= $page == 'links' ? 'active' : '' ?>" href="/links" >Мои ссылки</a>
                     <a class="nav-link <?= $page == 'notes' ? 'active' : '' ?>" href="/notes" >Мои заметки</a>
-                    <a class="nav-link <?= $page == 'red' ? 'active' : '' ?>" href="/red" >Красная зона</a>
+                    <a class="nav-link <?= $page == 'shop' ? 'active' : '' ?>" href="/shop" >Мой магазин</a>
                 </div>
             </div>
             <div class="col-lg-10 col-sm-12">
