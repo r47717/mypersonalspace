@@ -11,6 +11,7 @@ Vue.component('quote', require('./components/Quote.vue').default);
 Vue.component('mood', require('./components/Mood.vue').default);
 Vue.component('achievements', require('./components/Achievements.vue').default);
 Vue.component('books', require('./components/Books.vue').default);
+Vue.component('notes', require('./components/Notes.vue').default);
 Vue.component('new-note', require('./components/NewNote.vue').default);
 Vue.component('tasks', require('./components/Tasks.vue').default);
 Vue.component('tag-box', require('./components/TagBox.vue').default);
