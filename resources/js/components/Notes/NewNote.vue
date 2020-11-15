@@ -9,13 +9,7 @@
                 <button class="btn btn-success" @click="onClickSaveNote" :disabled="!addBtnEnabled">
                     {{ trans('app.save') }}
                 </button>
-                <select class="form-control" name="new-note-type" v-model="newNoteType">
-                    <option value="generic">обычная</option>
-                    <option value="list">список</option>
-                    <option value="reminder">напоминание</option>
-                    <option value="experience">опыт</option>
-                    <option value="wish">желание</option>
-                </select>
+                <note-type-select @type-changed="onTypeChanged"/>
             </div>
         </div>
     </div>
@@ -39,6 +33,9 @@ export default {
         }
     },
     methods: {
+        onTypeChanged(type) {
+            this.newNoteType = type;
+        },
         async onClickSaveNote() {
             try {
                 const resp = await axios.post("/notes", {
@@ -58,21 +55,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    .new-note-box {
-        display: flex;
-        justify-content: space-between;
-    }
+.new-note-box {
+    display: flex;
+    justify-content: space-between;
+}
 
-    #new-note-text {
-        width: 100%;
-    }
+#new-note-text {
+    width: 100%;
+}
 
-    .note-controls {
-        display: flex;
-        justify-content: space-between;
-
-        select {
-            width: 200px;
-        }
-    }
+.note-controls {
+    display: flex;
+    justify-content: space-between;
+}
 </style>

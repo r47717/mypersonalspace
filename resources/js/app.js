@@ -11,8 +11,16 @@ Vue.component('quote', require('./components/Quote.vue').default);
 Vue.component('mood', require('./components/Mood.vue').default);
 Vue.component('achievements', require('./components/Achievements.vue').default);
 Vue.component('books', require('./components/Books.vue').default);
+
 Vue.component('notes', require('./components/Notes/Notes.vue').default);
+Vue.component('note-type-select', require('./components/Notes/NoteTypeSelect').default);
 Vue.component('new-note', require('./components/Notes/NewNote.vue').default);
+Vue.component('generic-note', require('./components/Notes/GenericNote.vue').default);
+Vue.component('list-note', require('./components/Notes/ListNote.vue').default);
+Vue.component('reminder-note', require('./components/Notes/ReminderNote.vue').default);
+Vue.component('experience-note', require('./components/Notes/ExperienceNote.vue').default);
+Vue.component('wish-note', require('./components/Notes/WishNote.vue').default);
+
 Vue.component('tasks', require('./components/Tasks.vue').default);
 Vue.component('tag-box', require('./components/TagBox.vue').default);
 Vue.component('shop', require('./components/Shop.vue').default);
