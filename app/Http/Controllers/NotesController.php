@@ -78,14 +78,21 @@ class NotesController extends Controller
         return redirect('/notes');
     }
 
-    public function delete(Request $request)
+    public function delete($id)
     {
-        $id = $request->id;
         $note = Note::where(['user_id' => Auth::user()->id, 'id' => $id])->first();
         if ($note) {
             $note->delete();
-            return redirect('/notes');
+            return [
+                "success" => true,
+                "message" => "Note with id $id deleted",
+            ];
         }
+
+        return [
+            "success" => false,
+            "message" => "Note with id $id is not found",
+        ];
     }
 
 }
