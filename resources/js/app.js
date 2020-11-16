@@ -23,7 +23,10 @@ Vue.component('wish-note', require('./components/Notes/WishNote.vue').default);
 
 Vue.component('tasks', require('./components/Tasks.vue').default);
 Vue.component('tag-box', require('./components/TagBox.vue').default);
-Vue.component('shop', require('./components/Shop.vue').default);
+
+Vue.component('shop', require('./components/Shop/Shop.vue').default);
+Vue.component('product', require('./components/Shop/Product.vue').default);
+Vue.component('new-product', require('./components/Shop/NewProduct.vue').default);
 
 const app = new Vue({
     el: '#app',

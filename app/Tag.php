@@ -45,4 +45,9 @@ class Tag extends Model
     {
         return $this->belongsToMany(Book::class);
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
 }
