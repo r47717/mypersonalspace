@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\TodayService;
-use App\Today;
+use App\Models\Today;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

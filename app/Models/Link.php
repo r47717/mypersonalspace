@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Thought extends Model
+class Link extends Model
 {
     public function user()
     {
@@ -13,6 +13,6 @@ class Thought extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'thought_tag');
+        return $this->belongsToMany(Tag::class);
     }
 }

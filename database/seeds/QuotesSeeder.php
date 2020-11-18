@@ -1,7 +1,7 @@
 <?php
 
-use App\Quote;
-use App\User;
+use App\Models\Quote;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Auth;
 
