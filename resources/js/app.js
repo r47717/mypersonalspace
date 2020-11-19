@@ -28,6 +28,9 @@ Vue.component('shop', require('./components/Shop/Shop.vue').default);
 Vue.component('product', require('./components/Shop/Product.vue').default);
 Vue.component('new-product', require('./components/Shop/NewProduct.vue').default);
 
+Vue.component('list-view-trigger', require('./components/General/ListViewTrigger.vue').default);
+
+
 const app = new Vue({
     el: '#app',
 });

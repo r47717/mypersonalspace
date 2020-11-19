@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div :class="classObject">
         <div class="card-header">{{ name }} <span v-if="price">({{ price }})</span></div>
         <div class="card-body">
             <img :src="image" alt="">
@@ -12,10 +12,19 @@ import image from './product.png';
 
 export default {
     name: "Product",
-    props: ['name', 'price'],
+    props: ['name', 'price', 'view'],
     data() {
         return {
             image,
+        }
+    },
+    computed: {
+        classObject() {
+            return {
+                card: true,
+                'card-small': this.view === 'small-icons',
+                'list': this.view === 'list',
+            }
         }
     }
 }
@@ -36,4 +45,22 @@ export default {
         }
     }
 }
+
+.card.card-small {
+    width: 100px;
+
+    .card-body {
+        img {
+            width: 50px;
+            height: 50px;
+        }
+    }
+}
+
+.card.list {
+    .card-body {
+        display: none;
+    }
+}
+
 </style>
