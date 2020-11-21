@@ -89,3 +89,5 @@ Route::delete('/tags/{id}', 'TagsController@delete')->name('delete-tag');
 Route::get('/shop', 'ShopController@show')->name('show-shop');
 Route::get('/products', 'ProductsController@index')->name('fetch-products');
 Route::post('/products', 'ProductsController@new')->name('new-product');
+
+Route::get('/games', 'GamesController@index')->name('games');

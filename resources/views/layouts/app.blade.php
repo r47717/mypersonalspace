@@ -36,6 +36,7 @@
                 <a class="dropdown-item" href="{{ route('show-links')  }}">Мои ссылки</a>
                 <a class="dropdown-item" href="{{ route('show-notes')  }}">Мои заметки</a>
                 <a class="dropdown-item" href="{{ route('show-shop')  }}">Мой магазин</a>
+                <a class="dropdown-item" href="{{ route('games')  }}">Мои игры</a>
             </div>
         </div>
         <a class="navbar-brand" href="{{ url('/') }}">
