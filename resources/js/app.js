@@ -31,6 +31,7 @@ Vue.component('new-product', require('./components/Shop/NewProduct.vue').default
 Vue.component('list-view-trigger', require('./components/General/ListViewTrigger.vue').default);
 
 Vue.component('games-tetris', require('./components/Games/Tetris').default);
+Vue.component('games-space-war', require('./components/Games/SpaceWar').default);
 
 
 const app = new Vue({

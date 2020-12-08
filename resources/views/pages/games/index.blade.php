@@ -1,5 +1,5 @@
 @extends('layouts.home')
 
 @section('page-content')
-    <games-tetris/>
+    <games-space-war/>
 @endsection
