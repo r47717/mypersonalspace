@@ -1,8 +1,28 @@
 <template>
     <div class="card d-inline-flex">
-        <div class="card-header">Тетрис ({{ score }})</div>
+        <div class="card-header">Тетрис (счёт: {{ score }})</div>
         <div class="card-body">
-            <canvas width="300" height="600" class="tetris-field" tabindex=-1 ref="field" @keyup="onKeyDown"/>
+            <div class="stopped" v-if="stopped">Игра окончена</div>
+            <canvas width="300" height="600" class="tetris-field" tabindex=-1 ref="field" @keydown="onKeyDown"/>
+            <div>
+                <select name="rotate" v-model="rotate">
+                    <option value="clockwise">Поворот по часовой</option>
+                    <option value="counterclockwise">Поворот против часовой</option>
+                </select>
+                <div class="d-flex align-items-center">
+                    <input type="checkbox" v-model="pause">
+                    <div class="ml-1">Пауза</div>
+                </div>
+                <div>
+                    Цвет поля: <input type="text" v-model="fieldColor">
+                </div>
+                <div>
+                    Цвет фигуры: <input type="text" v-model="figureColor">
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button class="restart" @click="onRestart">Рестарт</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -16,26 +36,28 @@ const DY = 20;
 const NX = WW / DX;
 const NY = HH / DY;
 const FIGURE_SIZE = 4;
-const FIELD_COLOR = "#c0a1ea";
-const FIGURE_COLOR = "#5add49";
 
 export default {
     name: "Tetris",
     data() {
         return {
+            fieldColor: "c0a1ea",
+            figureColor: "5add49",
             timer: null,
-            speed: 1000, // ms
+            speed: 700, // ms
             stopped: false,
             movingFigure: null,
             cells: [],
             figureTypes: [1, 2, 3, 4, 5, 6, 7],
             score: 0,
+            rotate: 'counterclockwise',
+            pause: false,
         }
     },
     mounted() {
         this.timer = setInterval(this.move, this.speed);
         this.$refs.field.focus();
-        this.cells = new Array(NY).fill(0).map(row => new Array(NX).fill(0));
+        this.initField();
     },
     beforeDestroy() {
         clearInterval(this.timer);
@@ -50,13 +72,16 @@ export default {
                 console.log(row);
             }
         },
+        initField() {
+            this.cells = new Array(NY).fill(0).map(row => new Array(NX).fill(0));
+        },
         paint() {
             const ctx = this.$refs.field.getContext('2d');
 
-            ctx.fillStyle = FIELD_COLOR;
+            ctx.fillStyle = `#${this.fieldColor}`;
             ctx.fillRect(0, 0, WW, HH);
 
-            ctx.fillStyle = FIGURE_COLOR;
+            ctx.fillStyle = `#${this.figureColor}`;
             for (let i = 0; i < NY; i++) {
                 for (let j = 0; j < NX; j++) {
                     if (this.cells[i][j]) {
@@ -72,9 +97,11 @@ export default {
             }
         },
         move() {
-            if (!this.stopped) {
+            if (!this.stopped && !this.pause) {
                 if (!this.movingFigure) {
-                    this.createNewFigure();
+                    if (!this.createNewFigure()) {
+                        this.stopped = true;
+                    }
                 } else {
                     if (this.canMoveDown()) {
                         this.moveFigureDown();
@@ -86,7 +113,6 @@ export default {
                 }
 
                 this.paint();
-                this.print();
             }
         },
         getNewFigureType() {
@@ -96,7 +122,7 @@ export default {
             const type = this.getNewFigureType();
             const top = 0;
             const left = Math.ceil(NX / 2) - Math.floor(FIGURE_SIZE / 2);
-            const f = this.movingFigure = {
+            const f = {
                 cells: [],
             };
             switch (type) {
@@ -215,6 +241,15 @@ export default {
                 default:
                     throw new Error('unknown figure type');
             }
+
+            for (const {x, y} of f.cells) {
+                if (this.cells[y][x] === 1) {
+                    return false;
+                }
+            }
+
+            this.movingFigure = f;
+            return true;
         },
         saveFigureToCells() {
             this.movingFigure.cells.forEach(({x, y}) => {
@@ -281,9 +316,14 @@ export default {
             })
 
             const matrix2 = new Array(diam).fill(0).map(row => new Array(diam).fill(0));
+
             for (let i = 0; i < diam; i++) {
                 for (let j = 0; j < diam; j++) {
-                    matrix2[i][j] = matrix[diam - j - 1][i];
+                    if (this.rotate === "clockwise") {
+                        matrix2[i][j] = matrix[diam - j - 1][i];
+                    } else {
+                        matrix2[i][j] = matrix[j][diam - i - 1];
+                    }
                 }
             }
 
@@ -355,16 +395,61 @@ export default {
         removeRow(row) {
             this.cells.splice(row, 1);
             this.cells.unshift(new Array(NX).fill(0));
+        },
+        onRestart() {
+            this.initField();
+            this.movingFigure = null;
+            this.$refs.field.focus();
+            this.score = 0;
+            this.stopped = false;
         }
     }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.card-body {
+    position: relative;
+
+    input[type="text"] {
+        // TBD
+    }
+}
+
+.stopped {
+    position: absolute;
+    top: 250px;
+    left: 60px;
+    background: #ffffff;
+    padding: 10px 25px;
+    border-radius: 24px;
+    font-size: 25px;
+    box-shadow: #666666 10px 10px 10px;
+}
+
 .tetris-field {
     background: #c0a1ea;
     width: 300px;
     height: 600px;
     border: 1px solid #aaaaaa;
+}
+
+button.restart {
+    border: none;
+    background: deepskyblue;
+    color: #ffffff;
+    padding: 5px 25px;
+    border-radius: 15px;
+    box-shadow: #aaaaaa 3px 3px 3px;
+}
+
+button.restart:hover {
+    color: yellow;
+}
+
+button.restart:focus {
+    outline: none;
+    box-shadow: none;
+    transform: translate(2px, 2px);
 }
 </style>
