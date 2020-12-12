@@ -3,24 +3,41 @@
         <div class="card-header">Тетрис (счёт: {{ score }})</div>
         <div class="card-body">
             <div class="stopped" v-if="stopped">Игра окончена</div>
-            <canvas width="300" height="600" class="tetris-field" tabindex=-1 ref="field" @keydown.prevent="onKeyDown"/>
-            <div>
-                <select name="rotate" v-model="rotate">
-                    <option value="clockwise">Поворот по часовой</option>
-                    <option value="counterclockwise">Поворот против часовой</option>
-                </select>
-                <div class="d-flex align-items-center">
-                    <input type="checkbox" v-model="pause">
-                    <div class="ml-1">Пауза</div>
-                </div>
-                <div>
-                    Цвет поля: <input type="text" v-model="fieldColor">
-                </div>
-                <div>
-                    Цвет фигуры: <input type="text" v-model="figureColor">
-                </div>
-                <div class="d-flex justify-content-center mt-4">
-                    <button class="restart" @click="onRestart">Рестарт</button>
+            <div class="d-flex">
+                <canvas width="300" height="600" class="tetris-field" tabindex=-1 ref="field"
+                        @keydown.prevent="onKeyDown"/>
+                <div class="ml-5 d-flex">
+                    <div class="d-flex flex-column align-items-start justify-content-between">
+                        <div class="align-self-center d-flex flex-column align-items-center">
+                            <p>Следующая фигура:</p>
+                            <canvas width="120" height="120" class="tetris-preview" ref="preview"/>
+                        </div>
+                        <div>
+                            <select class="mb-3" name="rotate" v-model="rotate">
+                                <option value="clockwise">Поворот по часовой</option>
+                                <option value="counterclockwise">Поворот против часовой</option>
+                            </select>
+                            <div class="d-flex align-items-center mb-3">
+                                <input type="checkbox" v-model="pause">
+                                <div class="ml-1">Пауза</div>
+                            </div>
+                            <div class="mb-3">
+                                <table>
+                                    <tr>
+                                        <td>Цвет поля:</td>
+                                        <td><input type="text" v-model="fieldColor"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Цвет фигуры:</td>
+                                        <td><input type="text" v-model="figureColor"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-center mt-4">
+                                <button class="restart" @click="onRestart">Рестарт</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,6 +54,10 @@ const NX = WW / DX;
 const NY = HH / DY;
 const FIGURE_SIZE = 4;
 
+const PREVIEW_PADDING = 20;
+const PREVIEW_WW = DX * FIGURE_SIZE + PREVIEW_PADDING * 2;
+const PREVIEW_HH = DY * FIGURE_SIZE + PREVIEW_PADDING * 2;
+
 export default {
     name: "Tetris",
     data() {
@@ -49,6 +70,7 @@ export default {
             movingFigure: null,
             cells: [],
             figureTypes: [1, 2, 3, 4, 5, 6, 7],
+            nextFigureType: null,
             score: 0,
             rotate: 'counterclockwise',
             pause: false,
@@ -75,6 +97,18 @@ export default {
         initField() {
             this.cells = new Array(NY).fill(0).map(row => new Array(NX).fill(0));
         },
+        drawFigurePreview() {
+            const structure = this.getFigureStructure(this.nextFigureType, 0, 0);
+
+            const ctx = this.$refs.preview.getContext('2d');
+            ctx.fillStyle = `#${this.fieldColor}`;
+            ctx.fillRect(0, 0, PREVIEW_WW, PREVIEW_HH);
+
+            ctx.fillStyle = `#${this.figureColor}`;
+            structure.forEach(({x, y}) => {
+                ctx.fillRect(PREVIEW_PADDING + x * DY, PREVIEW_PADDING + y * DX, DY, DX);
+            })
+        },
         paint() {
             const ctx = this.$refs.field.getContext('2d');
 
@@ -95,12 +129,18 @@ export default {
                     ctx.fillRect(x * DY, y * DX, DY, DX);
                 })
             }
+
+            if (this.nextFigureType) {
+                this.drawFigurePreview();
+            }
         },
         move() {
             if (!this.stopped && !this.pause) {
                 if (!this.movingFigure) {
                     if (!this.createNewFigure()) {
                         this.stopped = true;
+                    } else {
+                        this.nextFigureType = this.getNewFigureType();
                     }
                 } else {
                     if (this.canMoveDown()) {
@@ -118,16 +158,12 @@ export default {
         getNewFigureType() {
             return this.figureTypes[Math.floor(Math.random() * Math.floor(this.figureTypes.length))];
         },
-        createNewFigure() {
-            const type = this.getNewFigureType();
-            const top = 0;
-            const left = Math.ceil(NX / 2) - Math.floor(FIGURE_SIZE / 2);
-            const f = {
-                cells: [],
-            };
+        getFigureStructure(type, top, left) {
+            let structure = null;
+
             switch (type) {
                 case 1:
-                    f.cells = [
+                    structure = [
                         {
                             y: top, x: left,
                         },
@@ -143,7 +179,7 @@ export default {
                     ];
                     break;
                 case 2:
-                    f.cells = [
+                    structure = [
                         {
                             y: top, x: left,
                         },
@@ -159,7 +195,7 @@ export default {
                     ];
                     break;
                 case 3:
-                    f.cells = [
+                    structure = [
                         {
                             y: top, x: left + 1,
                         },
@@ -175,7 +211,7 @@ export default {
                     ];
                     break;
                 case 4: // T
-                    f.cells = [
+                    structure = [
                         {
                             y: top, x: left + 1,
                         },
@@ -191,7 +227,7 @@ export default {
                     ];
                     break;
                 case 5: // square
-                    f.cells = [
+                    structure = [
                         {
                             y: top, x: left,
                         },
@@ -207,7 +243,7 @@ export default {
                     ];
                     break;
                 case 6:
-                    f.cells = [
+                    structure = [
                         {
                             y: top, x: left,
                         },
@@ -223,7 +259,7 @@ export default {
                     ];
                     break;
                 case 7:
-                    f.cells = [
+                    structure = [
                         {
                             y: top, x: left + 2,
                         },
@@ -241,6 +277,18 @@ export default {
                 default:
                     throw new Error('unknown figure type');
             }
+
+            return structure;
+        },
+        createNewFigure() {
+            const type = this.nextFigureType || this.getNewFigureType();
+            const top = 0;
+            const left = Math.ceil(NX / 2) - Math.floor(FIGURE_SIZE / 2);
+            const f = {
+                cells: [],
+            };
+
+            f.cells = this.getFigureStructure(type, top, left);
 
             for (const {x, y} of f.cells) {
                 if (this.cells[y][x] === 1) {
