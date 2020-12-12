@@ -91,3 +91,5 @@ Route::get('/products', 'ProductsController@index')->name('fetch-products');
 Route::post('/products', 'ProductsController@new')->name('new-product');
 
 Route::get('/games', 'GamesController@index')->name('games');
+Route::get('/games/tetris', 'GamesController@tetris')->name('games-tetris');
+Route::get('/games/star-wars', 'GamesController@starWars')->name('games-star-wars');

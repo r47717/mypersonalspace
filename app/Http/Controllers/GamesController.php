@@ -12,4 +12,18 @@ class GamesController extends Controller
             'page' => 'games',
         ]);
     }
+
+    public function tetris()
+    {
+        return view('pages.games.tetris', [
+            'page' => 'games',
+        ]);
+    }
+
+    public function starWars()
+    {
+        return view('pages.games.star-wars', [
+            'page' => 'games',
+        ]);
+    }
 }

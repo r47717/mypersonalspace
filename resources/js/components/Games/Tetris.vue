@@ -3,7 +3,7 @@
         <div class="card-header">Тетрис (счёт: {{ score }})</div>
         <div class="card-body">
             <div class="stopped" v-if="stopped">Игра окончена</div>
-            <canvas width="300" height="600" class="tetris-field" tabindex=-1 ref="field" @keydown="onKeyDown"/>
+            <canvas width="300" height="600" class="tetris-field" tabindex=-1 ref="field" @keydown.prevent="onKeyDown"/>
             <div>
                 <select name="rotate" v-model="rotate">
                     <option value="clockwise">Поворот по часовой</option>
