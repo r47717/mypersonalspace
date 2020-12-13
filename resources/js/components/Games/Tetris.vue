@@ -29,6 +29,10 @@
                                 <input type="checkbox" v-model="projectionEnabled">
                                 <div class="ml-1">Проекция</div>
                             </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <input type="checkbox" v-model="extendedFigures">
+                                <div class="ml-1">Расширенный набор фигур</div>
+                            </div>
                             <div class="mb-3">
                                 <table>
                                     <tr>
@@ -70,6 +74,24 @@ const PREVIEW_PADDING = 20;
 const PREVIEW_WW = DX * FIGURE_SIZE + PREVIEW_PADDING * 2;
 const PREVIEW_HH = DY * FIGURE_SIZE + PREVIEW_PADDING * 2;
 
+const basicFigures = [
+    [{y: 0, x: 0}, {y: 0, x: 1}, {y: 0, x: 2}, {y: 0, x: 3}],
+    [{y: 0, x: 0}, {y: 0, x: 1}, {y: 1, x: 1}, {y: 1, x: 2}],
+    [{y: 0, x: 1}, {y: 0, x: 2}, {y: 1, x: 0}, {y: 1, x: 1}],
+    [{y: 0, x: 1}, {y: 1, x: 0}, {y: 1, x: 1}, {y: 1, x: 2}],
+    [{y: 0, x: 0}, {y: 0, x: 1}, {y: 1, x: 0}, {y: 1, x: 1}],
+    [{y: 0, x: 0}, {y: 1, x: 0}, {y: 1, x: 1}, {y: 1, x: 2}],
+    [{y: 0, x: 2}, {y: 1, x: 0}, {y: 1, x: 1}, {y: 1, x: 2}],
+];
+
+const extendedFigures = [
+    [{y: 0, x: 0}, {y: 1, x: 1}, {y: 1, x: 2}, {y: 0, x: 2}],
+    [{y: 0, x: 0}, {y: 1, x: 0}, {y: 1, x: 1}, {y: 0, x: 2}],
+    [{y: 0, x: 0}, {y: 1, x: 1}, {y: 0, x: 2}, {y: 1, x: 3}],
+    [{y: 1, x: 0}, {y: 0, x: 1}, {y: 1, x: 2}, {y: 0, x: 3}],
+    [{y: 0, x: 0}, {y: 1, x: 1}, {y: 1, x: 2}, {y: 1, x: 3}],
+];
+
 const accelerationPlan = (score) => {
     if (score > 150) return 100;
     if (score > 100) return 200;
@@ -94,11 +116,10 @@ export default {
             speedCounter: 0,
             accelerate: true,
             projectionEnabled: true,
-            projection: null,
+            extendedFigures: false,
             stopped: false,
             movingFigure: null,
             cells: [],
-            figureTypes: [1, 2, 3, 4, 5, 6, 7],
             nextFigureType: null,
             score: 0,
             rotate: 'counterclockwise',
@@ -110,6 +131,41 @@ export default {
         this.timer = setInterval(this.move, this.maxSpeed);
         this.$refs.field.focus();
         this.initField();
+    },
+
+    computed: {
+        projection() {
+            if (!this.projectionEnabled || this.movingFigure === null) {
+                return null;
+            }
+
+            let runningProjection = JSON.parse(JSON.stringify(this.movingFigure));
+
+            while (this.canMoveDown(runningProjection)) {
+                runningProjection = this.moveFigureDown(runningProjection);
+            }
+
+            return runningProjection;
+        },
+        figures() {
+            if (!this.extendedFigures) {
+                return basicFigures;
+            }
+
+            return basicFigures.concat(extendedFigures);
+        }
+    },
+
+    watch: {
+        movingFigure() {
+            this.paint();
+        },
+        cells() {
+            this.paint();
+        },
+        projection() {
+            this.paint();
+        }
     },
 
     beforeDestroy() {
@@ -144,7 +200,22 @@ export default {
             })
         },
 
+        drawMovingFigure() {
+            const ctx = this.$refs.field.getContext('2d');
+            ctx.fillStyle = `#${this.figureColor}`;
+
+            if (this.movingFigure) {
+                this.movingFigure.forEach(({x, y}) => {
+                    ctx.fillRect(x * DY, y * DX, DY, DX);
+                })
+            }
+        },
+
         drawProjection() {
+            if (this.projection === null) {
+                return null;
+            }
+
             const ctx = this.$refs.field.getContext('2d');
             ctx.fillStyle = `#${this.projectionColor}`;
             this.projection.forEach(({x, y}) => {
@@ -167,18 +238,16 @@ export default {
                 }
             }
 
+            if (this.projectionEnabled) {
+                this.drawProjection();
+            }
+
             if (this.movingFigure) {
-                this.movingFigure.cells.forEach(({x, y}) => {
-                    ctx.fillRect(x * DY, y * DX, DY, DX);
-                })
+                this.drawMovingFigure();
             }
 
             if (this.nextFigureType) {
                 this.drawFigurePreview();
-            }
-
-            if (this.projectionEnabled) {
-                this.drawProjection();
             }
         },
 
@@ -199,8 +268,8 @@ export default {
                     this.nextFigureType = this.getNewFigureType();
                 }
             } else {
-                if (this.canMoveDown(this.movingFigure.cells)) {
-                    this.moveFigureDown(this.movingFigure.cells);
+                if (this.canMoveDown(this.movingFigure)) {
+                    this.movingFigure = this.moveFigureDown(this.movingFigure);
                 } else {
                     this.saveFigureToCells();
                     this.movingFigure = null;
@@ -211,152 +280,29 @@ export default {
                 }
             }
 
-            if (this.projectionEnabled) {
-                this.makeProjection();
-            }
-            this.paint();
-
             this.speedCounter = Math.round(this.speed / this.maxSpeed);
         },
 
         getNewFigureType() {
-            return this.figureTypes[Math.floor(Math.random() * Math.floor(this.figureTypes.length))];
+            return Math.floor(Math.random() * Math.floor(this.figures.length));
         },
 
         getFigureStructure(type, top, left) {
-            let structure = null;
-
-            switch (type) {
-                case 1:
-                    structure = [
-                        {
-                            y: top, x: left,
-                        },
-                        {
-                            y: top, x: left + 1,
-                        },
-                        {
-                            y: top, x: left + 2,
-                        },
-                        {
-                            y: top, x: left + 3,
-                        }
-                    ];
-                    break;
-                case 2:
-                    structure = [
-                        {
-                            y: top, x: left,
-                        },
-                        {
-                            y: top, x: left + 1,
-                        },
-                        {
-                            y: top + 1, x: left + 1,
-                        },
-                        {
-                            y: top + 1, x: left + 2,
-                        }
-                    ];
-                    break;
-                case 3:
-                    structure = [
-                        {
-                            y: top, x: left + 1,
-                        },
-                        {
-                            y: top, x: left + 2,
-                        },
-                        {
-                            y: top + 1, x: left,
-                        },
-                        {
-                            y: top + 1, x: left + 1,
-                        }
-                    ];
-                    break;
-                case 4: // T
-                    structure = [
-                        {
-                            y: top, x: left + 1,
-                        },
-                        {
-                            y: top + 1, x: left,
-                        },
-                        {
-                            y: top + 1, x: left + 1,
-                        },
-                        {
-                            y: top + 1, x: left + 2,
-                        }
-                    ];
-                    break;
-                case 5: // square
-                    structure = [
-                        {
-                            y: top, x: left,
-                        },
-                        {
-                            y: top, x: left + 1,
-                        },
-                        {
-                            y: top + 1, x: left,
-                        },
-                        {
-                            y: top + 1, x: left + 1,
-                        }
-                    ];
-                    break;
-                case 6:
-                    structure = [
-                        {
-                            y: top, x: left,
-                        },
-                        {
-                            y: top + 1, x: left,
-                        },
-                        {
-                            y: top + 1, x: left + 1,
-                        },
-                        {
-                            y: top + 1, x: left + 2,
-                        }
-                    ];
-                    break;
-                case 7:
-                    structure = [
-                        {
-                            y: top, x: left + 2,
-                        },
-                        {
-                            y: top + 1, x: left,
-                        },
-                        {
-                            y: top + 1, x: left + 1,
-                        },
-                        {
-                            y: top + 1, x: left + 2,
-                        }
-                    ];
-                    break;
-                default:
-                    throw new Error('unknown figure type');
+            const pattern = this.figures[type];
+            if (pattern === undefined) {
+                throw new Error('incorrect figure type');
             }
 
-            return structure;
+            return pattern.map(({x, y}) => ({x: left + x, y: top + y}));
         },
 
         createNewFigure() {
             const type = this.nextFigureType || this.getNewFigureType();
             const top = 0;
             const left = Math.ceil(NX / 2) - Math.floor(FIGURE_SIZE / 2);
-            const f = {
-                cells: [],
-            };
+            const f = this.getFigureStructure(type, top, left);
 
-            f.cells = this.getFigureStructure(type, top, left);
-
-            for (const {x, y} of f.cells) {
+            for (const {x, y} of f) {
                 if (this.cells[y][x] === 1) {
                     return false;
                 }
@@ -366,20 +312,13 @@ export default {
             return true;
         },
 
-        makeProjection() {
-            const runningProjection = JSON.parse(JSON.stringify(this.movingFigure.cells));
-
-            while (this.canMoveDown(runningProjection)) {
-                this.moveFigureDown(runningProjection);
-            }
-
-            this.projection = runningProjection;
-        },
-
         saveFigureToCells() {
-            this.movingFigure.cells.forEach(({x, y}) => {
-                this.cells[y][x] = 1;
+            const newCells = this.cells.slice();
+            this.movingFigure.forEach(({x, y}) => {
+                newCells[y][x] = 1;
             });
+
+            this.cells = newCells;
         },
 
         canMoveDown(figureCells) {
@@ -393,39 +332,38 @@ export default {
         },
 
         moveFigureDown(figureCells) {
-            figureCells.forEach((item) => {
+            const newCells = figureCells.slice();
+            newCells.forEach((item) => {
                 item.y++;
             });
+
+            return newCells;
         },
 
         tryMoveFigureLeft() {
-            for (const {x, y} of this.movingFigure.cells) {
+            for (const {x, y} of this.movingFigure) {
                 if (x <= 0 || this.cells[y][x - 1] === 1) {
                     return false;
                 }
             }
 
-            this.movingFigure.cells.forEach((item) => {
-                item.x--;
-            });
+            this.movingFigure = this.movingFigure.map(({x, y}) => ({y, x: x - 1}));
         },
 
         tryMoveFigureRight() {
-            for (const {x, y} of this.movingFigure.cells) {
+            for (const {x, y} of this.movingFigure) {
                 if (x >= NX - 1 || this.cells[y][x + 1] === 1) {
                     return false;
                 }
             }
 
-            this.movingFigure.cells.forEach((item) => {
-                item.x++;
-            });
+            this.movingFigure = this.movingFigure.map(({x, y}) => ({y, x: x + 1}));
         },
 
         tryRotateFigure() {
             const newFigure = [];
 
-            const cells = this.movingFigure.cells;
+            const cells = this.movingFigure;
 
             let minX = cells[0].x;
             let maxX = cells[0].x;
@@ -476,16 +414,16 @@ export default {
             });
 
             if (!conflict) {
-                this.movingFigure.cells = newFigure;
-                this.paint();
+                this.movingFigure = newFigure;
             }
         },
 
         dropFigure() {
-            while (this.canMoveDown(this.movingFigure.cells)) {
-                this.moveFigureDown(this.movingFigure.cells);
+            let newFigure = this.movingFigure.slice();
+            while (this.canMoveDown(newFigure)) {
+                newFigure = this.moveFigureDown(newFigure);
             }
-            this.projection = null;
+            this.movingFigure = newFigure;
         },
 
         onKeyDown(event) {
@@ -493,13 +431,10 @@ export default {
                 return;
             }
 
-            let makeProjection = true;
-
             switch (event.keyCode) {
                 case 32: // space
                 case 40: // down
                     this.dropFigure();
-                    makeProjection = false;
                     break;
                 case 37: // left
                     this.tryMoveFigureLeft();
@@ -511,21 +446,17 @@ export default {
                     this.tryMoveFigureRight();
                     break;
             }
-
-            if (this.projectionEnabled && makeProjection) {
-                this.makeProjection();
-            }
-
-            this.paint();
         },
 
         eraseFullLines() {
             let erased;
+            const cells = this.cells.slice();
             do {
                 erased = false;
-                for (let row = 0; row < this.cells.length; row++) {
-                    if (this.cells[row].every(cell => cell === 1)) {
-                        this.removeRow(row);
+                for (let row = 0; row < cells.length; row++) {
+                    if (cells[row].every(cell => cell === 1)) {
+                        cells.splice(row, 1);
+                        cells.unshift(new Array(NX).fill(0));
                         erased = true;
                         this.score++;
                         break;
@@ -533,17 +464,13 @@ export default {
 
                 }
             } while (erased);
-        },
 
-        removeRow(row) {
-            this.cells.splice(row, 1);
-            this.cells.unshift(new Array(NX).fill(0));
+            this.cells = cells;
         },
 
         onRestart() {
             this.initField();
             this.movingFigure = null;
-            this.projection = null;
             this.$refs.field.focus();
             this.score = 0;
             this.speed = accelerationPlan(this.score);
