@@ -21,6 +21,14 @@
                                 <input type="checkbox" v-model="pause">
                                 <div class="ml-1">Пауза</div>
                             </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <input type="checkbox" v-model="accelerate">
+                                <div class="ml-1">Ускорение</div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <input type="checkbox" v-model="projectionEnabled">
+                                <div class="ml-1">Проекция</div>
+                            </div>
                             <div class="mb-3">
                                 <table>
                                     <tr>
@@ -30,6 +38,10 @@
                                     <tr>
                                         <td>Цвет фигуры:</td>
                                         <td><input type="text" v-model="figureColor"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Цвет проекции:</td>
+                                        <td><input type="text" v-model="projectionColor"></td>
                                     </tr>
                                 </table>
                             </div>
@@ -58,14 +70,31 @@ const PREVIEW_PADDING = 20;
 const PREVIEW_WW = DX * FIGURE_SIZE + PREVIEW_PADDING * 2;
 const PREVIEW_HH = DY * FIGURE_SIZE + PREVIEW_PADDING * 2;
 
+const accelerationPlan = (score) => {
+    if (score > 150) return 100;
+    if (score > 100) return 200;
+    if (score > 90) return 300;
+    if (score > 70) return 400;
+    if (score > 50) return 500;
+    if (score > 30) return 600;
+    if (score > 10) return 700;
+    return 800;
+}
+
 export default {
     name: "Tetris",
     data() {
         return {
             fieldColor: "c0a1ea",
             figureColor: "5add49",
+            projectionColor: "999999",
             timer: null,
-            speed: 700, // ms
+            maxSpeed: 100, // ms
+            speed: 800,
+            speedCounter: 0,
+            accelerate: true,
+            projectionEnabled: true,
+            projection: null,
             stopped: false,
             movingFigure: null,
             cells: [],
@@ -76,14 +105,17 @@ export default {
             pause: false,
         }
     },
+
     mounted() {
-        this.timer = setInterval(this.move, this.speed);
+        this.timer = setInterval(this.move, this.maxSpeed);
         this.$refs.field.focus();
         this.initField();
     },
+
     beforeDestroy() {
         clearInterval(this.timer);
     },
+
     methods: {
         print() {
             for (let i = 0; i < NY; i++) {
@@ -94,9 +126,11 @@ export default {
                 console.log(row);
             }
         },
+
         initField() {
             this.cells = new Array(NY).fill(0).map(row => new Array(NX).fill(0));
         },
+
         drawFigurePreview() {
             const structure = this.getFigureStructure(this.nextFigureType, 0, 0);
 
@@ -109,6 +143,15 @@ export default {
                 ctx.fillRect(PREVIEW_PADDING + x * DY, PREVIEW_PADDING + y * DX, DY, DX);
             })
         },
+
+        drawProjection() {
+            const ctx = this.$refs.field.getContext('2d');
+            ctx.fillStyle = `#${this.projectionColor}`;
+            this.projection.forEach(({x, y}) => {
+                ctx.fillRect(x * DY, y * DX, DY, DX);
+            });
+        },
+
         paint() {
             const ctx = this.$refs.field.getContext('2d');
 
@@ -133,31 +176,53 @@ export default {
             if (this.nextFigureType) {
                 this.drawFigurePreview();
             }
-        },
-        move() {
-            if (!this.stopped && !this.pause) {
-                if (!this.movingFigure) {
-                    if (!this.createNewFigure()) {
-                        this.stopped = true;
-                    } else {
-                        this.nextFigureType = this.getNewFigureType();
-                    }
-                } else {
-                    if (this.canMoveDown()) {
-                        this.moveFigureDown();
-                    } else {
-                        this.saveFigureToCells();
-                        this.movingFigure = null;
-                        this.eraseFullLines();
-                    }
-                }
 
-                this.paint();
+            if (this.projectionEnabled) {
+                this.drawProjection();
             }
         },
+
+        move() {
+            if (this.stopped || this.pause) {
+                return;
+            }
+
+            if (this.speedCounter > 0) {
+                this.speedCounter--;
+                return;
+            }
+
+            if (!this.movingFigure) {
+                if (!this.createNewFigure()) {
+                    this.stopped = true;
+                } else {
+                    this.nextFigureType = this.getNewFigureType();
+                }
+            } else {
+                if (this.canMoveDown(this.movingFigure.cells)) {
+                    this.moveFigureDown(this.movingFigure.cells);
+                } else {
+                    this.saveFigureToCells();
+                    this.movingFigure = null;
+                    this.eraseFullLines();
+                    if (this.accelerate) {
+                        this.speed = accelerationPlan(this.score);
+                    }
+                }
+            }
+
+            if (this.projectionEnabled) {
+                this.makeProjection();
+            }
+            this.paint();
+
+            this.speedCounter = Math.round(this.speed / this.maxSpeed);
+        },
+
         getNewFigureType() {
             return this.figureTypes[Math.floor(Math.random() * Math.floor(this.figureTypes.length))];
         },
+
         getFigureStructure(type, top, left) {
             let structure = null;
 
@@ -280,6 +345,7 @@ export default {
 
             return structure;
         },
+
         createNewFigure() {
             const type = this.nextFigureType || this.getNewFigureType();
             const top = 0;
@@ -299,13 +365,25 @@ export default {
             this.movingFigure = f;
             return true;
         },
+
+        makeProjection() {
+            const runningProjection = JSON.parse(JSON.stringify(this.movingFigure.cells));
+
+            while (this.canMoveDown(runningProjection)) {
+                this.moveFigureDown(runningProjection);
+            }
+
+            this.projection = runningProjection;
+        },
+
         saveFigureToCells() {
             this.movingFigure.cells.forEach(({x, y}) => {
                 this.cells[y][x] = 1;
             });
         },
-        canMoveDown() {
-            for (const {x, y} of this.movingFigure.cells) {
+
+        canMoveDown(figureCells) {
+            for (const {x, y} of figureCells) {
                 if (y >= NY - 1 || this.cells[y + 1][x] === 1) {
                     return false;
                 }
@@ -313,11 +391,13 @@ export default {
 
             return true;
         },
-        moveFigureDown() {
-            this.movingFigure.cells.forEach((item) => {
+
+        moveFigureDown(figureCells) {
+            figureCells.forEach((item) => {
                 item.y++;
             });
         },
+
         tryMoveFigureLeft() {
             for (const {x, y} of this.movingFigure.cells) {
                 if (x <= 0 || this.cells[y][x - 1] === 1) {
@@ -329,6 +409,7 @@ export default {
                 item.x--;
             });
         },
+
         tryMoveFigureRight() {
             for (const {x, y} of this.movingFigure.cells) {
                 if (x >= NX - 1 || this.cells[y][x + 1] === 1) {
@@ -340,6 +421,7 @@ export default {
                 item.x++;
             });
         },
+
         tryRotateFigure() {
             const newFigure = [];
 
@@ -398,20 +480,26 @@ export default {
                 this.paint();
             }
         },
+
         dropFigure() {
-            while (this.canMoveDown()) {
-                this.moveFigureDown();
+            while (this.canMoveDown(this.movingFigure.cells)) {
+                this.moveFigureDown(this.movingFigure.cells);
             }
+            this.projection = null;
         },
+
         onKeyDown(event) {
             if (!this.movingFigure) {
                 return;
             }
 
+            let makeProjection = true;
+
             switch (event.keyCode) {
                 case 32: // space
                 case 40: // down
                     this.dropFigure();
+                    makeProjection = false;
                     break;
                 case 37: // left
                     this.tryMoveFigureLeft();
@@ -423,8 +511,14 @@ export default {
                     this.tryMoveFigureRight();
                     break;
             }
+
+            if (this.projectionEnabled && makeProjection) {
+                this.makeProjection();
+            }
+
             this.paint();
         },
+
         eraseFullLines() {
             let erased;
             do {
@@ -440,15 +534,19 @@ export default {
                 }
             } while (erased);
         },
+
         removeRow(row) {
             this.cells.splice(row, 1);
             this.cells.unshift(new Array(NX).fill(0));
         },
+
         onRestart() {
             this.initField();
             this.movingFigure = null;
+            this.projection = null;
             this.$refs.field.focus();
             this.score = 0;
+            this.speed = accelerationPlan(this.score);
             this.stopped = false;
         }
     }
