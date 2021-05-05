@@ -23,22 +23,34 @@
 <body>
 <nav class="navbar navbar-expand-md shadow-sm" id="main-navbar">
     <div class="container-fluid">
-        <div class="nav-item dropdown d-lg-none">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="{{ route('home')  }}">Сегодня</a>
-                <a class="dropdown-item" href="{{ route('show-thoughts')  }}">Мои мысли</a>
-                <a class="dropdown-item" href="{{ route('show-quotes')  }}">Мои цитаты</a>
-                <a class="dropdown-item" href="{{ route('show-achievements')  }}">Мои достижения</a>
-                <a class="dropdown-item" href="{{ route('show-tasks')  }}">Мои задачи</a>
-                <a class="dropdown-item" href="{{ route('show-books')  }}">Мои книги</a>
-                <a class="dropdown-item" href="{{ route('show-links')  }}">Мои ссылки</a>
-                <a class="dropdown-item" href="{{ route('show-notes')  }}">Мои заметки</a>
-                <a class="dropdown-item" href="{{ route('show-shop')  }}">Мой магазин</a>
-                <a class="dropdown-item" href="{{ route('games')  }}">Мои игры</a>
+        @auth
+            <div class="nav-item dropdown d-lg-none">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="{{ route('home')  }}">Сегодня</a>
+                    <a class="dropdown-item" href="{{ route('show-thoughts')  }}">Мои мысли</a>
+                    <a class="dropdown-item" href="{{ route('show-quotes')  }}">Мои цитаты</a>
+                    <a class="dropdown-item" href="{{ route('show-achievements')  }}">Мои достижения</a>
+                    <a class="dropdown-item" href="{{ route('show-tasks')  }}">Мои задачи</a>
+                    <a class="dropdown-item" href="{{ route('show-books')  }}">Мои книги</a>
+                    <a class="dropdown-item" href="{{ route('show-links')  }}">Мои ссылки</a>
+                    <a class="dropdown-item" href="{{ route('show-notes')  }}">Мои заметки</a>
+                    <a class="dropdown-item" href="{{ route('show-shop')  }}">Мой магазин</a>
+                    <a class="dropdown-item" href="{{ route('games')  }}">Мои игры</a>
+                </div>
             </div>
-        </div>
+        @endauth
+        @guest
+            <div class="nav-item dropdown d-lg-none">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="{{ route('register')  }}">{{ __('Register') }}</a>
+                    <a class="dropdown-item" href="{{ route('login')  }}">{{ __('Login') }}</a>
+                </div>
+            </div>
+        @endguest
         <a class="navbar-brand" href="{{ url('/') }}">
             {{ trans('app.home_dashboard_title') }}
         </a>

@@ -13,7 +13,7 @@ html, body, #app, #main-container, .row.widgets {
 }
 
 body {
-    background-image: url("/img/textures/bricks.jpg");
+    background: url("/img/textures/bgr.png") no-repeat top left / cover;
     font-family: Roboto, Arial, Helvetica, sans-serif;
 }
 
@@ -30,33 +30,8 @@ body {
     padding-top: 50px;
 }
 
-.pills-column {
-    background: none;
-    justify-content: stretch;
-}
-
-.pills-column .nav-pills {
-    background: #FFFFFF;
-    flex-grow: 1;
-}
-
-.widgets {
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-#v-pills-red-tab {
-    color: red;
-}
-
-#v-pills-red-tab.active {
-    background: red;
-    color: #FFFFFF;
-}
-
 .tab-content,
-.tab-pane
-{
+.tab-pane {
     height: 100%;
 }
 
@@ -84,6 +59,7 @@ body {
         font-size: 10px;
         outline: none;
     }
+
     button:active, button:focus {
         border: none;
         outline: none;
@@ -127,3 +103,46 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+
+// menu panel styles
+
+
+.widgets {
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    .pills-column {
+        background: none;
+        justify-content: stretch;
+
+        .pills-column-title {
+            font-size: 1.5em;
+            padding: 0 2em 0 0.5em;
+            margin-bottom: 1.5em;
+        }
+
+        .nav-pills {
+            background: #FFFFFF;
+            flex-grow: 1;
+
+            a.nav-link {
+                border-radius: 0;
+                color: #000000;
+
+                &.active {
+                    color: #FFFFFF;
+                    background: #000000;
+                }
+
+                svg {
+                    width: 2em;
+                    text-align: left;
+                    margin-right: 0.5em;
+                }
+            }
+        }
+    }
+}
+
+
+
