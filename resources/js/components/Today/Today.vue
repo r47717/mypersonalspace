@@ -28,52 +28,26 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col-lg-12">
-                <div class="card accomplishments">
-                    <div class="card-header acc-header">
-                        <div>Достижения</div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-6 accomplishments-items">
-                                <p>1. <input type="text" class="form-control" @blur="onBlur" v-model="achievements[0]">
-                                </p>
-                                <p>2. <input type="text" class="form-control" @blur="onBlur" v-model="achievements[1]">
-                                </p>
-                                <p>3. <input type="text" class="form-control" @blur="onBlur" v-model="achievements[2]">
-                                </p>
-                            </div>
-                            <div class="col-lg-6 accomplishments-items">
-                                <p>4. <input type="text" class="form-control" @blur="onBlur" v-model="achievements[3]">
-                                </p>
-                                <p>5. <input type="text" class="form-control" @blur="onBlur" v-model="achievements[4]">
-                                </p>
-                                <p>6. <input type="text" class="form-control" @blur="onBlur" v-model="achievements[5]">
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="row mt-4">
-            <div class="col-lg-5 mb-2 mb-lg-0 offset-1">
-                <div class="card">
-                    <div class="card-header">Сегодня награждаются за примерное поведение</div>
+            <div class="col-xl-7">
+                <div class="card accomplishments">
                     <div class="card-body">
-                        <input type="text" class="form-control" @blur="onBlur" v-model="likes[0]">
-                        <input type="text" class="form-control mt-1" @blur="onBlur" v-model="likes[1]">
-                        <input type="text" class="form-control mt-1" @blur="onBlur" v-model="likes[2]">
+                        <list-plus title="Достижения" :items="achievements" @blur="onBlurAchievements"></list-plus>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-5 mb-2 mb-lg-0">
-                <div class="card">
-                    <div class="card-header">Сегодня наказываются за пакости</div>
+            <div class="col-xl-5 mb-2 mb-lg-0">
+                <div class="card mb-5">
                     <div class="card-body">
-                        <input type="text" class="form-control" @blur="onBlur" v-model="dislikes[0]">
-                        <input type="text" class="form-control mt-1" @blur="onBlur" v-model="dislikes[1]">
-                        <input type="text" class="form-control mt-1" @blur="onBlur" v-model="dislikes[2]">
+                        <list-plus title="Сегодня награждаются за примерное поведение" :items="likes"
+                                   @blur="onBlurLikes"></list-plus>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <list-plus title="Сегодня наказываются за пакости" :items="dislikes"
+                                   @blur="onBlurDislikes"></list-plus>
                     </div>
                 </div>
             </div>
@@ -120,6 +94,18 @@ export default {
             console.log(data)
             axios.post(`/today`, data)
         },
+        onBlurAchievements(items) {
+            this.achievements = items
+            this.onBlur()
+        },
+        onBlurDislikes(items) {
+            this.dislikes = items
+            this.onBlur()
+        },
+        onBlurLikes(items) {
+            this.likes = items
+            this.onBlur()
+        }
     }
 }
 </script>
