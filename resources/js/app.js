@@ -8,11 +8,13 @@ window.Vue = require('vue');
 
 Vue.prototype.trans = string => _.get(window.i18n, string);
 
+Vue.component('today', require('./components/Today/Today.vue').default);
+Vue.component('mood', require('./components/Today/Mood.vue').default);
+Vue.component('quote', require('./components/Today/Quote.vue').default);
+
 Vue.component('thoughts', require('./components/Thoughts.vue').default);
 Vue.component('links', require('./components/Links.vue').default);
 Vue.component('quotes', require('./components/Quotes.vue').default);
-Vue.component('quote', require('./components/Quote.vue').default);
-Vue.component('mood', require('./components/Mood.vue').default);
 Vue.component('achievements', require('./components/Achievements.vue').default);
 Vue.component('books', require('./components/Books.vue').default);
 
