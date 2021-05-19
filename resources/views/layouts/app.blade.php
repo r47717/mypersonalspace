@@ -12,6 +12,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="js/lang.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -26,7 +27,7 @@
         @auth
             <div class="nav-item dropdown d-lg-none">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="{{ route('home')  }}">Сегодня</a>
                     <a class="dropdown-item" href="{{ route('show-thoughts')  }}">Мои мысли</a>
@@ -44,7 +45,7 @@
         @guest
             <div class="nav-item dropdown d-lg-none">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="{{ route('register')  }}">{{ __('Register') }}</a>
                     <a class="dropdown-item" href="{{ route('login')  }}">{{ __('Login') }}</a>
