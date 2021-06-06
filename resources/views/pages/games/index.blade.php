@@ -1,7 +1,14 @@
 @extends('layouts.home')
 
 @section('page-content')
-    <h3>Доступные игры:</h3>
-    <div class="bg-light p-1 rounded"><a href="{{ route('games-tetris')  }}">Тетрис</a></div>
-    <div class="bg-light p-1 rounded mt-1"><a href="{{ route('games-star-wars')  }}">Звёздные войны</a></div>
+    <h3 class="mb-4">Мои игры:</h3>
+    @foreach($games as $game)
+        <a href="{{ route('games-tetris')  }}" class="game-widget-container">
+            <div>
+                <h5>{{ $game["name"]  }}</h5>
+                <h7>Тип: {{ $game["type"]  }}</h7>
+                <img src="{{ $game["imageUrl"]  }}" alt="{{ $game["type"]  }}">
+            </div>
+        </a>
+    @endforeach
 @endsection

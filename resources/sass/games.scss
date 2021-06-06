@@ -1,0 +1,17 @@
+.game-widget-container {
+    display: inline-block;
+    background: #fff;
+    color: #000;
+    padding: 10px;
+    margin: 10px;
+
+    &:hover {
+        text-decoration: none;
+    }
+
+    img {
+        width: 190px;
+        display: block;
+        margin-top: 10px;
+    }
+}
