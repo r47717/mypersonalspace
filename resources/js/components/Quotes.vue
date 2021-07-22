@@ -1,85 +1,160 @@
 <template>
-    <div class="card">
-        <div class="card-header">Мои цитаты</div>
-        <div class="card-body">
-            <div class="mb-5" v-if="quotes.length > 0">
-                <div class="" v-for="item in quotes" :data-id="item.id">
-                    "{{ item.quote }}" <span v-if="item.author">&nbsp;({{ item.author }})</span>
+    <div>
+        <h3 class="mb-4">Моя коллекция цитат:&nbsp;<button class="new-quote-show" v-if="newQuoteHidden"
+                                                           @click="newQuoteHidden = false">новая
+        </button>
+        </h3>
+        <div>
+            <div class="quote-group">
+                <div class="quote-container input-box" v-if="!newQuoteHidden">
+                    <textarea class="form-control" type="text" rows="3" name="add-quote"
+                              placeholder="Напиши здесь свою цитату"
+                              v-model="newQuote.quote"
+                    />
+                    <div class="author-label">
+                        <input class="form-control" type="text" name="add-author" placeholder="А здесь имя автора"
+                               v-model="newQuote.author">
+                    </div>
+                    <button class="quote-save" @click="saveNewQuote" :disabled="newQuote.quote.trim().length === 0">
+                        готово
+                    </button>
+                    <button class="new-quote-hide" @click="newQuoteHidden = true">
+                        скрыть
+                    </button>
+                </div>
+                <div class="quote-container" v-for="item in quotes" :data-id="item.id">
+                    "{{ item.quote }}" <span class="author-label" v-if="item.author">{{ item.author }}</span>
                     <button type="button" class="close" @click="onQuoteRemove(item.id)">
                         <span>&times;</span>
                     </button>
                 </div>
             </div>
-            <div v-else>
-                <div class="mb-5 no-quotes">Ваш цитатник пуст, давайте что-нибудь добавим</div>
-            </div>
             <div class="input-block">
-                <input class="form-control" type="text" name="add-quote" placeholder="Цитата" v-model="newQuote.quote" @keyup.enter="onEnter">
-                <input class="form-control" type="text" name="add-author"placeholder="Кто сказал?" v-model="newQuote.author" @keyup.enter="onEnter">
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import axios from 'axios';
+import axios from 'axios';
 
-    export default {
-        async mounted() {
-            await this.fetchQuotes();
+export default {
+    async mounted() {
+        await this.fetchQuotes();
+    },
+    data() {
+        return {
+            quotes: [],
+            newQuote: {
+                quote: '',
+                author: '',
+            },
+            newQuoteHidden: false,
+        }
+    },
+    methods: {
+        async fetchQuotes() {
+            const response = await axios.get('/fetch-quotes');
+            this.quotes = response.data && response.data.quotes || [];
+            console.log(this.quotes);
         },
-        data() {
-            return {
-                quotes: [],
-                newQuote: {
+        async saveNewQuote() {
+            if (this.newQuote.quote.trim().length) {
+                await axios.post('/quotes', {
+                    quote: this.newQuote.quote,
+                    author: this.newQuote.author,
+                });
+                this.newQuote = {
                     quote: '',
                     author: '',
-                }
-            }
-        },
-        methods: {
-            async fetchQuotes() {
-                const response = await axios.get('/fetch-quotes');
-                this.quotes = response.data && response.data.quotes || [];
-                console.log(this.quotes);
-            },
-            async onEnter() {
-                if(this.newQuote.quote.trim().length) {
-                    await axios.post('/quotes', {
-                        quote: this.newQuote.quote,
-                        author: this.newQuote.author,
-                    });
-                    this.newQuote = {
-                        quote: '',
-                        author: '',
-                    };
-                    await this.fetchQuotes();
-                }
-            },
-            async onQuoteRemove(id) {
-                await axios.delete(`/quotes/${id}`);
+                };
                 await this.fetchQuotes();
             }
+        },
+        async onQuoteRemove(id) {
+            await axios.delete(`/quotes/${id}`);
+            await this.fetchQuotes();
         }
     }
+}
 </script>
 
 <style scoped lang="scss">
-    .no-quotes {
-        font-style: italic;
+.no-quotes {
+    font-style: italic;
+}
+
+.quote-group {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-gap: 10px;
+    margin: 20px;
+}
+
+.quote-container {
+    display: inline-flex;
+    position: relative;
+    background: #FFFFFF;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    padding: 20px;
+    font-style: italic;
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
     }
 
-    .input-block {
-        display: flex;
-        input:first-child {
-            background: black;
-            color: yellow;
-            font-style: italic;
-            flex: 1 1 70%;
-        }
-        input:last-child {
-            flex: 1 1 30%;
-            margin-left: 20px;
-        }
+    .author-label {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        font-style: initial;
+        font-weight: bold;
     }
+}
+
+.quote-container.input-box {
+    input, textarea {
+        border: none;
+        text-align: center;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    input {
+        font-weight: bold;
+    }
+
+    .quote-save {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        border: none;
+        font-size: 0.8em;
+        outline: none;
+    }
+
+    .new-quote-hide {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        border: none;
+        font-size: 0.8em;
+        outline: none;
+    }
+
+}
+
+.new-quote-show {
+    border: none;
+    font-size: 0.6em;
+    outline: none;
+}
+
+
 </style>

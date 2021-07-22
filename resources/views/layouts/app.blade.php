@@ -29,16 +29,36 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{{ route('home')  }}">Сегодня</a>
-                    <a class="dropdown-item" href="{{ route('show-thoughts')  }}">Мои мысли</a>
-                    <a class="dropdown-item" href="{{ route('show-quotes')  }}">Мои цитаты</a>
-                    <a class="dropdown-item" href="{{ route('show-achievements')  }}">Мои достижения</a>
-                    <a class="dropdown-item" href="{{ route('show-tasks')  }}">Мои задачи</a>
-                    <a class="dropdown-item" href="{{ route('show-books')  }}">Мои книги</a>
-                    <a class="dropdown-item" href="{{ route('show-links')  }}">Мои ссылки</a>
-                    <a class="dropdown-item" href="{{ route('show-notes')  }}">Мои заметки</a>
-                    <a class="dropdown-item" href="{{ route('show-shop')  }}">Мой магазин</a>
-                    <a class="dropdown-item" href="{{ route('games')  }}">Мои игры</a>
+                    @if(config('features.today'))
+                        <a class="dropdown-item" href="{{ route('home')  }}">Сегодня</a>
+                    @endif
+                    @if(config('features.thoughts'))
+                        <a class="dropdown-item" href="{{ route('show-thoughts')  }}">Мои мысли</a>
+                    @endif
+                    @if(config('features.quotes'))
+                        <a class="dropdown-item" href="{{ route('show-quotes')  }}">Мои цитаты</a>
+                    @endif
+                    @if(config('features.achievements'))
+                        <a class="dropdown-item" href="{{ route('show-achievements')  }}">Мои достижения</a>
+                    @endif
+                    @if(config('features.tasks'))
+                        <a class="dropdown-item" href="{{ route('show-tasks')  }}">Мои задачи</a>
+                    @endif
+                    @if(config('features.books'))
+                        <a class="dropdown-item" href="{{ route('show-books')  }}">Мои книги</a>
+                    @endif
+                    @if(config('features.links'))
+                        <a class="dropdown-item" href="{{ route('show-links')  }}">Мои ссылки</a>
+                    @endif
+                    @if(config('features.notes'))
+                        <a class="dropdown-item" href="{{ route('show-notes')  }}">Мои заметки</a>
+                    @endif
+                    @if(config('features.shop'))
+                        <a class="dropdown-item" href="{{ route('show-shop')  }}">Мой магазин</a>
+                    @endif
+                    @if(config('features.games'))
+                        <a class="dropdown-item" href="{{ route('games')  }}">Мои игры</a>
+                    @endif
                 </div>
             </div>
         @endauth

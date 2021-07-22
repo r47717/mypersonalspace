@@ -45,54 +45,75 @@ Route::get('/js/lang.js', function () {
 Route::group(['middleware' => ['verified']], function () {
     Route::get('/', 'HomeController@index')->name('home');
 
-    Route::get('/today', 'TodayController@index')->name('fetch-today');
-    Route::post('/today', 'TodayController@save')->name('save-today');
+    if (config('features.today')):
+        Route::get('/today', 'TodayController@index')->name('fetch-today');
+        Route::post('/today', 'TodayController@save')->name('save-today');
+    endif;
 
-    Route::get('/thoughts', 'ThoughtsController@show')->name('show-thoughts');
-    Route::get('/fetch-thoughts', 'ThoughtsController@index')->name('fetch-thoughts');
-    Route::post('/thoughts', 'ThoughtsController@add')->name('add-thought');
-    Route::delete('/thoughts/{id}', 'ThoughtsController@delete')->name('delete-thought');
+    if (config('features.thoughts')):
+        Route::get('/thoughts', 'ThoughtsController@show')->name('show-thoughts');
+        Route::get('/fetch-thoughts', 'ThoughtsController@index')->name('fetch-thoughts');
+        Route::post('/thoughts', 'ThoughtsController@add')->name('add-thought');
+        Route::delete('/thoughts/{id}', 'ThoughtsController@delete')->name('delete-thought');
+    endif;
 
-    Route::get('/quotes', 'QuoteController@show')->name('show-quotes');
-    Route::get('/fetch-quotes', 'QuoteController@index')->name('fetch-quotes');
-    Route::post('/quotes', 'QuoteController@new')->name('new-quote');
-    Route::delete('/quotes/{id}', 'QuoteController@delete')->name('delete-quote');
+    if (config('features.quotes')):
+        Route::get('/quotes', 'QuoteController@show')->name('show-quotes');
+        Route::get('/fetch-quotes', 'QuoteController@index')->name('fetch-quotes');
+        Route::post('/quotes', 'QuoteController@new')->name('new-quote');
+        Route::delete('/quotes/{id}', 'QuoteController@delete')->name('delete-quote');
+    endif;
 
-    Route::get('/achievements', 'AchievementsController@show')->name('show-achievements');
-    Route::get('/fetch-achievements', 'AchievementsController@index')->name('fetch-achievements');
-    Route::post('/achievements', 'AchievementsController@new')->name('add-achievement');
-    Route::delete('/achievements/{id}', 'AchievementsController@delete')->name('delete-achievement');
+    if (config('features.achievements')):
+        Route::get('/achievements', 'AchievementsController@show')->name('show-achievements');
+        Route::get('/fetch-achievements', 'AchievementsController@index')->name('fetch-achievements');
+        Route::post('/achievements', 'AchievementsController@new')->name('add-achievement');
+        Route::delete('/achievements/{id}', 'AchievementsController@delete')->name('delete-achievement');
+    endif;
 
-    Route::get('/tasks', 'TasksController@show')->name('show-tasks');
-    Route::get('/fetch-tasks', 'TasksController@index')->name('fetch-tasks');
-    Route::post('/tasks', 'TasksController@new')->name('add-tasks');
-    Route::delete('/tasks/{id}', 'TasksController@delete')->name('delete-task');
+    if (config('features.tasks')):
+        Route::get('/tasks', 'TasksController@show')->name('show-tasks');
+        Route::get('/fetch-tasks', 'TasksController@index')->name('fetch-tasks');
+        Route::post('/tasks', 'TasksController@new')->name('add-tasks');
+        Route::delete('/tasks/{id}', 'TasksController@delete')->name('delete-task');
+    endif;
 
-    Route::get('/books', 'BooksController@show')->name('show-books');
-    Route::get('/fetch-books', 'BooksController@index')->name('fetch-books');
-    Route::post('/books', 'BooksController@new')->name('add-books');
-    Route::delete('/books/{id}', 'BooksController@delete')->name('delete-book');
+    if (config('features.books')):
+        Route::get('/books', 'BooksController@show')->name('show-books');
+        Route::get('/fetch-books', 'BooksController@index')->name('fetch-books');
+        Route::post('/books', 'BooksController@new')->name('add-books');
+        Route::delete('/books/{id}', 'BooksController@delete')->name('delete-book');
+    endif;
 
-    Route::get('/links', 'LinksController@show')->name('show-links');
-    Route::get('/fetch-links', 'LinksController@index')->name('fetch-links');
-    Route::post('/links', 'LinksController@new')->name('new-link');
-    Route::delete('/links/{id}', 'LinksController@delete')->name('delete-link');
+    if (config('features.links')):
+        Route::get('/links', 'LinksController@show')->name('show-links');
+        Route::get('/fetch-links', 'LinksController@index')->name('fetch-links');
+        Route::post('/links', 'LinksController@new')->name('new-link');
+        Route::delete('/links/{id}', 'LinksController@delete')->name('delete-link');
+    endif;
 
-    Route::get('/notes', 'NotesController@show')->name('show-notes');
-    Route::get('/fetch-notes', 'NotesController@index')->name('fetch-notes');
-    Route::post('/notes', 'NotesController@add')->name('add-note');
-    Route::put('/notes/{id}', 'NotesController@update')->name('update-note');
-    Route::delete('/notes/{id}', 'NotesController@delete')->name('delete-note');
+    if (config('features.notes')):
+        Route::get('/notes', 'NotesController@show')->name('show-notes');
+        Route::get('/fetch-notes', 'NotesController@index')->name('fetch-notes');
+        Route::post('/notes', 'NotesController@add')->name('add-note');
+        Route::put('/notes/{id}', 'NotesController@update')->name('update-note');
+        Route::delete('/notes/{id}', 'NotesController@delete')->name('delete-note');
+    endif;
 
     Route::get('/tags', 'TagsController@index')->name('fetch-tags');
     Route::post('/tags', 'TagsController@new')->name('new-tag');
     Route::delete('/tags/{id}', 'TagsController@delete')->name('delete-tag');
 
-    Route::get('/shop', 'ShopController@show')->name('show-shop');
-    Route::get('/products', 'ProductsController@index')->name('fetch-products');
-    Route::post('/products', 'ProductsController@new')->name('new-product');
+    if (config('features.shop')):
+        Route::get('/shop', 'ShopController@show')->name('show-shop');
+        Route::get('/products', 'ProductsController@index')->name('fetch-products');
+        Route::post('/products', 'ProductsController@new')->name('new-product');
+    endif;
 
-    Route::get('/games', 'GamesController@index')->name('games');
-    Route::get('/games/tetris', 'GamesController@tetris')->name('games-tetris');
-    Route::get('/games/star-wars', 'GamesController@starWars')->name('games-star-wars');
+    if (config('features.games')):
+        Route::get('/games', 'GamesController@index')->name('games');
+        Route::get('/games/tetris', 'GamesController@tetris')->name('games-tetris');
+        Route::get('/games/star-wars', 'GamesController@starWars')->name('games-star-wars');
+    endif;
+
 });
