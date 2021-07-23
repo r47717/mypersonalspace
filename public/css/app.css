@@ -11113,6 +11113,77 @@ body {
   font-family: Roboto, Arial, Helvetica, sans-serif;
 }
 
+.noauth-container {
+  height: 100vh;
+}
+
+.noauth-container .noauth-left-col {
+  padding: 60px 70px 120px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 37px;
+}
+
+.noauth-container .noauth-middle-col {
+  padding: 60px 90px;
+}
+
+.noauth-container .noauth-middle-col input {
+  border: none;
+  width: 100%;
+  background: #FFFFFF;
+  padding: 10px 20px;
+}
+
+.noauth-container .noauth-middle-col .remember-check {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+}
+
+.noauth-container .noauth-middle-col .remember-check input {
+  padding: 0;
+  width: auto;
+  margin-right: 10px;
+}
+
+.noauth-container .noauth-middle-col button[type=submit] {
+  background: #000000;
+  border: none;
+  color: white;
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.noauth-container .noauth-right-col {
+  padding: 60px 0 0 0;
+}
+
+.noauth-container .noauth-right-col .link-container {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+}
+
+.noauth-container .noauth-right-col .link-container a {
+  display: inline-block;
+  margin-left: 20px;
+  background: #E2E9F4;
+  padding: 10px 20px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+
+.noauth-container .noauth-right-col .link-container a:hover {
+  text-decoration: none;
+}
+
 #main-navbar {
   position: fixed;
   min-height: 50px;
