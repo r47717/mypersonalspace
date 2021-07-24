@@ -1,7 +1,10 @@
 @extends('layouts.home')
 
+@section('page-title')
+    Мои игры
+@endsection
+
 @section('page-content')
-    <h3 class="mb-4">Мои игры:</h3>
     @foreach($games as $game)
         <a href="{{ route('games-tetris')  }}" class="game-widget-container">
             <div>

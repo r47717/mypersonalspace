@@ -1,33 +1,30 @@
 <template>
     <div>
-        <h3 class="mb-4">Мои идеи:</h3>
-        <div>
-            <div class="mb-5" v-if="thoughts.length > 0">
-                <draggable
-                    :list="thoughts"
-                    class="list-group"
-                    ghost-class="ghost"
-                    :disabled="!draggingEnabled"
-                    @start="dragging = true"
-                    @end="dragging = false"
-                >
-                    <div v-for="item in thoughts" :data-id="item.id">
-                        <div class="thought-container" :style="{cursor: draggingEnabled ? 'move' : 'initial'}">
-                            <span>{{ item.text }}</span>
-                            <button type="button" class="close" @click="onThoughtRemove(item.id)">
-                                <span>&times;</span>
-                            </button>
-                        </div>
+        <div class="mb-5" v-if="thoughts.length > 0">
+            <draggable
+                :list="thoughts"
+                class="list-group"
+                ghost-class="ghost"
+                :disabled="!draggingEnabled"
+                @start="dragging = true"
+                @end="dragging = false"
+            >
+                <div v-for="item in thoughts" :data-id="item.id">
+                    <div class="thought-container" :style="{cursor: draggingEnabled ? 'move' : 'initial'}">
+                        <span>{{ item.text }}</span>
+                        <button type="button" class="close" @click="onThoughtRemove(item.id)">
+                            <span>&times;</span>
+                        </button>
                     </div>
-                </draggable>
-            </div>
-            <div v-else>
-                <div class="mb-5 no-thoughts">Идей пока нет. Добавите?</div>
-            </div>
-            <div class="new-thought">
-                <input type="text" name="add-thought" v-model="newThought" placeholder="Добавьте новую идею">
-                <button v-if="newThought.trim().length > 0" @click="addNewThought">{{ addThoughtText }}</button>
-            </div>
+                </div>
+            </draggable>
+        </div>
+        <div v-else>
+            <div class="mb-5 no-thoughts">Идей пока нет. Добавите?</div>
+        </div>
+        <div class="new-thought">
+            <input type="text" name="add-thought" v-model="newThought" placeholder="Добавить новую идею">
+            <button v-if="newThought.trim().length > 0" @click="addNewThought">{{ addThoughtText }}</button>
         </div>
     </div>
 </template>

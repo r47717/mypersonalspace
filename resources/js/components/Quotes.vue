@@ -1,9 +1,6 @@
 <template>
     <div>
-        <h3 class="mb-4">Моя коллекция цитат:&nbsp;<button class="new-quote-show" v-if="newQuoteHidden"
-                                                           @click="newQuoteHidden = false">новая
-        </button>
-        </h3>
+        <button class="new-quote-show" v-if="newQuoteHidden" @click="newQuoteHidden = false">новая</button>
         <div>
             <div class="quote-group">
                 <div class="quote-container input-box" v-if="!newQuoteHidden">

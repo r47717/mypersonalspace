@@ -4,7 +4,45 @@
     <div class="container-fluid" id="main-container">
         <div class="row widgets">
             <div class="col-lg-2 d-none d-lg-flex pills-column flex-column">
-                <div class="pills-column-title">{{ trans('app.home_dashboard_title') }}</div>
+                <div class="pills-column-title">
+                    {{ trans('app.home_dashboard_title') }}
+                    <div class="nav-item dropdown d-lg-none">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            @if(config('features.today'))
+                                <a class="dropdown-item" href="{{ route('home')  }}">Сегодня</a>
+                            @endif
+                            @if(config('features.thoughts'))
+                                <a class="dropdown-item" href="{{ route('show-thoughts')  }}">Мои идеи</a>
+                            @endif
+                            @if(config('features.quotes'))
+                                <a class="dropdown-item" href="{{ route('show-quotes')  }}">Мои цитаты</a>
+                            @endif
+                            @if(config('features.achievements'))
+                                <a class="dropdown-item" href="{{ route('show-achievements')  }}">Мои достижения</a>
+                            @endif
+                            @if(config('features.tasks'))
+                                <a class="dropdown-item" href="{{ route('show-tasks')  }}">Мои задачи</a>
+                            @endif
+                            @if(config('features.books'))
+                                <a class="dropdown-item" href="{{ route('show-books')  }}">Мои книги</a>
+                            @endif
+                            @if(config('features.links'))
+                                <a class="dropdown-item" href="{{ route('show-links')  }}">Мои ссылки</a>
+                            @endif
+                            @if(config('features.notes'))
+                                <a class="dropdown-item" href="{{ route('show-notes')  }}">Мои заметки</a>
+                            @endif
+                            @if(config('features.shop'))
+                                <a class="dropdown-item" href="{{ route('show-shop')  }}">Мой магазин</a>
+                            @endif
+                            @if(config('features.games'))
+                                <a class="dropdown-item" href="{{ route('games')  }}">Мои игры</a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
                 <div class="nav flex-column nav-pills">
                     @if(config('features.today'))
                         <a class="nav-link <?= $page == 'today' ? 'active' : '' ?>" href="/"><i
@@ -49,7 +87,33 @@
                 </div>
             </div>
             <div class="col-lg-10 col-sm-12">
-                @yield('page-content')
+                <div class="row">
+                    <div class="col-8 header-left"><h3 class="mb-5">@yield('page-title')</h3></div>
+                    <div class="col-4 d-flex justify-content-end align-items-start">
+                        <div class="header-right">
+                            <div class="avatar">{{ strtoupper(Auth::user()->name[0]) }}</div>
+                            <div class="d-flex flex-column ml-2 mr-4">
+                                <div class="user-name">{{ Auth::user()->name }}</div>
+                                <div class="user-email">{{ Auth::user()->email }}</div>
+                            </div>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            <a
+                                class="sign-out"
+                                href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                            >
+                                <i class="fa fa-sign-out-alt" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        @yield('page-content')
+                    </div>
+                </div>
             </div>
         </div>
     </div>
