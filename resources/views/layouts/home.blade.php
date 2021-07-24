@@ -12,7 +12,7 @@
                     @endif
                     @if(config('features.thoughts'))
                         <a class="nav-link <?= $page == 'thoughts' ? 'active' : '' ?>" href="/thoughts"><i
-                                class="fas fa-graduation-cap"></i>Мои мысли</a>
+                                class="fas fa-graduation-cap"></i>Мои идеи</a>
                     @endif
                     @if(config('features.quotes'))
                         <a class="nav-link <?= $page == 'quotes' ? 'active' : '' ?>" href="/quotes"><i
@@ -20,8 +20,7 @@
                     @endif
                     @if(config('features.achievements'))
                         <a class="nav-link <?= $page == 'achievements' ? 'active' : '' ?>" href="/achievements"><i
-                                class="fas fa-trophy"></i>Мои
-                            достижения</a>
+                                class="fas fa-trophy"></i>Мои достижения</a>
                     @endif
                     @if(config('features.tasks'))
                         <a class="nav-link <?= $page == 'tasks' ? 'active' : '' ?>" href="/tasks"><i

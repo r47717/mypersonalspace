@@ -7,7 +7,11 @@ use App\Models\Today;
 
 class TodayService
 {
-    function getTodaysToday($user)
+    public function __construct()
+    {
+    }
+
+    function getTodaysToday($user): Today
     {
         return Today::whereDate('created_at', date('Y-m-d'))->where('user_id', $user->id)->first();
     }

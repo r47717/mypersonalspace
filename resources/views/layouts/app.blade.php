@@ -33,7 +33,7 @@
                         <a class="dropdown-item" href="{{ route('home')  }}">Сегодня</a>
                     @endif
                     @if(config('features.thoughts'))
-                        <a class="dropdown-item" href="{{ route('show-thoughts')  }}">Мои мысли</a>
+                        <a class="dropdown-item" href="{{ route('show-thoughts')  }}">Мои идеи</a>
                     @endif
                     @if(config('features.quotes'))
                         <a class="dropdown-item" href="{{ route('show-quotes')  }}">Мои цитаты</a>

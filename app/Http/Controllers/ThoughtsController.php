@@ -3,18 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Thought;
+use App\Services\ThoughtsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ThoughtsController extends Controller
 {
+    /**
+     * @var ThoughtsService
+     */
+    private $thoughtsService;
 
     /**
      * ThoughtsController constructor.
      */
-    public function __construct()
+    public function __construct(ThoughtsService $thoughtsService)
     {
         $this->middleware('auth');
+        $this->thoughtsService = $thoughtsService;
     }
 
     public function show()
@@ -33,10 +39,7 @@ class ThoughtsController extends Controller
 
     public function add(Request $request)
     {
-        $thought = new Thought;
-        $thought->text = $request->text;
-        $thought->user_id = Auth::user()->id;
-        $thought->save();
+        $thought = $this->thoughtsService->newThought($request->text);
 
         if (!empty(trim($request->tags))) {
             $tags = explode(" ", $request->tags);

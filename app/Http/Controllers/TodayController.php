@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ThoughtsService;
 use App\Services\TodayService;
 use App\Models\Today;
 use Illuminate\Http\Request;
@@ -13,17 +14,22 @@ class TodayController extends Controller
      * @var TodayService
      */
     private $todayService;
+    /**
+     * @var ThoughtsService
+     */
+    private $thoughtsService;
 
     /**
      * TodayController constructor.
      * @param TodayService $todayService
+     * @param ThoughtsService $thoughtsService
      */
-    public function __construct(TodayService $todayService)
+    public function __construct(TodayService $todayService, ThoughtsService $thoughtsService)
     {
         $this->middleware('auth');
         $this->todayService = $todayService;
+        $this->thoughtsService = $thoughtsService;
     }
-
 
     public function index()
     {
@@ -43,6 +49,8 @@ class TodayController extends Controller
         $today->nothanks = json_encode($request->dislikes);
         $today->user_id = Auth::user()->id;
         $today->save();
+
+        $this->thoughtsService->newThought($request->idea, true);
 
         return [
             'success' => true,
