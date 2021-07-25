@@ -116,7 +116,9 @@ Route::group(['middleware' => ['verified']], function () {
         Route::get('/games', 'GamesController@index')->name('games');
 
         foreach (GamesRegistry::$games as $game) {
-            Route::get('/games/' . $game['url'], 'GamesController@' . Str::camel($game['url']))->name('games-' . $game['url']);
+            if (!isset($game['enabled']) || $game['enabled'] === true) {
+                Route::get('/games/' . $game['url'], 'GamesController@' . Str::camel($game['url']))->name('games-' . $game['url']);
+            }
         }
     endif;
 

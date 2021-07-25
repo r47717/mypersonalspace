@@ -22,6 +22,7 @@ abstract class GamesRegistry
             'name' => 'Звёздные войны',
             'type' => GamesRegistry::Action,
             'url' => 'star-wars',
+            'enabled' => false,
         ],
         [
             'name' => 'Шарики',

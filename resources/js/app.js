@@ -39,6 +39,9 @@ Vue.component('list-view-trigger', require('./components/General/ListViewTrigger
 
 Vue.component('games-tetris', require('./components/Games/Tetris').default);
 Vue.component('games-space-war', require('./components/Games/SpaceWar').default);
+Vue.component('games-balls', require('./components/Games/Balls').default);
+Vue.component('games-snake', require('./components/Games/Snake').default);
+Vue.component('games-game15', require('./components/Games/Game15').default);
 
 
 const app = new Vue({

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\GamesRegistry;
-use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 
 class GamesController extends Controller
 {
@@ -15,17 +17,18 @@ class GamesController extends Controller
         ]);
     }
 
-    public function tetris()
+    public function __call($method, $parameters)
     {
-        return view('pages.games.tetris', [
-            'page' => 'games',
-        ]);
-    }
+        $game = Arr::first(GamesRegistry::$games, function ($value, $key) use ($method) {
+            return $method === Str::camel($value['url']);
+        });
 
-    public function starWars()
-    {
-        return view('pages.games.star-wars', [
-            'page' => 'games',
-        ]);
+        if (!empty($game)) {
+            return view('pages.games.' . $game['url'], [
+                'page' => 'games',
+            ]);
+        }
+
+        abort(404);
     }
 }
