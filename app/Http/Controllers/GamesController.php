@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\GamesRegistry;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 
 class GamesController extends Controller
