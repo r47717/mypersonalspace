@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
+use App\Models\GamesRegistry;
+use Illuminate\Support\Str;
 
 Auth::routes(['verify' => true]);
 
@@ -112,8 +114,10 @@ Route::group(['middleware' => ['verified']], function () {
 
     if (config('features.games')):
         Route::get('/games', 'GamesController@index')->name('games');
-        Route::get('/games/tetris', 'GamesController@tetris')->name('games-tetris');
-        Route::get('/games/star-wars', 'GamesController@starWars')->name('games-star-wars');
+
+        foreach (GamesRegistry::$games as $game) {
+            Route::get('/games/' . $game['url'], 'GamesController@' . Str::camel($game['url']))->name('games-' . $game['url']);
+        }
     endif;
 
 });
