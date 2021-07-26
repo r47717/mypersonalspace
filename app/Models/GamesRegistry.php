@@ -31,7 +31,6 @@ abstract class GamesRegistry
             'name' => 'Змейка',
             'type' => GamesRegistry::Action,
             'url' => 'snake',
-            'enabled' => false,
         ],
         [
             'name' => 'Игра 15',

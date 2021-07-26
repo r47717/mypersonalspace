@@ -3,9 +3,7 @@
         ref="canvas"
         :style="{width: `${this.width}px`, height: `${this.height}px`}"
         @click="onClick"
-    >
-        balls
-    </canvas>
+    ></canvas>
 </template>
 
 <script>
