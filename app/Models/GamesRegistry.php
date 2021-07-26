@@ -6,12 +6,10 @@ abstract class GamesRegistry
 {
     const Puzzle = 'головоломка';
     const Action = 'экшен';
-
     public const gameThumbnailUrls = [
         GamesRegistry::Action => '/images/games-puzzle.png',
         GamesRegistry::Puzzle => '/images/games-action.png',
     ];
-
     public static $games = [
         [
             'name' => 'Тетрис',
@@ -33,6 +31,7 @@ abstract class GamesRegistry
             'name' => 'Змейка',
             'type' => GamesRegistry::Action,
             'url' => 'snake',
+            'enabled' => false,
         ],
         [
             'name' => 'Игра 15',
@@ -40,7 +39,6 @@ abstract class GamesRegistry
             'url' => 'game15',
         ],
     ];
-
 }
 
 
