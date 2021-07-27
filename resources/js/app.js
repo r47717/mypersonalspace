@@ -1,10 +1,12 @@
-require('./bootstrap');
-require('@fortawesome/fontawesome-free/js/brands')
-require('@fortawesome/fontawesome-free/js/solid')
-require('@fortawesome/fontawesome-free/js/regular')
-require('@fortawesome/fontawesome-free/js/fontawesome')
+import './bootstrap';
+import '@fortawesome/fontawesome-free/js/brands';
+import '@fortawesome/fontawesome-free/js/solid';
+import '@fortawesome/fontawesome-free/js/regular';
+import '@fortawesome/fontawesome-free/js/fontawesome';
 
-window.Vue = require('vue');
+import Vue from 'vue';
+
+window.Vue = Vue;
 
 Vue.prototype.trans = string => _.get(window.i18n, string);
 

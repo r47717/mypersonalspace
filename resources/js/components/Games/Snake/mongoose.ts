@@ -1,22 +1,27 @@
-export class Mongoose {
-    constructor(xMin, xMax, yMin, yMax) {
-        this.xMin = xMin;
-        this.yMin = yMin;
-        this.xMax = xMax;
-        this.yMax = yMax;
+import {DrawInterface, Field, Point} from "./field";
 
+export class Mongoose {
+    points: Array<Point>
+    delay: number
+    delayCtr: number
+
+    constructor(private readonly xMin: number,
+                private readonly xMax: number,
+                private readonly yMin: number,
+                private readonly yMax: number
+    ) {
         this.points = [];
         this.delay = 20;
         this.delayCtr = 20;
     }
 
-    run(field) {
+    run(field: Field) {
         if (this.delayCtr === 0) {
             while (true) {
                 const x = Math.round(Math.random() * (this.xMax - this.xMin));
                 const y = Math.round(Math.random() * (this.yMax - this.yMin));
-                if (field.isEmpty([x, y])) {
-                    this.points.push([x, y]);
+                if (field.isEmpty([x, y, undefined])) {
+                    this.points.push([x, y, undefined]);
                     break;
                 }
             }
@@ -26,11 +31,11 @@ export class Mongoose {
         }
     }
 
-    isMongoose(p) {
+    isMongoose(p: Point) {
         return !!this.points.find((item) => (item[0] === p[0] && item[1] === p[1]));
     }
 
-    draw(drawInterface) {
+    draw(drawInterface: DrawInterface) {
         this.points.forEach((p) => drawInterface.drawMongoose(p[0], p[1]));
     }
 
