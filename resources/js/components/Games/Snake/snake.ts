@@ -1,11 +1,11 @@
-import {DrawInterface, Field, Point} from "./field";
+import { DrawInterface, Field, Point } from "./field";
 
 enum SnakeDirection {
     DIR_STOP = 0,
     DIR_UP = 1,
     DIR_DOWN = 2,
     DIR_LEFT = 3,
-    DIR_RIGHT = 4
+    DIR_RIGHT = 4,
 }
 
 const SNAKE_INIT_X = 10;
@@ -14,16 +14,17 @@ const SNAKE_INIT_LEN = 5;
 const SNAKE_INIT_DIR = SnakeDirection.DIR_RIGHT;
 
 export class Snake {
-    private headX: number
-    private headY: number
-    private dir: SnakeDirection
-    private grow: number
-    private body: Array<[number, number]>
+    private headX: number;
+    private headY: number;
+    private dir: SnakeDirection;
+    private grow: number;
+    private body: Array<[number, number]>;
 
-    constructor(private readonly xMin: number,
-                private readonly xMax: number,
-                private readonly yMin: number,
-                private readonly yMax: number
+    constructor(
+        private readonly xMin: number,
+        private readonly xMax: number,
+        private readonly yMin: number,
+        private readonly yMax: number
     ) {
         this.headX = SNAKE_INIT_X;
         this.headY = SNAKE_INIT_Y;
@@ -108,8 +109,13 @@ export class Snake {
             return true;
         }
 
-        return p[0] >= this.xMin && p[0] <= this.xMax && p[1] >= this.yMin && p[1] <= this.yMax &&
-            field.isEmpty(p);
+        return (
+            p[0] >= this.xMin &&
+            p[0] <= this.xMax &&
+            p[1] >= this.yMin &&
+            p[1] <= this.yMax &&
+            field.isEmpty(p)
+        );
     }
 
     step() {
@@ -147,17 +153,21 @@ export class Snake {
 
     control(key: string) {
         switch (key) {
-            case 'ArrowUp':
-                if (this.dir !== SnakeDirection.DIR_DOWN) this.dir = SnakeDirection.DIR_UP;
+            case "ArrowUp":
+                if (this.dir !== SnakeDirection.DIR_DOWN)
+                    this.dir = SnakeDirection.DIR_UP;
                 break;
-            case 'ArrowDown':
-                if (this.dir !== SnakeDirection.DIR_UP) this.dir = SnakeDirection.DIR_DOWN;
+            case "ArrowDown":
+                if (this.dir !== SnakeDirection.DIR_UP)
+                    this.dir = SnakeDirection.DIR_DOWN;
                 break;
-            case 'ArrowLeft':
-                if (this.dir !== SnakeDirection.DIR_RIGHT) this.dir = SnakeDirection.DIR_LEFT;
+            case "ArrowLeft":
+                if (this.dir !== SnakeDirection.DIR_RIGHT)
+                    this.dir = SnakeDirection.DIR_LEFT;
                 break;
-            case 'ArrowRight':
-                if (this.dir !== SnakeDirection.DIR_LEFT) this.dir = SnakeDirection.DIR_RIGHT;
+            case "ArrowRight":
+                if (this.dir !== SnakeDirection.DIR_LEFT)
+                    this.dir = SnakeDirection.DIR_RIGHT;
                 break;
         }
     }

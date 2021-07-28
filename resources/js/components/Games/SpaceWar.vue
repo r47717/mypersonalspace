@@ -3,7 +3,14 @@
         <div class="card-header">Звёздные Войны</div>
         <div class="card-body">
             <div class="stopped" v-if="stopped">Игра окончена</div>
-            <canvas width="600" height="600" class="field" tabindex=-1 ref="field" @keydown="onKeyDown"/>
+            <canvas
+                width="600"
+                height="600"
+                class="field"
+                tabindex="-1"
+                ref="field"
+                @keydown="onKeyDown"
+            />
         </div>
     </div>
 </template>
@@ -29,7 +36,7 @@ export default {
             weaponSize: 10,
             weaponPos: 10,
             weapon: [],
-        }
+        };
     },
     mounted() {
         this.initField();
@@ -42,13 +49,15 @@ export default {
     },
     methods: {
         initField() {
-            this.map = new Array(NY).fill(0).map(row => new Array(NX).fill(0));
+            this.map = new Array(NY)
+                .fill(0)
+                .map((row) => new Array(NX).fill(0));
         },
         initWeapon() {
-            this.weapon = []
+            this.weapon = [];
         },
         paint() {
-            const ctx = this.$refs.field.getContext('2d');
+            const ctx = this.$refs.field.getContext("2d");
 
             ctx.fillStyle = `#${this.fieldColor}`;
             ctx.fillRect(0, 0, WW, HH);
@@ -83,18 +92,16 @@ export default {
             }
         },
         fire() {
-            console.log('fire!');
+            console.log("fire!");
         },
         drawWeapon() {
-            const ctx = this.$refs.field.getContext('2d');
+            const ctx = this.$refs.field.getContext("2d");
 
             ctx.fillStyle = `#${this.weaponColor}`;
             ctx.fillRect(0, 0, WW, HH);
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

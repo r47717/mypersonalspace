@@ -9,28 +9,48 @@ export default {
         value: {
             type: Number,
             default: 0,
-        }
+        },
     },
     data() {
         return {
             images: [
-                'm1', 'm2', 'm3', 'm4', 'm5', 'm6',
-                'm7', 'm8', 'm9', 'm10', 'm11', 'm12',
-                'm13', 'm14', 'm15', 'm16', 'm17', 'm18',
-                'm19', 'm20', 'm21', 'm22', 'm23', 'm24'
-            ]
-        }
+                "m1",
+                "m2",
+                "m3",
+                "m4",
+                "m5",
+                "m6",
+                "m7",
+                "m8",
+                "m9",
+                "m10",
+                "m11",
+                "m12",
+                "m13",
+                "m14",
+                "m15",
+                "m16",
+                "m17",
+                "m18",
+                "m19",
+                "m20",
+                "m21",
+                "m22",
+                "m23",
+                "m24",
+            ],
+        };
     },
     methods: {
         onClick() {
-            let newValue = this.value
+            let newValue = this.value;
             if (++newValue >= this.images.length) {
                 newValue = 0;
             }
-            this.$emit('change', newValue)
-        }
-    }
-}
+            this.$emit("change", newValue);
+        },
+    },
+};
 </script>
 
 <style scoped>
@@ -91,7 +111,6 @@ div {
     background-position: -539px -103px;
 }
 
-
 .m13 {
     background-position: 0 -217px;
 }
@@ -139,5 +158,4 @@ div {
 .m24 {
     background-position: -539px -332px;
 }
-
 </style>

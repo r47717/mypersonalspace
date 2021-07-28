@@ -1,36 +1,45 @@
 <template>
     <div class="card">
         <div class="card-header new-note-box">
-            <div>{{ trans('app.new_note') }}</div>
+            <div>{{ trans("app.new_note") }}</div>
         </div>
         <div class="card-body">
-            <textarea name="new-note" class="form-control" id="new-note-text" rows="3" v-model="newNote"></textarea>
+            <textarea
+                name="new-note"
+                class="form-control"
+                id="new-note-text"
+                rows="3"
+                v-model="newNote"
+            ></textarea>
             <div class="note-controls mt-2">
-                <button class="btn btn-success" @click="onClickSaveNote" :disabled="!addBtnEnabled">
-                    {{ trans('app.save') }}
+                <button
+                    class="btn btn-success"
+                    @click="onClickSaveNote"
+                    :disabled="!addBtnEnabled"
+                >
+                    {{ trans("app.save") }}
                 </button>
-                <note-type-select @type-changed="onTypeChanged"/>
+                <note-type-select @type-changed="onTypeChanged" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
-    mounted() {
-    },
+    mounted() {},
     data() {
         return {
             newNote: "",
             newNoteType: "generic",
-        }
+        };
     },
     computed: {
         addBtnEnabled() {
             return this.newNote.trim().length > 0;
-        }
+        },
     },
     methods: {
         onTypeChanged(type) {
@@ -45,13 +54,13 @@ export default {
                 console.log(resp);
                 this.newNote = "";
                 this.newNoteType = "generic";
-                this.$emit('new-note-added');
+                this.$emit("new-note-added");
             } catch (e) {
                 console.log(e);
             }
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style scoped lang="scss">

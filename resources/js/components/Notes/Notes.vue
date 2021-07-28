@@ -1,23 +1,55 @@
 <template>
     <div>
         <div class="card">
-            <div class="card-header main-header">Мои заметки
-                <note-type-select all="true" @type-changed="onTypeFilterChanged"/>
+            <div class="card-header main-header">
+                Мои заметки
+                <note-type-select
+                    all="true"
+                    @type-changed="onTypeFilterChanged"
+                />
             </div>
             <div class="card-body">
                 <div class="mb-5 d-flex flex-wrap" v-if="notes.length > 0">
                     <div v-for="type in Object.keys(types)">
-                        <div class="card m-2"
-                             v-if="(filter === 'all' || filter === type) && getNotesByType(type).length > 0">
+                        <div
+                            class="card m-2"
+                            v-if="
+                                (filter === 'all' || filter === type) &&
+                                getNotesByType(type).length > 0
+                            "
+                        >
                             <div class="card-header">{{ types[type] }}</div>
                             <div class="card-body">
-                                <div class="note-line" v-for="item in getNotesByType(type)" :data-id="item.id">
-                                    <generic-note :text="item.text" v-if="item.type === 'generic'"/>
-                                    <list-note :text="item.text" v-if="item.type === 'list'"/>
-                                    <reminder-note :text="item.text" v-if="item.type === 'reminder'"/>
-                                    <experience-note :text="item.text" v-if="item.type === 'experience'"/>
-                                    <wish-note :text="item.text" v-if="item.type === 'wish'"/>
-                                    <button type="button" class="close" @click="onNoteRemove(item.id)">
+                                <div
+                                    class="note-line"
+                                    v-for="item in getNotesByType(type)"
+                                    :data-id="item.id"
+                                >
+                                    <generic-note
+                                        :text="item.text"
+                                        v-if="item.type === 'generic'"
+                                    />
+                                    <list-note
+                                        :text="item.text"
+                                        v-if="item.type === 'list'"
+                                    />
+                                    <reminder-note
+                                        :text="item.text"
+                                        v-if="item.type === 'reminder'"
+                                    />
+                                    <experience-note
+                                        :text="item.text"
+                                        v-if="item.type === 'experience'"
+                                    />
+                                    <wish-note
+                                        :text="item.text"
+                                        v-if="item.type === 'wish'"
+                                    />
+                                    <button
+                                        type="button"
+                                        class="close"
+                                        @click="onNoteRemove(item.id)"
+                                    >
                                         <span>&times;</span>
                                     </button>
                                 </div>
@@ -26,7 +58,9 @@
                     </div>
                 </div>
                 <div v-else>
-                    <div class="mb-5 no-notes">Заметок пока нет, но это же временно?</div>
+                    <div class="mb-5 no-notes">
+                        Заметок пока нет, но это же временно?
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,7 +71,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
     async mounted() {
@@ -46,20 +80,20 @@ export default {
     data() {
         return {
             notes: [],
-            filter: 'all',
+            filter: "all",
             types: {
-                "generic": 'обычная',
-                "list": "список",
-                "reminder": "напоминание",
-                "experience": "опыт",
-                "wish": "желание",
-            }
-        }
+                generic: "обычная",
+                list: "список",
+                reminder: "напоминание",
+                experience: "опыт",
+                wish: "желание",
+            },
+        };
     },
     methods: {
         async fetchNotes() {
-            const response = await axios.get('/fetch-notes');
-            this.notes = response.data && response.data.notes || [];
+            const response = await axios.get("/fetch-notes");
+            this.notes = (response.data && response.data.notes) || [];
             console.log(this.notes);
         },
         async onNoteRemove(id) {
@@ -70,13 +104,13 @@ export default {
             await this.fetchNotes();
         },
         getNotesByType(type) {
-            return this.notes.filter(note => note.type === type);
+            return this.notes.filter((note) => note.type === type);
         },
         onTypeFilterChanged(value) {
             this.filter = value;
         },
-    }
-}
+    },
+};
 </script>
 
 <style scoped lang="scss">

@@ -21,33 +21,46 @@
                 <div class="card h-100">
                     <div class="card-header">Идея дня</div>
                     <div class="card-body">
-                        <textarea name="brilliant-idea" class="form-control w-100 h-100" v-model="ideaOfTheDay"
-                                  @blur="onBlur"></textarea>
+                        <textarea
+                            name="brilliant-idea"
+                            class="form-control w-100 h-100"
+                            v-model="ideaOfTheDay"
+                            @blur="onBlur"
+                        ></textarea>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row mt-4">
-        </div>
+        <div class="row mt-4"></div>
         <div class="row mt-4">
             <div class="col-xl-7">
                 <div class="card accomplishments">
                     <div class="card-body">
-                        <list-plus title="Достижения" :items="achievements" @blur="onBlurAchievements"></list-plus>
+                        <list-plus
+                            title="Достижения"
+                            :items="achievements"
+                            @blur="onBlurAchievements"
+                        ></list-plus>
                     </div>
                 </div>
             </div>
             <div class="col-xl-5 mb-2 mb-lg-0">
                 <div class="card mb-5">
                     <div class="card-body">
-                        <list-plus title="Сегодня награждаются за примерное поведение" :items="likes"
-                                   @blur="onBlurLikes"></list-plus>
+                        <list-plus
+                            title="Сегодня награждаются за примерное поведение"
+                            :items="likes"
+                            @blur="onBlurLikes"
+                        ></list-plus>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <list-plus title="Сегодня наказываются за пакости" :items="dislikes"
-                                   @blur="onBlurDislikes"></list-plus>
+                        <list-plus
+                            title="Сегодня наказываются за пакости"
+                            :items="dislikes"
+                            @blur="onBlurDislikes"
+                        ></list-plus>
                     </div>
                 </div>
             </div>
@@ -56,32 +69,33 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
     name: "Today",
     data() {
         return {
             mood: 4,
-            ideaOfTheDay: '',
+            ideaOfTheDay: "",
             achievements: [],
             likes: [],
             dislikes: [],
-        }
+        };
     },
     async mounted() {
         const response = await axios.get(`/today`);
-        const {idea, mood, thanks, nothanks, accomplishments} = response.data.data
-        this.mood = mood
-        this.ideaOfTheDay = idea
-        this.achievements = accomplishments ? JSON.parse(accomplishments) : []
-        this.likes = thanks ? JSON.parse(thanks) : []
-        this.dislikes = nothanks ? JSON.parse(nothanks) : []
+        const { idea, mood, thanks, nothanks, accomplishments } =
+            response.data.data;
+        this.mood = mood;
+        this.ideaOfTheDay = idea;
+        this.achievements = accomplishments ? JSON.parse(accomplishments) : [];
+        this.likes = thanks ? JSON.parse(thanks) : [];
+        this.dislikes = nothanks ? JSON.parse(nothanks) : [];
     },
     methods: {
         onMoodChange(mood) {
-            this.mood = mood
-            this.onBlur()
+            this.mood = mood;
+            this.onBlur();
         },
         onBlur() {
             const data = {
@@ -90,26 +104,24 @@ export default {
                 achievements: this.achievements,
                 likes: this.likes,
                 dislikes: this.dislikes,
-            }
-            console.log(data)
-            axios.post(`/today`, data)
+            };
+            console.log(data);
+            axios.post(`/today`, data);
         },
         onBlurAchievements(items) {
-            this.achievements = items
-            this.onBlur()
+            this.achievements = items;
+            this.onBlur();
         },
         onBlurDislikes(items) {
-            this.dislikes = items
-            this.onBlur()
+            this.dislikes = items;
+            this.onBlur();
         },
         onBlurLikes(items) {
-            this.likes = items
-            this.onBlur()
-        }
-    }
-}
+            this.likes = items;
+            this.onBlur();
+        },
+    },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

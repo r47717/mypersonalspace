@@ -4,53 +4,105 @@
         <div class="card-body">
             <div class="stopped" v-if="stopped">Игра окончена</div>
             <div class="d-flex">
-                <canvas width="300" height="600" class="tetris-field" tabindex=-1 ref="field"
-                        @keydown.prevent="onKeyDown"/>
+                <canvas
+                    width="300"
+                    height="600"
+                    class="tetris-field"
+                    tabindex="-1"
+                    ref="field"
+                    @keydown.prevent="onKeyDown"
+                />
                 <div class="ml-5 d-flex">
-                    <div class="d-flex flex-column align-items-start justify-content-between">
-                        <div class="align-self-center d-flex flex-column align-items-center">
+                    <div
+                        class="
+                            d-flex
+                            flex-column
+                            align-items-start
+                            justify-content-between
+                        "
+                    >
+                        <div
+                            class="
+                                align-self-center
+                                d-flex
+                                flex-column
+                                align-items-center
+                            "
+                        >
                             <p>Следующая фигура:</p>
-                            <canvas width="120" height="120" class="tetris-preview" ref="preview"/>
+                            <canvas
+                                width="120"
+                                height="120"
+                                class="tetris-preview"
+                                ref="preview"
+                            />
                         </div>
                         <div>
                             <select class="mb-3" name="rotate" v-model="rotate">
-                                <option value="clockwise">Поворот по часовой</option>
-                                <option value="counterclockwise">Поворот против часовой</option>
+                                <option value="clockwise">
+                                    Поворот по часовой
+                                </option>
+                                <option value="counterclockwise">
+                                    Поворот против часовой
+                                </option>
                             </select>
                             <div class="d-flex align-items-center mb-3">
-                                <input type="checkbox" v-model="pause">
+                                <input type="checkbox" v-model="pause" />
                                 <div class="ml-1">Пауза</div>
                             </div>
                             <div class="d-flex align-items-center mb-3">
-                                <input type="checkbox" v-model="accelerate">
+                                <input type="checkbox" v-model="accelerate" />
                                 <div class="ml-1">Ускорение</div>
                             </div>
                             <div class="d-flex align-items-center mb-3">
-                                <input type="checkbox" v-model="projectionEnabled">
+                                <input
+                                    type="checkbox"
+                                    v-model="projectionEnabled"
+                                />
                                 <div class="ml-1">Проекция</div>
                             </div>
                             <div class="d-flex align-items-center mb-3">
-                                <input type="checkbox" v-model="extendedFigures">
+                                <input
+                                    type="checkbox"
+                                    v-model="extendedFigures"
+                                />
                                 <div class="ml-1">Расширенный набор фигур</div>
                             </div>
                             <div class="mb-3">
                                 <table>
                                     <tr>
                                         <td>Цвет поля:</td>
-                                        <td><input type="text" v-model="fieldColor"></td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                v-model="fieldColor"
+                                            />
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Цвет фигуры:</td>
-                                        <td><input type="text" v-model="figureColor"></td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                v-model="figureColor"
+                                            />
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Цвет проекции:</td>
-                                        <td><input type="text" v-model="projectionColor"></td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                v-model="projectionColor"
+                                            />
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
                             <div class="d-flex justify-content-center mt-4">
-                                <button class="restart" @click="onRestart">Рестарт</button>
+                                <button class="restart" @click="onRestart">
+                                    Рестарт
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -61,7 +113,6 @@
 </template>
 
 <script>
-
 const WW = 300;
 const HH = 600;
 const DX = 20;
@@ -75,21 +126,81 @@ const PREVIEW_WW = DX * FIGURE_SIZE + PREVIEW_PADDING * 2;
 const PREVIEW_HH = DY * FIGURE_SIZE + PREVIEW_PADDING * 2;
 
 const basicFigures = [
-    [{y: 0, x: 0}, {y: 0, x: 1}, {y: 0, x: 2}, {y: 0, x: 3}],
-    [{y: 0, x: 0}, {y: 0, x: 1}, {y: 1, x: 1}, {y: 1, x: 2}],
-    [{y: 0, x: 1}, {y: 0, x: 2}, {y: 1, x: 0}, {y: 1, x: 1}],
-    [{y: 0, x: 1}, {y: 1, x: 0}, {y: 1, x: 1}, {y: 1, x: 2}],
-    [{y: 0, x: 0}, {y: 0, x: 1}, {y: 1, x: 0}, {y: 1, x: 1}],
-    [{y: 0, x: 0}, {y: 1, x: 0}, {y: 1, x: 1}, {y: 1, x: 2}],
-    [{y: 0, x: 2}, {y: 1, x: 0}, {y: 1, x: 1}, {y: 1, x: 2}],
+    [
+        { y: 0, x: 0 },
+        { y: 0, x: 1 },
+        { y: 0, x: 2 },
+        { y: 0, x: 3 },
+    ],
+    [
+        { y: 0, x: 0 },
+        { y: 0, x: 1 },
+        { y: 1, x: 1 },
+        { y: 1, x: 2 },
+    ],
+    [
+        { y: 0, x: 1 },
+        { y: 0, x: 2 },
+        { y: 1, x: 0 },
+        { y: 1, x: 1 },
+    ],
+    [
+        { y: 0, x: 1 },
+        { y: 1, x: 0 },
+        { y: 1, x: 1 },
+        { y: 1, x: 2 },
+    ],
+    [
+        { y: 0, x: 0 },
+        { y: 0, x: 1 },
+        { y: 1, x: 0 },
+        { y: 1, x: 1 },
+    ],
+    [
+        { y: 0, x: 0 },
+        { y: 1, x: 0 },
+        { y: 1, x: 1 },
+        { y: 1, x: 2 },
+    ],
+    [
+        { y: 0, x: 2 },
+        { y: 1, x: 0 },
+        { y: 1, x: 1 },
+        { y: 1, x: 2 },
+    ],
 ];
 
 const extendedFigures = [
-    [{y: 0, x: 0}, {y: 1, x: 1}, {y: 1, x: 2}, {y: 0, x: 2}],
-    [{y: 0, x: 0}, {y: 1, x: 0}, {y: 1, x: 1}, {y: 0, x: 2}],
-    [{y: 0, x: 0}, {y: 1, x: 1}, {y: 0, x: 2}, {y: 1, x: 3}],
-    [{y: 1, x: 0}, {y: 0, x: 1}, {y: 1, x: 2}, {y: 0, x: 3}],
-    [{y: 0, x: 0}, {y: 1, x: 1}, {y: 1, x: 2}, {y: 1, x: 3}],
+    [
+        { y: 0, x: 0 },
+        { y: 1, x: 1 },
+        { y: 1, x: 2 },
+        { y: 0, x: 2 },
+    ],
+    [
+        { y: 0, x: 0 },
+        { y: 1, x: 0 },
+        { y: 1, x: 1 },
+        { y: 0, x: 2 },
+    ],
+    [
+        { y: 0, x: 0 },
+        { y: 1, x: 1 },
+        { y: 0, x: 2 },
+        { y: 1, x: 3 },
+    ],
+    [
+        { y: 1, x: 0 },
+        { y: 0, x: 1 },
+        { y: 1, x: 2 },
+        { y: 0, x: 3 },
+    ],
+    [
+        { y: 0, x: 0 },
+        { y: 1, x: 1 },
+        { y: 1, x: 2 },
+        { y: 1, x: 3 },
+    ],
 ];
 
 const accelerationPlan = (score) => {
@@ -101,7 +212,7 @@ const accelerationPlan = (score) => {
     if (score > 30) return 600;
     if (score > 10) return 700;
     return 800;
-}
+};
 
 export default {
     name: "Tetris",
@@ -122,9 +233,9 @@ export default {
             cells: [],
             nextFigureType: null,
             score: 0,
-            rotate: 'counterclockwise',
+            rotate: "counterclockwise",
             pause: false,
-        }
+        };
     },
 
     mounted() {
@@ -139,7 +250,9 @@ export default {
                 return null;
             }
 
-            let runningProjection = JSON.parse(JSON.stringify(this.movingFigure));
+            let runningProjection = JSON.parse(
+                JSON.stringify(this.movingFigure)
+            );
 
             while (this.canMoveDown(runningProjection)) {
                 runningProjection = this.moveFigureDown(runningProjection);
@@ -153,7 +266,7 @@ export default {
             }
 
             return basicFigures.concat(extendedFigures);
-        }
+        },
     },
 
     watch: {
@@ -165,7 +278,7 @@ export default {
         },
         projection() {
             this.paint();
-        }
+        },
     },
 
     beforeDestroy() {
@@ -184,30 +297,41 @@ export default {
         },
 
         initField() {
-            this.cells = new Array(NY).fill(0).map(row => new Array(NX).fill(0));
+            this.cells = new Array(NY)
+                .fill(0)
+                .map((row) => new Array(NX).fill(0));
         },
 
         drawFigurePreview() {
-            const structure = this.getFigureStructure(this.nextFigureType, 0, 0);
+            const structure = this.getFigureStructure(
+                this.nextFigureType,
+                0,
+                0
+            );
 
-            const ctx = this.$refs.preview.getContext('2d');
+            const ctx = this.$refs.preview.getContext("2d");
             ctx.fillStyle = `#${this.fieldColor}`;
             ctx.fillRect(0, 0, PREVIEW_WW, PREVIEW_HH);
 
             ctx.fillStyle = `#${this.figureColor}`;
-            structure.forEach(({x, y}) => {
-                ctx.fillRect(PREVIEW_PADDING + x * DY, PREVIEW_PADDING + y * DX, DY, DX);
-            })
+            structure.forEach(({ x, y }) => {
+                ctx.fillRect(
+                    PREVIEW_PADDING + x * DY,
+                    PREVIEW_PADDING + y * DX,
+                    DY,
+                    DX
+                );
+            });
         },
 
         drawMovingFigure() {
-            const ctx = this.$refs.field.getContext('2d');
+            const ctx = this.$refs.field.getContext("2d");
             ctx.fillStyle = `#${this.figureColor}`;
 
             if (this.movingFigure) {
-                this.movingFigure.forEach(({x, y}) => {
+                this.movingFigure.forEach(({ x, y }) => {
                     ctx.fillRect(x * DY, y * DX, DY, DX);
-                })
+                });
             }
         },
 
@@ -216,15 +340,15 @@ export default {
                 return null;
             }
 
-            const ctx = this.$refs.field.getContext('2d');
+            const ctx = this.$refs.field.getContext("2d");
             ctx.fillStyle = `#${this.projectionColor}`;
-            this.projection.forEach(({x, y}) => {
+            this.projection.forEach(({ x, y }) => {
                 ctx.fillRect(x * DY, y * DX, DY, DX);
             });
         },
 
         paint() {
-            const ctx = this.$refs.field.getContext('2d');
+            const ctx = this.$refs.field.getContext("2d");
 
             ctx.fillStyle = `#${this.fieldColor}`;
             ctx.fillRect(0, 0, WW, HH);
@@ -290,10 +414,10 @@ export default {
         getFigureStructure(type, top, left) {
             const pattern = this.figures[type];
             if (pattern === undefined) {
-                throw new Error('incorrect figure type');
+                throw new Error("incorrect figure type");
             }
 
-            return pattern.map(({x, y}) => ({x: left + x, y: top + y}));
+            return pattern.map(({ x, y }) => ({ x: left + x, y: top + y }));
         },
 
         createNewFigure() {
@@ -302,7 +426,7 @@ export default {
             const left = Math.ceil(NX / 2) - Math.floor(FIGURE_SIZE / 2);
             const f = this.getFigureStructure(type, top, left);
 
-            for (const {x, y} of f) {
+            for (const { x, y } of f) {
                 if (this.cells[y][x] === 1) {
                     return false;
                 }
@@ -314,7 +438,7 @@ export default {
 
         saveFigureToCells() {
             const newCells = this.cells.slice();
-            this.movingFigure.forEach(({x, y}) => {
+            this.movingFigure.forEach(({ x, y }) => {
                 newCells[y][x] = 1;
             });
 
@@ -322,7 +446,7 @@ export default {
         },
 
         canMoveDown(figureCells) {
-            for (const {x, y} of figureCells) {
+            for (const { x, y } of figureCells) {
                 if (y >= NY - 1 || this.cells[y + 1][x] === 1) {
                     return false;
                 }
@@ -341,23 +465,29 @@ export default {
         },
 
         tryMoveFigureLeft() {
-            for (const {x, y} of this.movingFigure) {
+            for (const { x, y } of this.movingFigure) {
                 if (x <= 0 || this.cells[y][x - 1] === 1) {
                     return false;
                 }
             }
 
-            this.movingFigure = this.movingFigure.map(({x, y}) => ({y, x: x - 1}));
+            this.movingFigure = this.movingFigure.map(({ x, y }) => ({
+                y,
+                x: x - 1,
+            }));
         },
 
         tryMoveFigureRight() {
-            for (const {x, y} of this.movingFigure) {
+            for (const { x, y } of this.movingFigure) {
                 if (x >= NX - 1 || this.cells[y][x + 1] === 1) {
                     return false;
                 }
             }
 
-            this.movingFigure = this.movingFigure.map(({x, y}) => ({y, x: x + 1}));
+            this.movingFigure = this.movingFigure.map(({ x, y }) => ({
+                y,
+                x: x + 1,
+            }));
         },
 
         tryRotateFigure() {
@@ -378,12 +508,16 @@ export default {
 
             const diam = Math.max(maxX - minX, maxY - minY) + 1;
 
-            const matrix = new Array(diam).fill(0).map(row => new Array(diam).fill(0));
-            cells.forEach(({x, y}) => {
+            const matrix = new Array(diam)
+                .fill(0)
+                .map((row) => new Array(diam).fill(0));
+            cells.forEach(({ x, y }) => {
                 matrix[y - minY][x - minX] = 1;
-            })
+            });
 
-            const matrix2 = new Array(diam).fill(0).map(row => new Array(diam).fill(0));
+            const matrix2 = new Array(diam)
+                .fill(0)
+                .map((row) => new Array(diam).fill(0));
 
             for (let i = 0; i < diam; i++) {
                 for (let j = 0; j < diam; j++) {
@@ -401,14 +535,20 @@ export default {
                         newFigure.push({
                             x: minX + j,
                             y: minY + i,
-                        })
+                        });
                     }
                 }
             }
 
             let conflict = false;
-            newFigure.forEach(({x, y}) => {
-                if (x > NX - 1 || x < 0 || y > NY - 1 || y < 0 || this.cells[y][x] === 1) {
+            newFigure.forEach(({ x, y }) => {
+                if (
+                    x > NX - 1 ||
+                    x < 0 ||
+                    y > NY - 1 ||
+                    y < 0 ||
+                    this.cells[y][x] === 1
+                ) {
                     conflict = true;
                 }
             });
@@ -454,14 +594,13 @@ export default {
             do {
                 erased = false;
                 for (let row = 0; row < cells.length; row++) {
-                    if (cells[row].every(cell => cell === 1)) {
+                    if (cells[row].every((cell) => cell === 1)) {
                         cells.splice(row, 1);
                         cells.unshift(new Array(NX).fill(0));
                         erased = true;
                         this.score++;
                         break;
                     }
-
                 }
             } while (erased);
 
@@ -475,9 +614,9 @@ export default {
             this.score = 0;
             this.speed = accelerationPlan(this.score);
             this.stopped = false;
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>

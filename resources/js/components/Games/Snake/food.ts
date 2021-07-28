@@ -1,9 +1,9 @@
-import {DrawInterface, Field, Point} from './field'
+import { DrawInterface, Field, Point } from "./field";
 
 export class Food {
-    private points: Array<Point>
-    private readonly delay: number
-    private delayCtr: number
+    private points: Array<Point>;
+    private readonly delay: number;
+    private delayCtr: number;
 
     constructor(
         private readonly xMin: number,
@@ -45,7 +45,9 @@ export class Food {
     }
 
     eatFood(p: Point) {
-        let found = this.points.findIndex((item) => (item[0] === p[0] && item[1] === p[1]));
+        let found = this.points.findIndex(
+            (item) => item[0] === p[0] && item[1] === p[1]
+        );
 
         if (found !== -1) {
             this.points.splice(found, 1);

@@ -1,14 +1,15 @@
-import {DrawInterface, Field, Point} from "./field";
+import { DrawInterface, Field, Point } from "./field";
 
 export class Mongoose {
-    points: Array<Point>
-    delay: number
-    delayCtr: number
+    points: Array<Point>;
+    delay: number;
+    delayCtr: number;
 
-    constructor(private readonly xMin: number,
-                private readonly xMax: number,
-                private readonly yMin: number,
-                private readonly yMax: number
+    constructor(
+        private readonly xMin: number,
+        private readonly xMax: number,
+        private readonly yMin: number,
+        private readonly yMax: number
     ) {
         this.points = [];
         this.delay = 20;
@@ -32,7 +33,9 @@ export class Mongoose {
     }
 
     isMongoose(p: Point) {
-        return !!this.points.find((item) => (item[0] === p[0] && item[1] === p[1]));
+        return !!this.points.find(
+            (item) => item[0] === p[0] && item[1] === p[1]
+        );
     }
 
     draw(drawInterface: DrawInterface) {

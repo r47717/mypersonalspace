@@ -5,10 +5,8 @@
 <script>
 export default {
     name: "ReminderNote",
-    props: ['text'],
-}
+    props: ["text"],
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,20 +1,20 @@
 <template>
     <canvas
         ref="canvas"
-        :style="{width: `${this.width}px`, height: `${this.height}px`}"
+        :style="{ width: `${this.width}px`, height: `${this.height}px` }"
         @click="onClick"
     ></canvas>
 </template>
 
 <script>
 const colors = [
-    ['#eeeeee', '#aaaaaa'],
-    ['#ffeeee', '#ffaaaa'],
-    ['#eeffee', '#aaffaa'],
-    ['#eeeeff', '#aaaaff'],
-    ['#ffffee', '#ffffaa'],
-    ['#dddddd', '#bbbbbb'],
-    ['#dddd99', '#bbbb99'],
+    ["#eeeeee", "#aaaaaa"],
+    ["#ffeeee", "#ffaaaa"],
+    ["#eeffee", "#aaffaa"],
+    ["#eeeeff", "#aaaaff"],
+    ["#ffffee", "#ffffaa"],
+    ["#dddddd", "#bbbbbb"],
+    ["#dddd99", "#bbbb99"],
 ];
 
 export default {
@@ -24,25 +24,24 @@ export default {
         return {
             width: 600,
             height: 500,
-            ballColor1: '#eeeeee',
-            ballColor2: '#aaaaaa',
+            ballColor1: "#eeeeee",
+            ballColor2: "#aaaaaa",
             currentColor: 0,
             canvas: null,
             ctx: null,
-        }
+        };
     },
 
     mounted() {
         this.canvas = this.$refs.canvas;
-        this.ctx = this.canvas.getContext('2d');
+        this.ctx = this.canvas.getContext("2d");
 
-        this.canvas.setAttribute('width', this.width);
-        this.canvas.setAttribute('height', this.height);
+        this.canvas.setAttribute("width", this.width);
+        this.canvas.setAttribute("height", this.height);
 
         this.clearCanvas();
 
         this.runBall(0, 0, this.width, this.height);
-
     },
 
     methods: {
@@ -55,9 +54,9 @@ export default {
         },
 
         clearCanvas() {
-            this.ctx.fillStyle = 'white';
+            this.ctx.fillStyle = "white";
             this.ctx.fillRect(0, 0, this.width, this.height);
-            this.ctx.strokeStyle = 'black';
+            this.ctx.strokeStyle = "black";
             this.ctx.lineWidth = 1;
             this.ctx.strokeRect(0, 0, this.width, this.height);
         },
@@ -74,15 +73,22 @@ export default {
             let y = y1 + size;
 
             const drawBall = () => {
-                const gradient = this.ctx.createRadialGradient(x, y, 0, x, y, size);
+                const gradient = this.ctx.createRadialGradient(
+                    x,
+                    y,
+                    0,
+                    x,
+                    y,
+                    size
+                );
                 gradient.addColorStop(0, this.ballColor1);
-                gradient.addColorStop(.9, this.ballColor2);
+                gradient.addColorStop(0.9, this.ballColor2);
 
                 this.ctx.fillStyle = gradient;
                 this.ctx.beginPath();
                 this.ctx.arc(x, y, size, 0, Math.PI * 2);
                 this.ctx.fill();
-            }
+            };
 
             const move1px = () => {
                 if (sizeGap === 0) {
@@ -144,11 +150,10 @@ export default {
         },
 
         onClick() {
-            this.changeColor()
-        }
-    }
-}
+            this.changeColor();
+        },
+    },
+};
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

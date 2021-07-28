@@ -10,9 +10,18 @@
                 @end="dragging = false"
             >
                 <div v-for="item in thoughts" :data-id="item.id">
-                    <div class="thought-container" :style="{cursor: draggingEnabled ? 'move' : 'initial'}">
+                    <div
+                        class="thought-container"
+                        :style="{
+                            cursor: draggingEnabled ? 'move' : 'initial',
+                        }"
+                    >
                         <span>{{ item.text }}</span>
-                        <button type="button" class="close" @click="onThoughtRemove(item.id)">
+                        <button
+                            type="button"
+                            class="close"
+                            @click="onThoughtRemove(item.id)"
+                        >
                             <span>&times;</span>
                         </button>
                     </div>
@@ -23,15 +32,22 @@
             <div class="mb-5 no-thoughts">Идей пока нет. Добавите?</div>
         </div>
         <div class="new-thought">
-            <input type="text" name="add-thought" v-model="newThought" placeholder="Добавить новую идею">
-            <button v-if="newThought.trim().length > 0" @click="addNewThought">{{ addThoughtText }}</button>
+            <input
+                type="text"
+                name="add-thought"
+                v-model="newThought"
+                placeholder="Добавить новую идею"
+            />
+            <button v-if="newThought.trim().length > 0" @click="addNewThought">
+                {{ addThoughtText }}
+            </button>
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios';
-import draggable from 'vuedraggable';
+import axios from "axios";
+import draggable from "vuedraggable";
 
 export default {
     components: {
@@ -43,39 +59,41 @@ export default {
     data() {
         return {
             thoughts: [],
-            newThought: '',
+            newThought: "",
             dragging: false,
-        }
+        };
     },
     methods: {
         async fetchThoughts() {
-            const response = await axios.get('/fetch-thoughts');
-            this.thoughts = response.data && response.data.thoughts || [];
+            const response = await axios.get("/fetch-thoughts");
+            this.thoughts = (response.data && response.data.thoughts) || [];
             console.log(this.thoughts);
         },
         async addNewThought() {
             if (this.newThought.trim().length) {
-                await axios.post('/thoughts', {
-                    text: this.newThought
+                await axios.post("/thoughts", {
+                    text: this.newThought,
                 });
-                this.newThought = '';
+                this.newThought = "";
                 await this.fetchThoughts();
             }
         },
         async onThoughtRemove(id) {
             await axios.delete(`/thoughts/${id}`);
             await this.fetchThoughts();
-        }
+        },
     },
     computed: {
         addThoughtText() {
-            return this.newThought.trim().length < 20 ? 'лучше бы подробнее...' : 'добавить';
+            return this.newThought.trim().length < 20
+                ? "лучше бы подробнее..."
+                : "добавить";
         },
         draggingEnabled() {
             return this.thoughts && this.thoughts.length > 1;
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style scoped lang="scss">
@@ -120,5 +138,4 @@ export default {
         }
     }
 }
-
 </style>

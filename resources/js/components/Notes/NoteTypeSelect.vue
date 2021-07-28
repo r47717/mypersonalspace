@@ -1,5 +1,10 @@
 <template>
-    <select class="form-control" name="new-note-type" v-model="newNoteType" @change="onChange">
+    <select
+        class="form-control"
+        name="new-note-type"
+        v-model="newNoteType"
+        @change="onChange"
+    >
         <option value="all" v-if="all === 'true'">Все</option>
         <option value="generic">обычная</option>
         <option value="list">список</option>
@@ -12,20 +17,18 @@
 <script>
 export default {
     name: "NoteTypeSelect",
-    props: [
-        'all'
-    ],
+    props: ["all"],
     data() {
         return {
-            newNoteType: this.all === 'true' ? "all" : "generic",
-        }
+            newNoteType: this.all === "true" ? "all" : "generic",
+        };
     },
     methods: {
         onChange(el) {
             this.$emit("type-changed", el.target.value);
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style scoped>

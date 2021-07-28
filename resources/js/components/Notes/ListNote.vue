@@ -7,18 +7,16 @@
 <script>
 export default {
     name: "ListNote",
-    props: ['text'],
+    props: ["text"],
     data() {
-        return {}
+        return {};
     },
     computed: {
         items() {
-            return this.text.split(' ');
-        }
-    }
-}
+            return this.text.split(" ");
+        },
+    },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

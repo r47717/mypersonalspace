@@ -1,15 +1,15 @@
-import {Snake} from './snake';
-import {Mongoose} from "./mongoose";
-import {Food} from "./food";
+import { Snake } from "./snake";
+import { Mongoose } from "./mongoose";
+import { Food } from "./food";
 
 export type Point = [number, number, number | undefined];
 
 export type DrawInterface = {
-    drawSnakeHead: (x: number, y: number) => void
-    drawSnakeBody: (x: number, y: number) => void
-    drawMongoose: (x: number, y: number) => void
-    drawFood: (x: number, y: number, num: number) => void
-}
+    drawSnakeHead: (x: number, y: number) => void;
+    drawSnakeBody: (x: number, y: number) => void;
+    drawMongoose: (x: number, y: number) => void;
+    drawFood: (x: number, y: number, num: number) => void;
+};
 
 export enum FieldObjectType {
     DRAW_SNAKE_HEAD = 1,
@@ -19,17 +19,23 @@ export enum FieldObjectType {
 }
 
 export class Field {
-    private readonly dx: number
-    private readonly dy: number
-    private readonly ctx: CanvasRenderingContext2D
+    private readonly dx: number;
+    private readonly dy: number;
+    private readonly ctx: CanvasRenderingContext2D;
     private snake: Snake | undefined;
-    private mongoose: Mongoose | undefined
-    private food: Food | undefined
+    private mongoose: Mongoose | undefined;
+    private food: Food | undefined;
 
-    constructor(canvas: HTMLCanvasElement, nx: number, ny: number, private readonly w: number, private readonly h: number) {
+    constructor(
+        canvas: HTMLCanvasElement,
+        nx: number,
+        ny: number,
+        private readonly w: number,
+        private readonly h: number
+    ) {
         this.dx = w / nx;
         this.dy = h / ny;
-        this.ctx = canvas.getContext('2d')!;
+        this.ctx = canvas.getContext("2d")!;
     }
 
     connect(snake: Snake, mongoose: Mongoose, food: Food) {
@@ -39,7 +45,11 @@ export class Field {
     }
 
     isEmpty(p: Point) {
-        return !this.snake!.isSnake(p) && !this.mongoose!.isMongoose(p) && this.food!.isFood(p) === 0;
+        return (
+            !this.snake!.isSnake(p) &&
+            !this.mongoose!.isMongoose(p) &&
+            this.food!.isFood(p) === 0
+        );
     }
 
     isFood(p: Point) {
@@ -58,10 +68,10 @@ export class Field {
     }
 
     clearField() {
-        this.ctx.fillStyle = 'white';
+        this.ctx.fillStyle = "white";
         this.ctx.fillRect(0, 0, this.w, this.h);
 
-        this.ctx.strokeStyle = 'gray';
+        this.ctx.strokeStyle = "gray";
 
         this.ctx.strokeRect(0, 0, this.w, this.h);
 
@@ -91,23 +101,46 @@ export class Field {
 
         switch (type) {
             case FieldObjectType.DRAW_SNAKE_HEAD:
-                this.ctx.arc((x + 0.5) * this.dx, (y + 0.5) * this.dy, this.dx / 2 - 2, 0, Math.PI * 2,
-                    true);
-                this.ctx.fillStyle = 'blue';
+                this.ctx.arc(
+                    (x + 0.5) * this.dx,
+                    (y + 0.5) * this.dy,
+                    this.dx / 2 - 2,
+                    0,
+                    Math.PI * 2,
+                    true
+                );
+                this.ctx.fillStyle = "blue";
                 break;
             case FieldObjectType.DRAW_SNAKE_BODY:
-                this.ctx.arc((x + 0.5) * this.dx, (y + 0.5) * this.dy, this.dx / 2 - 2, 0, Math.PI * 2,
-                    true);
-                this.ctx.fillStyle = 'green';
+                this.ctx.arc(
+                    (x + 0.5) * this.dx,
+                    (y + 0.5) * this.dy,
+                    this.dx / 2 - 2,
+                    0,
+                    Math.PI * 2,
+                    true
+                );
+                this.ctx.fillStyle = "green";
                 break;
             case FieldObjectType.DRAW_MONGOOSE:
-                this.ctx.arc((x + 0.5) * this.dx, (y + 0.5) * this.dy, this.dx / 2 - 2, 0, Math.PI * 2,
-                    true);
-                this.ctx.fillStyle = 'black';
+                this.ctx.arc(
+                    (x + 0.5) * this.dx,
+                    (y + 0.5) * this.dy,
+                    this.dx / 2 - 2,
+                    0,
+                    Math.PI * 2,
+                    true
+                );
+                this.ctx.fillStyle = "black";
                 break;
             case FieldObjectType.DRAW_FOOD:
-                this.ctx.font = '25px serif';
-                this.ctx.strokeText("" + num, x * this.dx + 4, (y + 1) * this.dy - 2, this.dx);
+                this.ctx.font = "25px serif";
+                this.ctx.strokeText(
+                    "" + num,
+                    x * this.dx + 4,
+                    (y + 1) * this.dy - 2,
+                    this.dx
+                );
                 break;
         }
 
@@ -116,9 +149,13 @@ export class Field {
     }
 
     drawInterface: DrawInterface = {
-        drawSnakeHead: (x: number, y: number) => this.drawCell(x, y, FieldObjectType.DRAW_SNAKE_HEAD),
-        drawSnakeBody: (x: number, y: number) => this.drawCell(x, y, FieldObjectType.DRAW_SNAKE_BODY),
-        drawMongoose: (x: number, y: number) => this.drawCell(x, y, FieldObjectType.DRAW_MONGOOSE),
-        drawFood: (x: number, y: number, num: number) => this.drawCell(x, y, FieldObjectType.DRAW_FOOD, num),
-    }
+        drawSnakeHead: (x: number, y: number) =>
+            this.drawCell(x, y, FieldObjectType.DRAW_SNAKE_HEAD),
+        drawSnakeBody: (x: number, y: number) =>
+            this.drawCell(x, y, FieldObjectType.DRAW_SNAKE_BODY),
+        drawMongoose: (x: number, y: number) =>
+            this.drawCell(x, y, FieldObjectType.DRAW_MONGOOSE),
+        drawFood: (x: number, y: number, num: number) =>
+            this.drawCell(x, y, FieldObjectType.DRAW_FOOD, num),
+    };
 }

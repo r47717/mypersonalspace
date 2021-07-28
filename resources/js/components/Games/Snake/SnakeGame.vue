@@ -1,10 +1,13 @@
 <template>
-    <div class="card">
+    <div class="card d-inline-block">
         <div class="card-header">{{ snakeTitle }}</div>
         <div class="card-body d-flex justify-content-center">
             <canvas
                 ref="canvas"
-                :style="{width: `${this.width}px`, height: `${this.height}px`}"
+                :style="{
+                    width: `${this.width}px`,
+                    height: `${this.height}px`,
+                }"
                 tabindex="-1"
                 @keydown="onKeyDown"
                 @dblclick="onDblClick"
@@ -15,10 +18,10 @@
 </template>
 
 <script>
-import {Snake} from './snake'
-import {Field} from './field'
-import {Mongoose} from "./mongoose";
-import {Food} from "./food";
+import { Snake } from "./snake";
+import { Field } from "./field";
+import { Mongoose } from "./mongoose";
+import { Food } from "./food";
 
 const FIELD_X_MIN = 0;
 const FIELD_Y_MIN = 0;
@@ -38,13 +41,15 @@ export default {
             field: null,
             mongoose: null,
             food: null,
-        }
+        };
     },
 
     computed: {
         snakeTitle() {
-            return this.gameStopped ? `Змейка - ${this.snakeLength} - (пауза)` : `Змейка - ${this.snakeLength}`;
-        }
+            return this.gameStopped
+                ? `Змейка - ${this.snakeLength} - (пауза)`
+                : `Змейка - ${this.snakeLength}`;
+        },
     },
 
     mounted() {
@@ -55,26 +60,38 @@ export default {
         init() {
             this.canvas = this.$refs.canvas;
 
-            this.snake = new Snake(FIELD_X_MIN, FIELD_X_MAX, FIELD_Y_MIN, FIELD_Y_MAX);
-            this.field = new Field(this.canvas, 30, 30, this.width, this.height);
-            this.mongoose = new Mongoose(FIELD_X_MIN, FIELD_X_MAX, FIELD_Y_MIN, FIELD_Y_MAX);
-            this.food = new Food(FIELD_X_MIN, FIELD_X_MAX, FIELD_Y_MIN, FIELD_Y_MAX);
+            this.snake = new Snake(
+                FIELD_X_MIN,
+                FIELD_X_MAX,
+                FIELD_Y_MIN,
+                FIELD_Y_MAX
+            );
+            this.field = new Field(
+                this.canvas,
+                30,
+                30,
+                this.width,
+                this.height
+            );
+            this.mongoose = new Mongoose(
+                FIELD_X_MIN,
+                FIELD_X_MAX,
+                FIELD_Y_MIN,
+                FIELD_Y_MAX
+            );
+            this.food = new Food(
+                FIELD_X_MIN,
+                FIELD_X_MAX,
+                FIELD_Y_MIN,
+                FIELD_Y_MAX
+            );
 
             this.field.connect(this.snake, this.mongoose, this.food);
 
-            this.canvas.setAttribute('width', this.width);
-            this.canvas.setAttribute('height', this.width);
+            this.canvas.setAttribute("width", this.width);
+            this.canvas.setAttribute("height", this.width);
 
             this.canvas.focus();
-
-            // document.onkeydown = function (e) {
-            //     let key = e.key;
-            //     if (key == 37 || key == 38 || key == 39 || key == 40) {
-            //         e.preventDefault();
-            //         return false;
-            //     }
-            //     return true;
-            // };
 
             this.field.draw();
 
@@ -89,9 +106,7 @@ export default {
                 this.mongoose.run(this.field);
                 this.food.run(this.field);
                 this.field.draw();
-
             }, 700);
-
         },
 
         onKeyDown(e) {
@@ -102,12 +117,9 @@ export default {
 
         onDblClick() {
             this.gameStopped = !this.gameStopped;
-        }
-
-    }
-}
+        },
+    },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

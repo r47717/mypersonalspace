@@ -1,9 +1,17 @@
 <template>
     <div class="trigger">
-        <div class="large-icons" @click="onClickLargeIcons" title="большие иконки">
+        <div
+            class="large-icons"
+            @click="onClickLargeIcons"
+            title="большие иконки"
+        >
             <div></div>
         </div>
-        <div class="small-icons" @click="onClickSmallIcons" title="малые иконки">
+        <div
+            class="small-icons"
+            @click="onClickSmallIcons"
+            title="малые иконки"
+        >
             <div></div>
         </div>
         <div class="list" @click="onClickList" title="список">
@@ -17,16 +25,16 @@ export default {
     name: "ListViewTrigger",
     methods: {
         onClickLargeIcons() {
-            this.$emit('click-view', 'large-icons');
+            this.$emit("click-view", "large-icons");
         },
         onClickSmallIcons() {
-            this.$emit('click-view', 'small-icons');
+            this.$emit("click-view", "small-icons");
         },
         onClickList() {
-            this.$emit('click-view', 'list');
+            this.$emit("click-view", "list");
         },
-    }
-}
+    },
+};
 </script>
 
 <style scoped lang="scss">

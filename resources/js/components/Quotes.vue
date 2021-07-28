@@ -1,39 +1,71 @@
 <template>
     <div>
-        <button class="new-quote-show" v-if="newQuoteHidden" @click="newQuoteHidden = false">новая</button>
+        <button
+            class="new-quote-show"
+            v-if="newQuoteHidden"
+            @click="newQuoteHidden = false"
+        >
+            новая
+        </button>
         <div>
             <div class="quote-group">
                 <div class="quote-container input-box" v-if="!newQuoteHidden">
-                    <textarea class="form-control" type="text" rows="3" name="add-quote"
-                              placeholder="Напиши здесь свою цитату"
-                              v-model="newQuote.quote"
+                    <textarea
+                        class="form-control"
+                        type="text"
+                        rows="3"
+                        name="add-quote"
+                        placeholder="Напиши здесь свою цитату"
+                        v-model="newQuote.quote"
                     />
                     <div class="author-label">
-                        <input class="form-control" type="text" name="add-author" placeholder="А здесь имя автора"
-                               v-model="newQuote.author">
+                        <input
+                            class="form-control"
+                            type="text"
+                            name="add-author"
+                            placeholder="А здесь имя автора"
+                            v-model="newQuote.author"
+                        />
                     </div>
-                    <button class="quote-save" @click="saveNewQuote" :disabled="newQuote.quote.trim().length === 0">
+                    <button
+                        class="quote-save"
+                        @click="saveNewQuote"
+                        :disabled="newQuote.quote.trim().length === 0"
+                    >
                         готово
                     </button>
-                    <button class="new-quote-hide" @click="newQuoteHidden = true">
+                    <button
+                        class="new-quote-hide"
+                        @click="newQuoteHidden = true"
+                    >
                         скрыть
                     </button>
                 </div>
-                <div class="quote-container" v-for="item in quotes" :data-id="item.id">
-                    "{{ item.quote }}" <span class="author-label" v-if="item.author">{{ item.author }}</span>
-                    <button type="button" class="close" @click="onQuoteRemove(item.id)">
+                <div
+                    class="quote-container"
+                    v-for="item in quotes"
+                    :data-id="item.id"
+                >
+                    "{{ item.quote }}"
+                    <span class="author-label" v-if="item.author">{{
+                        item.author
+                    }}</span>
+                    <button
+                        type="button"
+                        class="close"
+                        @click="onQuoteRemove(item.id)"
+                    >
                         <span>&times;</span>
                     </button>
                 </div>
             </div>
-            <div class="input-block">
-            </div>
+            <div class="input-block"></div>
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
     async mounted() {
@@ -43,27 +75,27 @@ export default {
         return {
             quotes: [],
             newQuote: {
-                quote: '',
-                author: '',
+                quote: "",
+                author: "",
             },
             newQuoteHidden: false,
-        }
+        };
     },
     methods: {
         async fetchQuotes() {
-            const response = await axios.get('/fetch-quotes');
-            this.quotes = response.data && response.data.quotes || [];
+            const response = await axios.get("/fetch-quotes");
+            this.quotes = (response.data && response.data.quotes) || [];
             console.log(this.quotes);
         },
         async saveNewQuote() {
             if (this.newQuote.quote.trim().length) {
-                await axios.post('/quotes', {
+                await axios.post("/quotes", {
                     quote: this.newQuote.quote,
                     author: this.newQuote.author,
                 });
                 this.newQuote = {
-                    quote: '',
-                    author: '',
+                    quote: "",
+                    author: "",
                 };
                 await this.fetchQuotes();
             }
@@ -71,9 +103,9 @@ export default {
         async onQuoteRemove(id) {
             await axios.delete(`/quotes/${id}`);
             await this.fetchQuotes();
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
 <style scoped lang="scss">
@@ -91,7 +123,7 @@ export default {
 .quote-container {
     display: inline-flex;
     position: relative;
-    background: #FFFFFF;
+    background: #ffffff;
     justify-content: center;
     align-items: center;
     min-height: 200px;
@@ -114,7 +146,8 @@ export default {
 }
 
 .quote-container.input-box {
-    input, textarea {
+    input,
+    textarea {
         border: none;
         text-align: center;
     }
@@ -144,7 +177,6 @@ export default {
         font-size: 0.8em;
         outline: none;
     }
-
 }
 
 .new-quote-show {
@@ -152,6 +184,4 @@ export default {
     font-size: 0.6em;
     outline: none;
 }
-
-
 </style>

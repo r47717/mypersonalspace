@@ -5,10 +5,8 @@
 <script>
 export default {
     name: "GenericNote",
-    props: ['text'],
-}
+    props: ["text"],
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
