@@ -43,6 +43,7 @@ Route::get('/js/lang.js', function () {
     exit();
 })->name('assets.lang');
 
+Route::get('/landing', 'LandingController@index')->name('landing');
 
 Route::group(['middleware' => ['verified']], function () {
     Route::get('/', 'HomeController@index')->name('home');
@@ -121,5 +122,4 @@ Route::group(['middleware' => ['verified']], function () {
             }
         }
     endif;
-
 });

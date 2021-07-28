@@ -26,9 +26,9 @@
 <div class="container-fluid noauth-container">
     <div class="row h-100">
         <div class="col-2 bg-white noauth-left-col">
-            {{ trans('app.home_dashboard_title') }}
+            <a href="{{ route('home') }}">{{ trans('app.home_dashboard_title') }}</a>
         </div>
-        <div class="col-6 noauth-middle-col">
+        <div class=" col-6 noauth-middle-col">
             <div id="app">
                 @yield('content')
             </div>

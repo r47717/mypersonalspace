@@ -5,7 +5,7 @@
         <div class="row widgets">
             <div class="col-lg-2 d-none d-lg-flex pills-column flex-column">
                 <div class="pills-column-title">
-                    {{ trans('app.home_dashboard_title') }}
+                    <a href="{{ route('home') }}">{{ trans('app.home_dashboard_title') }}</a>
                     <div class="nav-item dropdown d-lg-none">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
