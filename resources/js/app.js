@@ -68,6 +68,7 @@ Vue.component(
     require("./components/Games/Snake/SnakeGame").default
 );
 Vue.component("games-game15", require("./components/Games/Game15").default);
+Vue.component("games-chess", require("./components/Games/Chess").default);
 
 const app = new Vue({
     el: "#app",

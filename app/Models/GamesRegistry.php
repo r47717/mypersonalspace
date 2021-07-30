@@ -37,6 +37,12 @@ abstract class GamesRegistry
             'type' => GamesRegistry::Puzzle,
             'url' => 'game15',
         ],
+        [
+            'name' => 'Шахматы',
+            'type' => GamesRegistry::Puzzle,
+            'url' => 'chess',
+            'enabled' => false,
+        ],
     ];
 }
 
