@@ -85,7 +85,6 @@ export default {
         async fetchQuotes() {
             const response = await axios.get("/fetch-quotes");
             this.quotes = (response.data && response.data.quotes) || [];
-            console.log(this.quotes);
         },
         async saveNewQuote() {
             if (this.newQuote.quote.trim().length) {

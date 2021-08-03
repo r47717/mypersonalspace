@@ -84,13 +84,17 @@ export default {
     },
     async mounted() {
         const response = await axios.get(`/today`);
-        const { idea, mood, thanks, nothanks, accomplishments } =
-            response.data.data;
-        this.mood = mood;
-        this.ideaOfTheDay = idea;
-        this.achievements = accomplishments ? JSON.parse(accomplishments) : [];
-        this.likes = thanks ? JSON.parse(thanks) : [];
-        this.dislikes = nothanks ? JSON.parse(nothanks) : [];
+        if (response.data && response.data.data) {
+            const { idea, mood, thanks, nothanks, accomplishments } =
+                response.data.data;
+            this.mood = mood;
+            this.ideaOfTheDay = idea || "";
+            this.achievements = accomplishments
+                ? JSON.parse(accomplishments)
+                : [];
+            this.likes = thanks ? JSON.parse(thanks) : [];
+            this.dislikes = nothanks ? JSON.parse(nothanks) : [];
+        }
     },
     methods: {
         onMoodChange(mood) {
@@ -100,7 +104,7 @@ export default {
         onBlur() {
             const data = {
                 mood: this.mood,
-                idea: this.ideaOfTheDay,
+                idea: this.ideaOfTheDay || "",
                 achievements: this.achievements,
                 likes: this.likes,
                 dislikes: this.dislikes,

@@ -13,6 +13,10 @@ class ThoughtsService
 
     function newThought(string $text, bool $unique = false)
     {
+        if (empty(trim($text))) {
+            return null;
+        }
+
         if ($unique && Thought::where('text', $text)->first()) {
             return null;
         }

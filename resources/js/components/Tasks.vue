@@ -34,24 +34,24 @@
                 <input
                     type="text"
                     class="form-control mb-2"
-                    v-model:value="newTask.title"
+                    v-model="newTask.title"
                     placeholder="Задача"
                 />
                 <input
                     type="text"
                     class="form-control mb-2"
-                    v-model:value="newTask.description"
+                    v-model="newTask.description"
                     placeholder="Описание"
                 />
                 <input
                     type="checkbox"
                     class="mb-2 mr-3"
-                    v-model:value="newTask.status"
+                    v-model="newTask.status"
                 /><span>Сделана</span>
                 <input
                     type="text"
                     class="form-control mb-2"
-                    v-model:value="newTask.deadline"
+                    v-model="newTask.deadline"
                     placeholder="Срок исполнения"
                 />
                 <button

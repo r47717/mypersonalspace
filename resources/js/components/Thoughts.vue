@@ -1,32 +1,18 @@
 <template>
     <div>
         <div class="mb-5" v-if="thoughts.length > 0">
-            <draggable
-                :list="thoughts"
-                class="list-group"
-                ghost-class="ghost"
-                :disabled="!draggingEnabled"
-                @start="dragging = true"
-                @end="dragging = false"
-            >
-                <div v-for="item in thoughts" :data-id="item.id">
-                    <div
-                        class="thought-container"
-                        :style="{
-                            cursor: draggingEnabled ? 'move' : 'initial',
-                        }"
+            <div v-for="item in thoughts" :data-id="item.id">
+                <div class="thought-container">
+                    <span>{{ item.text }}</span>
+                    <button
+                        type="button"
+                        class="close"
+                        @click="onThoughtRemove(item.id)"
                     >
-                        <span>{{ item.text }}</span>
-                        <button
-                            type="button"
-                            class="close"
-                            @click="onThoughtRemove(item.id)"
-                        >
-                            <span>&times;</span>
-                        </button>
-                    </div>
+                        <span>&times;</span>
+                    </button>
                 </div>
-            </draggable>
+            </div>
         </div>
         <div v-else>
             <div class="mb-5 no-thoughts">Идей пока нет. Добавите?</div>
@@ -47,12 +33,8 @@
 
 <script>
 import axios from "axios";
-import draggable from "vuedraggable";
 
 export default {
-    components: {
-        draggable,
-    },
     async mounted() {
         await this.fetchThoughts();
     },
@@ -88,9 +70,6 @@ export default {
             return this.newThought.trim().length < 20
                 ? "лучше бы подробнее..."
                 : "добавить";
-        },
-        draggingEnabled() {
-            return this.thoughts && this.thoughts.length > 1;
         },
     },
 };

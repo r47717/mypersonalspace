@@ -1,5 +1,5 @@
 <template>
-    <div :class="this.images[this.value]" @click="onClick"></div>
+    <div :class="images[value]" @click="onClick"></div>
 </template>
 
 <script>

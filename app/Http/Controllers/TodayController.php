@@ -43,14 +43,14 @@ class TodayController extends Controller
     {
         $today = $this->todayService->getTodaysToday(Auth::user()) ?? new Today;
         $today->mood = $request->mood;
-        $today->idea = $request->idea;
+        $today->idea = $request->idea ?? "";
         $today->accomplishments = json_encode($request->achievements);
         $today->thanks = json_encode($request->likes);
         $today->nothanks = json_encode($request->dislikes);
         $today->user_id = Auth::user()->id;
         $today->save();
 
-        $this->thoughtsService->newThought($request->idea, true);
+        $this->thoughtsService->newThought($today->idea, true);
 
         return [
             'success' => true,

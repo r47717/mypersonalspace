@@ -43,46 +43,52 @@ export default {
 };
 </script>
 
-<style scoped lang="sass">
-.row
-    height: 100%
+<style scoped lang="scss">
+.row {
+    height: 100%;
 
-    .col
-        height: 100%
+    .col {
+        height: 100%;
+    }
+}
 
-.books-container
-    height: 100%
-    display: flex
-    justify-content: space-evenly
-    flex-wrap: wrap
-    align-items: flex-start
-    align-content: flex-start
-    padding: 40px
-    background: #FFFFFF
+.books-container {
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    padding: 40px;
+    background: #ffffff;
+}
 
-.item-container
-    display: flex
-    justify-content: center
-    align-items: flex-end
-    background-image: url("/img/open-book.jpg")
-    background-position: center
-    background-repeat: no-repeat
-    background-size: 250px 200px
-    width: 250px
-    height: 230px
-    position: relative
+.item-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    background-image: url("/img/open-book.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 250px 200px;
+    width: 250px;
+    height: 230px;
+    position: relative;
+}
 
-button.text-field
-    position: absolute
-    top: 160px
-    left: 40px
-    height: 25px
-    width: 25px
+button.text-field {
+    position: absolute;
+    top: 160px;
+    left: 40px;
+    height: 25px;
+    width: 25px;
+}
 
-input.is-read-checkbox
-    position: absolute
-    top: 40px
-    left: 40px
-    height: 15px
-    width: 15px
+input.is-read-checkbox {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    height: 15px;
+    width: 15px;
+}
 </style>
