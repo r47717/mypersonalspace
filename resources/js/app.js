@@ -24,6 +24,7 @@ app.component("achievements", require("./components/Achievements.vue").default);
 app.component("books", require("./components/Books.vue").default);
 
 app.component("notes", require("./components/Notes/Notes.vue").default);
+app.component("google-note", require("./components/Notes/GoogleNote").default);
 app.component(
     "note-type-select",
     require("./components/Notes/NoteTypeSelect").default
