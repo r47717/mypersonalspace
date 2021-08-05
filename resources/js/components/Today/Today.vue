@@ -43,6 +43,12 @@
                         ></list-plus>
                     </div>
                 </div>
+                <div class="card mt-5 d-inline-block">
+                    <div class="card-header">Камера</div>
+                    <div class="card-body">
+                        <video ref="camera" width="300" height="300"></video>
+                    </div>
+                </div>
             </div>
             <div class="col-xl-5 mb-2 mb-lg-0">
                 <div class="card mb-5">
@@ -80,6 +86,7 @@ export default {
             achievements: [],
             likes: [],
             dislikes: [],
+            videoStream: undefined,
         };
     },
     async mounted() {
@@ -94,6 +101,19 @@ export default {
                 : [];
             this.likes = thanks ? JSON.parse(thanks) : [];
             this.dislikes = nothanks ? JSON.parse(nothanks) : [];
+        }
+
+        try {
+            const videoStream = await navigator.mediaDevices.getUserMedia({
+                audio: false,
+                video: true,
+            });
+            this.$refs.camera.srcObject = videoStream;
+            this.$refs.camera.onloadedmetadata = (e) => {
+                this.$refs.camera.play();
+            };
+        } catch (err) {
+            console.log(err);
         }
     },
     methods: {
@@ -128,4 +148,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+video {
+    margin-top: -40px;
+    margin-bottom: -40px;
+}
+</style>
