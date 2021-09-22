@@ -72,5 +72,6 @@ app.component(
 );
 app.component("games-game15", require("./components/Games/Game15").default);
 app.component("games-chess", require("./components/Games/Chess").default);
+app.component("games-life", require("./components/Games/Life").default);
 
 app.mount("#app");

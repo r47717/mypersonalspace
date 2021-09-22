@@ -20,6 +20,10 @@ use Illuminate\Support\Str;
 
 Auth::routes(['verify' => true]);
 
+Route::get('/social-auth/{provider}', 'Auth\SocialController@redirectToProvider')->name('auth.social');
+
+Route::get('/social-auth/{provider}/callback', 'Auth\SocialController@handleProviderCallback')->name('auth.social.callback');
+
 Route::get('locale/{locale}', function ($locale) {
     App::setLocale($locale);
 });
