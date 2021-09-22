@@ -2,14 +2,19 @@
     <div class="card d-inline-flex">
         <div class="card-header">Игра "Жизнь"</div>
         <div class="card-body">
-            <div class="stopped" v-if="stopped">Игра окончена</div>
             <canvas
                 width="1000"
                 height="600"
-                class="field"
                 ref="field"
-                @keydown="onKeyDown"
             />
+            <div>
+                <div class="mt-3"><span>Начальный объём популяции: </span><input type="text" v-model="initCount" ></div>
+                <div class="mt-3">
+                    <button class="btn btn-warning" @click="speedUp">Ускорить</button>
+                    <button class="btn btn-info ml-2" @click="speedDown">Замедлить</button>
+                    <button class="btn btn-primary ml-5" @click="restart">Рестарт</button>
+            </div>
+            </div>
         </div>
     </div>
 </template>
@@ -21,6 +26,7 @@ const DX = 20;
 const DY = 20;
 const NX = WW / DX;
 const NY = HH / DY;
+const accelerationRate = 0.8;
 
 export default {
     name: "Life",
@@ -36,21 +42,28 @@ export default {
             initCount: 300,
         };
     },
+    
     mounted() {
-        this.initField();
-        this.paint();
-        this.timer = setInterval(this.go, this.speed);
+        this.restart();
     },
+    
     beforeDestroy() {
         if (this.timer) {
             clearInterval(this.timer);
         }
     },
+
+    watch: {
+        field() {
+            this.paint();
+        }
+    },
+
     methods: {
         initField() {
             this.field = new Array(NX * NY).fill(0);
             this.randomEntities();
-            this.paint();
+            //this.paint();
         },
 
         randomEntities() {
@@ -151,8 +164,29 @@ export default {
 
         go() {
             this.step();
-            this.paint();
         },
+
+        resetTimer() {
+            if (this.timer) {
+                clearInterval(this.timer);
+            }
+            this.timer = setInterval(this.go, this.speed);
+        },
+
+        restart() {
+            this.initField();
+            this.resetTimer();
+        },
+
+        speedUp() {
+            this.speed *= accelerationRate;
+            this.resetTimer();
+        },
+
+        speedDown() {
+            this.speed /= accelerationRate;
+            this.resetTimer();
+        }
     },
 };
 </script>
