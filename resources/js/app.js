@@ -73,5 +73,11 @@ app.component(
 app.component("games-game15", require("./components/Games/Game15").default);
 app.component("games-chess", require("./components/Games/Chess").default);
 app.component("games-life", require("./components/Games/Life/Life").default);
+app.component(
+    "games-pendulum",
+    require("./components/Games/Pendulum/Pendulum").default
+);
+
+app.component("analog-clock", require("./components/AnalogClock").default);
 
 app.mount("#app");

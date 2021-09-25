@@ -43,10 +43,22 @@
                         ></list-plus>
                     </div>
                 </div>
-                <div class="card mt-5 d-inline-block">
-                    <div class="card-header">Камера</div>
-                    <div class="card-body">
-                        <video ref="camera" width="300" height="300"></video>
+                <div class="row">
+                    <div class="card mt-5 d-inline-block">
+                        <div class="card-header">Камера</div>
+                        <div class="card-body">
+                            <video
+                                ref="camera"
+                                width="300"
+                                height="300"
+                            ></video>
+                        </div>
+                    </div>
+                    <div class="card mt-5 ml-5 d-inline-block">
+                        <div class="card-header">Текущее время</div>
+                        <div class="card-body">
+                            <analog-clock />
+                        </div>
                     </div>
                 </div>
             </div>

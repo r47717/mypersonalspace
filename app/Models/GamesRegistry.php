@@ -43,6 +43,12 @@ abstract class GamesRegistry
             'url' => 'life',
         ],
         [
+            'name' => 'Маятник',
+            'type' => GamesRegistry::Puzzle,
+            'url' => 'pendulum',
+            'enabled' => false,
+        ],
+        [
             'name' => 'Шахматы',
             'type' => GamesRegistry::Puzzle,
             'url' => 'chess',
@@ -50,5 +56,3 @@ abstract class GamesRegistry
         ],
     ];
 }
-
-
