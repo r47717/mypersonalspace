@@ -88,9 +88,17 @@
 
 <script>
 import axios from "axios";
+import AnalogClock from "./AnalogClock.vue";
+import Mood from "./Mood.vue";
+import Quote from "./Quote.vue";
 
 export default {
     name: "Today",
+    components: {
+        AnalogClock,
+        Mood,
+        Quote,
+    },
     data() {
         return {
             mood: 4,

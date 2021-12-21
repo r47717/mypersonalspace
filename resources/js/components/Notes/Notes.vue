@@ -4,6 +4,7 @@
             <google-note
                 title="Untitled"
                 v-for="item in notes"
+                :key="item.id"
                 :text="item.text"
             ></google-note>
         </div>
@@ -20,8 +21,12 @@
 
 <script>
 import axios from "axios";
+import NewNote from "./NewNote.vue";
 
 export default {
+    components: {
+        NewNote,
+    },
     async mounted() {
         await this.fetchNotes();
     },

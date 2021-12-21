@@ -1,6 +1,7 @@
 <template>
     <div class="card d-inline-flex">
         <div class="card-header">Маятник</div>
+        <LocalComponent />
         <div class="card-body">
             <canvas ref="canvas" />
             <div class="d-flex justify-content-between">
@@ -23,13 +24,9 @@
 <script>
 import { onMounted, onBeforeUnmount, ref, computed, watch } from "vue";
 import { WW, HH, length } from "./params";
-import { Fab } from "../../common/buttons";
-import { ArrowDown, ArrowUp, Restart } from "../../common/icons";
 
 export default {
     name: "Pendulum",
-
-    components: [Fab, ArrowDown, ArrowUp, Restart],
 
     setup() {
         const canvas = ref(null);
@@ -110,6 +107,7 @@ export default {
         const restart = () => {
             A.value = 2;
             t.value = 0;
+            angle.value = 0;
             paint();
             resetTimer();
         };

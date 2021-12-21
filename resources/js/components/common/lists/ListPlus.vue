@@ -8,6 +8,7 @@
         </div>
         <input
             v-for="(item, index) in internalItems"
+            :key="index"
             type="text"
             class="list-input mb-1"
             @blur="onBlur"

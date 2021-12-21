@@ -83,6 +83,7 @@
                     <div
                         class="palette-color"
                         v-for="(item, index) in colors"
+                        :key="index"
                         :title="item.title"
                         :style="{ background: item.color }"
                         @click="bgColorIndex = index"
