@@ -80,12 +80,9 @@ app.component(
 
 app.component("analog-clock", require("./components/AnalogClock").default);
 
-app.component("Fab", require("./components/common/buttons/Fab").default);
-app.component("ArrowUp", require("./components/common/icons/ArrowUp").default);
-app.component(
-    "ArrowDown",
-    require("./components/common/icons/ArrowDown").default
-);
-app.component("Restart", require("./components/common/icons/Restart").default);
+const common = require("./components/common");
+for (const item of Object.keys(common)) {
+    app.component(item, common[item]);
+}
 
 app.mount("#app");
