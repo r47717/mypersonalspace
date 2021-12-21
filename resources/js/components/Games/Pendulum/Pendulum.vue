@@ -5,13 +5,27 @@
         <div class="card-body">
             <canvas ref="canvas" />
             <div class="d-flex justify-content-between">
-                <div>
+                <div class="d-flex align-items-center">
                     <Fab @click="onClickAmpUp">
                         <ArrowUp />
                     </Fab>
-                    <Fab @click="onClickAmpDown">
-                        <ArrowDown />
-                    </Fab>
+                    <div class="d-inline-block ml-1">
+                        <Fab @click="onClickAmpDown">
+                            <ArrowDown />
+                        </Fab>
+                    </div>
+                    <div class="d-inline-flex align-items-center ml-5">
+                        <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.1"
+                            class="form-control-range"
+                            v-model="resistence"
+                            aria-label="resistence control"
+                        />
+                    </div>
+                    <div class="d-inline-block ml-1">Трение</div>
                 </div>
                 <Fab @click="restart">
                     <Restart />
@@ -42,6 +56,7 @@ export default {
         const A = ref(2);
         const x = computed(() => cx.value + length * Math.sin(angle.value));
         const y = computed(() => cy.value + length * Math.cos(angle.value));
+        const resistence = ref(0);
 
         const resetTimer = () => {
             if (timer.value) {
@@ -54,8 +69,12 @@ export default {
             const g = 9.8;
             const w = Math.sqrt(g / length);
             const dt = speed.value / 100;
-            angle.value -= A.value * w * Math.sin(w * t.value + 1.5) * dt;
+            angle.value -=
+                A.value * w * Math.sin(w * t.value - Math.PI / 2) * dt;
             t.value += dt;
+            if (resistence.value && A.value > 0.1) {
+                A.value -= resistence.value / 1000;
+            }
         }
 
         function paint() {
@@ -64,6 +83,8 @@ export default {
         }
 
         watch(angle, () => paint());
+
+        watch(resistence, () => console.log(resistence));
 
         function clearCanvas() {
             ctx.value.fillStyle = "white";
@@ -105,7 +126,6 @@ export default {
         }
 
         const restart = () => {
-            A.value = 2;
             t.value = 0;
             angle.value = 0;
             paint();
@@ -143,7 +163,7 @@ export default {
             onClickAmpUp,
             onClickAmpDown,
             restart,
-            A,
+            resistence,
         };
     },
 };
