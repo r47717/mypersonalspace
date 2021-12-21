@@ -1,4 +1,3 @@
-export const WW = 1000;
+export const WW = 600;
 export const HH = 600;
-export const length = 300;
-export const dm = 20;
+export const length = 200;

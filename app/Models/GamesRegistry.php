@@ -46,7 +46,6 @@ abstract class GamesRegistry
             'name' => 'Маятник',
             'type' => GamesRegistry::Puzzle,
             'url' => 'pendulum',
-            'enabled' => false,
         ],
         [
             'name' => 'Шахматы',
