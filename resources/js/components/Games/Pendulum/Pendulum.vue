@@ -9,7 +9,7 @@
                     <Fab @click="onClickAmpUp">
                         <ArrowUp />
                     </Fab>
-                    <div class="d-inline-block ml-1">
+                    <div class="d-inline-block ms-1">
                         <Fab @click="onClickAmpDown">
                             <ArrowDown />
                         </Fab>

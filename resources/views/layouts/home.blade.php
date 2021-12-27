@@ -105,7 +105,7 @@
                     <div class="col-4 d-flex justify-content-end align-items-start">
                         <div class="header-right">
                             <div class="avatar">{{ strtoupper(Auth::user()->name[0]) }}</div>
-                            <div class="d-flex flex-column ml-2 mr-4">
+                            <div class="d-flex flex-column ms-2 me-4">
                                 <div class="user-name">{{ Auth::user()->name }}</div>
                                 <div class="user-email">{{ Auth::user()->email }}</div>
                             </div>

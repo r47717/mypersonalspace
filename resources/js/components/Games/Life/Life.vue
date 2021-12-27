@@ -2,28 +2,38 @@
     <div class="card d-inline-flex">
         <div class="card-header">Игра "Жизнь"</div>
         <div class="card-body">
-            <canvas
-                width="1000"
-                height="600"
-                ref="fieldRef"
-            />
+            <canvas width="1000" height="600" ref="fieldRef" />
             <div>
-                <div class="mt-3"><span>Начальный объём популяции: </span><input type="text" v-model="initCount" ></div>
                 <div class="mt-3">
-                    <button class="btn btn-warning" @click="speedUp">Ускорить</button>
-                    <button class="btn btn-info ml-2" @click="speedDown">Замедлить</button>
-                    <button class="btn btn-secondary ml-2 mr-5" @click="speedDefault">По умолчанию</button>
-                    <button class="btn btn-primary ml-5" @click="restart">Рестарт</button>
-            </div>
+                    <span>Начальный объём популяции: </span
+                    ><input type="text" v-model="initCount" />
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-warning" @click="speedUp">
+                        Ускорить
+                    </button>
+                    <button class="btn btn-info ms-2" @click="speedDown">
+                        Замедлить
+                    </button>
+                    <button
+                        class="btn btn-secondary ms-2 me-5"
+                        @click="speedDefault"
+                    >
+                        По умолчанию
+                    </button>
+                    <button class="btn btn-primary ml-5" @click="restart">
+                        Рестарт
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { onMounted, onBeforeUnmount, ref } from 'vue';
-import useField from './field';
-import { accelerationRate, defaultSpeed } from './params';
+import { onMounted, onBeforeUnmount, ref } from "vue";
+import useField from "./field";
+import { accelerationRate, defaultSpeed } from "./params";
 
 export default {
     name: "Life",
@@ -53,7 +63,7 @@ export default {
             if (timer.value) {
                 clearInterval(timer.value);
             }
-        })
+        });
 
         const go = () => {
             step();
@@ -70,12 +80,19 @@ export default {
         };
 
         const speedDefault = () => {
-            speed.value = defaultSpeed
+            speed.value = defaultSpeed;
             resetTimer();
-        }
+        };
 
-        return { fieldRef, initCount, speedUp, speedDown, speedDefault, restart }
-    }
+        return {
+            fieldRef,
+            initCount,
+            speedUp,
+            speedDown,
+            speedDefault,
+            restart,
+        };
+    },
 };
 </script>
 

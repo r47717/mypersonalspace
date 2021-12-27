@@ -45,7 +45,7 @@
                 />
                 <input
                     type="checkbox"
-                    class="mb-2 mr-3"
+                    class="mb-2 me-3"
                     v-model="newTask.status"
                 /><span>Сделана</span>
                 <input
