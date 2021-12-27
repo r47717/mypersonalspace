@@ -7,7 +7,7 @@ use App\Services\ThoughtsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ThoughtsController extends Controller
+class ThoughtsController extends BaseController
 {
     /**
      * @var ThoughtsService
@@ -19,6 +19,7 @@ class ThoughtsController extends Controller
      */
     public function __construct(ThoughtsService $thoughtsService)
     {
+        parent::__construct();
         $this->middleware('auth');
         $this->thoughtsService = $thoughtsService;
     }

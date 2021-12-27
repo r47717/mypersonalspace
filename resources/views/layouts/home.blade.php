@@ -82,7 +82,20 @@
                     @endif
                     @if(config('features.games'))
                         <a class="nav-link <?= $page == 'games' ? 'active' : '' ?>" href="/games"><i
-                                class="fas fa-gamepad"></i>Мои игры</a>
+                                class="fas fa-gamepad"></i>Мои игры
+                        </a>
+                        @if($page == 'games')
+                            <div>
+                                @foreach($gamesList as $game)
+                                    @if(!isset($game["enabled"]) || $game["enabled"] !== false)
+                                        <div class="d-inline-block rounded-pill m-1 px-2 py-1 bg-secondary">
+                                            <a href="/games/{{ $game["url"] }}"
+                                               class="text-white text-decoration-none">{{ $game["name"] }}</a>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endif
                     @endif
                 </div>
             </div>

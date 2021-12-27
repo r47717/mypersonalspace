@@ -6,10 +6,11 @@ use App\Models\Link;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LinksController extends Controller
+class LinksController extends BaseController
 {
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('auth');
     }
 

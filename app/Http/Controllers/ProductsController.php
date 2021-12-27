@@ -6,10 +6,11 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ProductsController extends Controller
+class ProductsController extends BaseController
 {
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('auth');
     }
 

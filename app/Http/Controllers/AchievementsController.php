@@ -6,14 +6,14 @@ use App\Models\Achievement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AchievementsController extends Controller
+class AchievementsController extends BaseController
 {
-
     /**
      * AchievementsController constructor.
      */
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('auth');
     }
 

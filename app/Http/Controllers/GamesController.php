@@ -6,10 +6,11 @@ use App\Models\GamesRegistry;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-class GamesController extends Controller
+class GamesController extends BaseController
 {
     public function index()
     {
+        parent::__construct();
         return view('pages.games.index', [
             'page' => 'games',
             'games' => GamesRegistry::$games,

@@ -6,7 +6,7 @@ use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class NotesController extends Controller
+class NotesController extends BaseController
 {
     public static $types = [
         'generic' => ['обычная', 'обычные'],
@@ -21,6 +21,7 @@ class NotesController extends Controller
      */
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('auth');
     }
 
@@ -94,5 +95,4 @@ class NotesController extends Controller
             "message" => "Note with id $id is not found",
         ];
     }
-
 }

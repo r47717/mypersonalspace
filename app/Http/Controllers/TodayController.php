@@ -8,7 +8,7 @@ use App\Models\Today;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TodayController extends Controller
+class TodayController extends BaseController
 {
     /**
      * @var TodayService
@@ -26,6 +26,7 @@ class TodayController extends Controller
      */
     public function __construct(TodayService $todayService, ThoughtsService $thoughtsService)
     {
+        parent::__construct();
         $this->middleware('auth');
         $this->todayService = $todayService;
         $this->thoughtsService = $thoughtsService;

@@ -6,10 +6,11 @@ use App\Models\Quote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class QuoteController extends Controller
+class QuoteController extends BaseController
 {
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('auth');
     }
 

@@ -6,10 +6,11 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TagsController extends Controller
+class TagsController extends BaseController
 {
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('auth');
     }
 

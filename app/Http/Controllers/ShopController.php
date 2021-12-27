@@ -6,11 +6,11 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ShopController extends Controller
+class ShopController extends BaseController
 {
-
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('auth');
     }
 
